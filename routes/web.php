@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::middleware(['admin'])->group(function () {
         // simpan route admin dibawah ini
         Route::resource('anggota', 'App\Http\Controllers\Admin\AnggotaController');
+        Route::resource('client', 'App\Http\Controllers\Admin\ClientController');
 
         // SISTEM
         Route::resource('info-website', 'App\Http\Controllers\Admin\InfowebsiteController');

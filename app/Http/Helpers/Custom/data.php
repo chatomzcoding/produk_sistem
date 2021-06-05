@@ -12,7 +12,7 @@ if (! function_exists('orang_photo')) {
     }
 }
 
-// cek photo null apa tidak
+// daftar list level user
 if (! function_exists('list_leveluser()')) {
     function list_leveluser()
     {
@@ -21,11 +21,19 @@ if (! function_exists('list_leveluser()')) {
         return $level;
     }
 }
-// cek photo null apa tidak
+// daftar status anggota cikara
 if (! function_exists('list_statusanggota()')) {
     function list_statusanggota()
     {
         $level  = ['anggota','magang','member'];
+        return $level;
+    }
+}
+// daftar status anggota
+if (! function_exists('list_statusclient()')) {
+    function list_statusclient()
+    {
+        $level  = ['personal','instansi','perusahaan','organisasi'];
         return $level;
     }
 }

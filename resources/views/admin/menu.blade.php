@@ -6,24 +6,18 @@
 </li>
 <li class="nav-item">
     <a href="#" class="nav-link">
-      <i class="nav-icon fas fa-user-secret"></i>
+      <i class="nav-icon fas fa-chalkboard-teacher"></i>
       <p>
-        Menu
+        Manajemen Proyek
         <i class="fas fa-angle-left right"></i>
         {{-- <span class="badge badge-info right">6</span> --}}
       </p>
     </a>
     <ul class="nav nav-treeview">
       <li class="nav-item">
-        <a href="#" class="nav-link">
-          &nbsp;&nbsp;<i class="fas fa-user nav-icon"></i>
-          <p>Sub Menu 1</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-          &nbsp;&nbsp;<i class="fas fa-user nav-icon"></i>
-          <p>Sub Menu 2</p>
+        <a href="{{ url('/client')}}" class="nav-link">
+          &nbsp;&nbsp;<i class="fas fa-user-tie nav-icon"></i>
+          <p>Client</p>
         </a>
       </li>
     </ul>
