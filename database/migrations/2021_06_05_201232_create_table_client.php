@@ -18,7 +18,6 @@ class CreateTableClient extends Migration
             $table->string('nama');
             $table->string('alamat');
             $table->string('no_hp');
-            $table->string('status_client',100);
             $table->text('tentang');
             $table->text('poto');
             $table->timestamps();

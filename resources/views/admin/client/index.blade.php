@@ -48,7 +48,8 @@
                                 <th>Photo</th>
                                 <th>Nama</th>
                                 <th>No Hp</th>
-                                <th>Status</th>
+                                <th>Alamat</th>
+                                <th>Tentang</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -59,13 +60,14 @@
                                     <td class="text-center"><img src="{{ asset('/img/client/'.$item->poto)}}" alt="{{ $item->photo}}" width="100px"></td>
                                     <td>{{ $item->nama}}</td>
                                     <td>{{ $item->no_hp}}</td>
-                                    <td>{{ $item->status_client}}</td>
+                                    <td>{{ $item->alamat}}</td>
+                                    <td>{{ $item->tentang}}</td>
                                     <td class="text-center">
                                         <form id="data-{{ $item->id }}" action="{{ url('/client/'.$item->id)}}" method="post">
                                             @csrf
                                             @method('delete')
                                             </form>
-                                        <button type="button" data-toggle="modal" data-nama="{{ $item->nama }}" data-alamat="{{ $item->alamat }}" data-no_hp="{{ $item->no_hp }}" data-tentang="{{ $item->tentang }}" data-status_client="{{ $item->status_client }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
+                                        <button type="button" data-toggle="modal" data-nama="{{ $item->nama }}" data-alamat="{{ $item->alamat }}" data-no_hp="{{ $item->no_hp }}" data-tentang="{{ $item->tentang }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
                                             <i class="fa fa-edit"></i>
                                         </button>
                                         <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
@@ -100,7 +102,7 @@
                 <section class="p-3">
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Nama Client</label>
-                        <input type="text" name="nama" id="nama" class="form-control col-md-8" placeholder="Alamat Tinggal" required>
+                        <input type="text" name="nama" id="nama" class="form-control col-md-8" placeholder="Nama Client" required>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Alamat Tinggal</label>
@@ -110,14 +112,14 @@
                         <label for="" class="col-md-4 p-2">No Kontak</label>
                         <input type="text" name="no_hp" id="no_hp" class="form-control col-md-8" placeholder="08xxxxxx" required>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Status Client</label>
                         <select name="status_client" id="status_client" class="form-control col-md-8">
                             @foreach (list_statusclient() as $item)
                                 <option value="{{ $item}}">{{ $item}}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Tentang</label>
                         <textarea name="tentang" id="tentang" cols="30" rows="4" class="form-control col-md-8" required></textarea>
@@ -156,7 +158,7 @@
                 <section class="p-3">
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Nama Client</label>
-                        <input type="text" name="nama" id="nama" class="form-control col-md-8" placeholder="Alamat Tinggal" required>
+                        <input type="text" name="nama" id="nama" class="form-control col-md-8" placeholder="Nama Client" required>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Alamat Tinggal</label>
@@ -166,14 +168,14 @@
                         <label for="" class="col-md-4 p-2">No Kontak</label>
                         <input type="text" name="no_hp" id="no_hp" class="form-control col-md-8" placeholder="08xxxxxx" required>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Status Client</label>
                         <select name="status_client" id="status_client" class="form-control col-md-8">
                             @foreach (list_statusclient() as $item)
                                 <option value="{{ $item}}">{{ $item}}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Tentang</label>
                         <textarea name="tentang" id="tentang" cols="30" rows="4" class="form-control col-md-8" required></textarea>
@@ -203,7 +205,6 @@
             var nama = button.data('nama')
             var no_hp = button.data('no_hp')
             var alamat = button.data('alamat')
-            var status_client = button.data('status_client')
             var tentang = button.data('tentang')
             var id = button.data('id')
     
@@ -212,7 +213,6 @@
             modal.find('.modal-body #nama').val(nama);
             modal.find('.modal-body #no_hp').val(no_hp);
             modal.find('.modal-body #alamat').val(alamat);
-            modal.find('.modal-body #status_client').val(status_client);
             modal.find('.modal-body #tentang').val(tentang);
             modal.find('.modal-body #id').val(id);
         })

@@ -54,7 +54,6 @@ class ClientController extends Controller
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
             'poto' => $poto,
-            'status_client' => $request->status_client,
             'tentang' => $request->tentang,
         ]);
 
@@ -114,7 +113,6 @@ class ClientController extends Controller
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
-            'status_client' => $request->status_client,
             'tentang' => $request->tentang,
             'poto' => $poto,
         ]);
