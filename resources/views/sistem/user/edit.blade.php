@@ -41,9 +41,10 @@
                     </div>
                 @endif
                 <section class="container">
-                    <form action="{{ url('/user/'.$user->id)}}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('user.update','test')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('patch')
+                        <input type="hidden" name="id" value="{{ $user->id}}">
                         <input type="hidden" name="level" value="{{ $user->level}}">
                         <div class="row">
                             <div class="col-md-3">
