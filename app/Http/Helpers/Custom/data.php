@@ -21,4 +21,12 @@ if (! function_exists('list_leveluser()')) {
         return $level;
     }
 }
+// cek photo null apa tidak
+if (! function_exists('list_statusanggota()')) {
+    function list_statusanggota()
+    {
+        $level  = ['anggota','magang','member'];
+        return $level;
+    }
+}
 

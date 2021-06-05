@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     // Route Admin & Chatomz
     Route::middleware(['admin'])->group(function () {
         // simpan route admin dibawah ini
+        Route::resource('anggota', 'App\Http\Controllers\Admin\AnggotaController');
 
         // SISTEM
         Route::resource('info-website', 'App\Http\Controllers\Admin\InfowebsiteController');

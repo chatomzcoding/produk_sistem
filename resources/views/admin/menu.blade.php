@@ -1,4 +1,10 @@
 <li class="nav-item">
+  <a href="{{ url('/anggota')}}" class="nav-link">
+    <i class="nav-icon fas fa-user"></i>
+    <p class="text">Anggota</p>
+  </a>
+</li>
+<li class="nav-item">
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-user-secret"></i>
       <p>
@@ -40,7 +46,7 @@
       </li>
       <li class="nav-item">
         <a href="{{ url('/user')}}" class="nav-link">
-          &nbsp;&nbsp;<i class="fas fa-user nav-icon"></i>
+          &nbsp;&nbsp;<i class="fas fa-users nav-icon"></i>
           <p>User</p>
         </a>
       </li>
