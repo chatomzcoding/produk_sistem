@@ -204,6 +204,9 @@
               @case('admin')
                 @include('admin.menu')
                 @break
+              @case('anggota')
+                @include('anggota.menu')
+                @break
               @default
                   
           @endswitch
