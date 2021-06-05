@@ -11,3 +11,14 @@ if (! function_exists('orang_photo')) {
         return $nama_file;
     }
 }
+
+// cek photo null apa tidak
+if (! function_exists('list_leveluser()')) {
+    function list_leveluser()
+    {
+        $level  = ['admin','anggota'];
+
+        return $level;
+    }
+}
+

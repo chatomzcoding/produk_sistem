@@ -39,7 +39,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{ url('/adminuser')}}" class="nav-link">
+        <a href="{{ url('/user')}}" class="nav-link">
           &nbsp;&nbsp;<i class="fas fa-user nav-icon"></i>
           <p>User</p>
         </a>

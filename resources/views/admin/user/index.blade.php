@@ -1,31 +1,22 @@
-@section('title')
-    Market - Data User
-@endsection
-<x-app-layout>
-    <x-slot name="header">
-        {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2> --}}
-        <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1 class="m-0">Data User</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Beranda</a></li>
-                <li class="breadcrumb-item active">Daftar User</li>
-              </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-    </x-slot>
+@extends('layouts.admin')
 
-    {{-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-jet-welcome />
-            </div>
-        </div>
-    </div> --}}
+@section('title')
+    DASHBOARD
+@endsection
+@section('header')
+<div class="row mb-2">
+  <div class="col-sm-6">
+    <h1 class="m-0">Data User</h1>
+  </div><!-- /.col -->
+  <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+      <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Beranda</a></li>
+      <li class="breadcrumb-item active">Daftar User</li>
+    </ol>
+  </div><!-- /.col -->
+</div><!-- /.row -->
+@endsection
+@section('content')
     <div class="container-fluid">
         <div class="row">
           <!-- left column -->
@@ -54,17 +45,21 @@
                         <thead class="text-center">
                             <tr>
                                 <th width="5%">No</th>
-                                <th>Aksi</th>
                                 <th>Photo</th>
                                 <th>Nama User</th>
                                 <th>Email</th>
                                 <th>Level</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="text-capitalize">
                             @forelse ($user as $item)
                             <tr>
                                     <td class="text-center">{{ $loop->iteration}}</td>
+                                    <td class="text-center"><img src="{{ asset('/img/user/'.$item->photo)}}" alt="{{ $item->profile_photo_path}}" width="100px"></td>
+                                    <td>{{ $item->name}}</td>
+                                    <td>{{ $item->email}}</td>
+                                    <td>{{ $item->level}}</td>
                                     <td class="text-center">
                                         <form id="data-{{ $item->id }}" action="{{url('/adminuser',$item->id)}}" method="post">
                                             @csrf
@@ -73,12 +68,10 @@
                                         <button type="button" data-toggle="modal" data-name="{{ $item->name }}" data-email="{{ $item->email }}" data-level="{{ $item->level }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                        @if (Auth::user()->id <> $item->id)
+                                            <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                        @endif
                                     </td>
-                                    <td><img src="{{ asset('/img/user/'.$item->profile_photo_path)}}" alt="{{ $item->profile_photo_path}}" width="100px"></td>
-                                    <td>{{ $item->name}}</td>
-                                    <td>{{ $item->email}}</td>
-                                    <td>{{ $item->level}}</td>
                                 </tr>
                             @empty
                                 <tr class="text-center">
@@ -97,7 +90,7 @@
     <div class="modal fade" id="tambah">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <form action="{{ url('/adminuser')}}" method="post" enctype="multipart/form-data">
+            <form action="{{ url('/user')}}" method="post" enctype="multipart/form-data">
                 @csrf
             <div class="modal-header">
             <h4 class="modal-title">Tambah User</h4>
@@ -133,7 +126,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Photo</label>
-                        <input type="file" name="profile_photo_path" id="profile_photo_path" class="form-control col-md-8" required>
+                        <input type="file" name="photo" id="profile_photo_path" class="form-control col-md-8" required>
                     </div>
                 </section>
             </div>
@@ -151,7 +144,7 @@
     <div class="modal fade" id="ubah">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <form action="{{ route('adminuser.update','test')}}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('user.update','test')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
             <div class="modal-header">
@@ -189,7 +182,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Photo (jika ingin diubah)</label>
-                        <input type="file" name="profile_photo_path" id="profile_photo_path" class="form-control col-md-8">
+                        <input type="file" name="photo" class="form-control col-md-8">
                     </div>
                 </section>
             </div>
@@ -203,41 +196,41 @@
     </div>
     <!-- /.modal -->
 
-    @section('script')
-        
-        <script>
-            $('#ubah').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget)
-                var name = button.data('name')
-                var level = button.data('level')
-                var email = button.data('email')
-                var id = button.data('id')
-        
-                var modal = $(this)
-        
-                modal.find('.modal-body #name').val(name);
-                modal.find('.modal-body #level').val(level);
-                modal.find('.modal-body #email').val(email);
-                modal.find('.modal-body #id').val(id);
-            })
-        </script>
-        <script>
-            $(function () {
-            $("#example1").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-            });
-        </script>
-    @endsection
+@endsection
+@section('script')
+    
+    <script>
+        $('#ubah').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var name = button.data('name')
+            var level = button.data('level')
+            var email = button.data('email')
+            var id = button.data('id')
+    
+            var modal = $(this)
+    
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #level').val(level);
+            modal.find('.modal-body #email').val(email);
+            modal.find('.modal-body #id').val(id);
+        })
+    </script>
+    <script>
+        $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+        });
+    </script>
+@endsection
 
-</x-app-layout>

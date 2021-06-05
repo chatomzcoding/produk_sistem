@@ -22,7 +22,9 @@ class UserController extends Controller
 
     public function index()
     {
-        //
+        $user   = User::all();
+        
+        return view('admin.user.index', compact('user'));
     }
 
     /**
@@ -99,9 +101,9 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        // $user   = User::find($request->id);
+        $user   = User::find($request->id);
         
         if ($request->email <> $user->email) {
             $request->validate([
