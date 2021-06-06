@@ -44,6 +44,12 @@
           <p>Daftar Jobdesk</p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ url('/manajemenjobdesk')}}" class="nav-link">
+          &nbsp;&nbsp;<i class="fas fa-user-check nav-icon"></i>
+          <p>Jobdesk Anggota</p>
+        </a>
+      </li>
     </ul>
 </li>
 <li class="nav-item">

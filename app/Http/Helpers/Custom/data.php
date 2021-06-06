@@ -37,12 +37,28 @@ if (! function_exists('list_levelproyek')) {
         return $level;
     }
 }
-// daftar status anggota
+// daftar status proyek
 if (! function_exists('list_statusproyek')) {
     function list_statusproyek()
     {
         $level  = ['berjalan','selesai','berhenti','menunggu'];
         return $level;
+    }
+}
+// daftar tingkatan jobdesk
+if (! function_exists('list_tingkatanjobdesk')) {
+    function list_tingkatanjobdesk()
+    {
+        $result  = ['harian','mingguan','bulanan','kondisional'];
+        return $result;
+    }
+}
+// daftar skala prioritas
+if (! function_exists('list_skalaprioritas')) {
+    function list_skalaprioritas()
+    {
+        $result  = ['normal','penting'];
+        return $result;
     }
 }
 
