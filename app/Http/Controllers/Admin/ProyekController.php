@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Proyek;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class ProyekController extends Controller
 {
@@ -73,9 +74,10 @@ class ProyekController extends Controller
      * @param  \App\Models\Proyek  $proyek
      * @return \Illuminate\Http\Response
      */
-    public function show(Proyek $proyek)
+    public function show($proyek)
     {
-        //
+        $proyek     = Proyek::find(Crypt::decryptString($proyek));
+        return view('admin.proyek.show', compact('proyek'));
     }
 
     /**

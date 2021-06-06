@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    ADMIN - Proyek
+    ADMIN - Proyek Detail
 @endsection
 
 @section('header')
@@ -12,7 +12,8 @@
   <div class="col-sm-6">
     <ol class="breadcrumb float-sm-right">
       <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Beranda</a></li>
-      <li class="breadcrumb-item active">Daftar Proyek</li>
+      <li class="breadcrumb-item"><a href="{{ url('proyek')}}">Daftar Proyek</a></li>
+      <li class="breadcrumb-item active">Detail Proyek</li>
     </ol>
   </div><!-- /.col -->
 </div><!-- /.row -->
@@ -25,9 +26,9 @@
             <!-- general form elements -->
             <div class="card">
               <div class="card-header">
-                {{-- <h3 class="card-title">Daftar Unit</h3> --}}
-                <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Proyek </a>
-                {{-- <a href="{{ url('/artikel')}}" class="btn btn-outline-dark btn-flat btn-sm"><i class="fas fa-print"></i> Kembali ke artikel</a> --}}
+                  {{-- <h3 class="card-title">Proyek {{ $proyek->nama_proyek}}</h3> --}}
+                  <a href="{{ url('/proyek')}}" class="btn btn-outline-dark btn-flat btn-sm"><i class="fas fa-angle-left"></i> Kembali</a>
+                {{-- <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Proyek </a> --}}
               </div>
               <div class="card-body">
                   @include('sistem.notifikasi')
@@ -40,44 +41,44 @@
                         </ul>
                     </div>
                 @endif
-                  <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead class="text-center">
-                            <tr>
-                                <th width="5%">No</th>
-                                <th>Gambar</th>
-                                <th>Nama Proyek</th>
-                                <th>Waktu Pelaksanaan</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-capitalize">
-                            @forelse ($proyek as $item)
-                            <tr>
-                                    <td class="text-center">{{ $loop->iteration}}</td>
-                                    <td class="text-center"><img src="{{ asset('/img/proyek/'.$item->gambar)}}" alt="{{ $item->photo}}" width="100px"></td>
-                                    <td>{{ $item->nama_proyek}}</td>
-                                    <td>{{ $item->tgl_dimulai.' - '.$item->tgl_berakhir}}</td>
-                                    <td>{{ $item->status_proyek}}</td>
-                                    <td class="text-center">
-                                        <form id="data-{{ $item->id }}" action="{{ url('/proyek/'.$item->id)}}" method="post">
-                                            @csrf
-                                            @method('delete')
-                                            </form>
-                                        <a href="{{ url('/proyek/'.Crypt::encryptString($item->id))}}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i></a>
-                                        <button type="button" data-toggle="modal" data-nama_proyek="{{ $item->nama_proyek }}" data-tgl_dimulai="{{ $item->tgl_dimulai }}" data-tgl_berakhir="{{ $item->tgl_berakhir }}" data-status_proyek="{{ $item->status_proyek }}" data-biaya="{{ $item->biaya }}" data-level_proyek="{{ $item->level_proyek }}" data-link="{{ $item->link }}" data-detail_proyek="{{ $item->detail_proyek }}" data-biaya="{{ $item->biaya }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr class="text-center">
-                                    <td colspan="6">tidak ada data</td>
-                                </tr>
-                            @endforelse
-                    </table>
+                <div class="row">
+                    <div class="col-md-4">
+                        <section class="container">
+                            <img src="{{ asset('/img/proyek/'.$proyek->gambar)}}" alt="" class="img-fluid">
+                        </section>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th>Nama Aplikasi</th>
+                                        <td>{{ $proyek->nama_proyek}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Masa Pelaksanaan</th>
+                                        <td>{{ $proyek->tgl_dimulai.' - '.$proyek->tgl_berakhir}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Biaya</th>
+                                        <td>{{ rupiah($proyek->biaya)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Level Proyek</th>
+                                        <td>{{ $proyek->level_proyek}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Detail Proyek</th>
+                                        <td>{{ $proyek->detail_proyek}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Link</th>
+                                        <td>{{ $proyek->link}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
               </div>
             </div>
@@ -99,14 +100,6 @@
             </div>
             <div class="modal-body p-3">
                 <section class="p-3">
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Client</label>
-                        <select name="client_id" id="client_id" class="form-control col-md-8">
-                            @foreach ($client as $item)
-                                <option value="{{ $item->id}}">{{ $item->nama}}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Nama Aplikasi</label>
                         <input type="text" name="nama_proyek" id="nama_proyek" class="form-control col-md-8" placeholder="Nama Aplikasi" required>
@@ -179,14 +172,6 @@
             <div class="modal-body p-3">
                 <input type="hidden" name="id" id="id">
                 <section class="p-3">
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Client</label>
-                        <select name="client_id" id="client_id" class="form-control col-md-8">
-                            @foreach ($client as $item)
-                                <option value="{{ $item->id}}">{{ $item->nama}}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Nama Aplikasi</label>
                         <input type="text" name="nama_proyek" id="nama_proyek" class="form-control col-md-8" placeholder="Nama Aplikasi" required>
