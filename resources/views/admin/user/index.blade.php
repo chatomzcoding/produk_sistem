@@ -61,7 +61,7 @@
                                     <td>{{ $item->email}}</td>
                                     <td>{{ $item->level}}</td>
                                     <td class="text-center">
-                                        <form id="data-{{ $item->id }}" action="{{url('/adminuser',$item->id)}}" method="post">
+                                        <form id="data-{{ $item->id }}" action="{{url('/user',$item->id)}}" method="post">
                                             @csrf
                                             @method('delete')
                                             </form>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Photo</label>
-                        <input type="file" name="photo" id="profile_photo_path" class="form-control col-md-8" required>
+                        <input type="file" name="photo" class="form-control col-md-8" required>
                     </div>
                 </section>
             </div>
