@@ -85,6 +85,7 @@ class ProyekController extends Controller
                             ->join('anggota','manajemen_proyek.anggota_id','=','anggota.id')
                             ->join('users','anggota.user_id','=','users.id')
                             ->select('manajemen_proyek.*','users.name')
+                            ->where('manajemen_proyek.proyek_id',$proyek->id)
                             ->get();
         $anggota        = DB::table('anggota')
                             ->join('users','anggota.user_id','=','users.id')
