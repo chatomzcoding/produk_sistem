@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Anggota;
 use App\Models\Client;
 use App\Models\Manajemenproyek;
+use App\Models\Pembayaranproyek;
 use App\Models\Proyek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -89,7 +90,8 @@ class ProyekController extends Controller
                             ->join('users','anggota.user_id','=','users.id')
                             ->select('anggota.id','users.name')
                             ->get();
-        return view('admin.proyek.show', compact('proyek','manajemenproyek','anggota'));
+        $pembayaran     = Pembayaranproyek::where('proyek_id',$proyek->id)->get();
+        return view('admin.proyek.show', compact('proyek','manajemenproyek','anggota','pembayaran'));
     }
 
     /**
