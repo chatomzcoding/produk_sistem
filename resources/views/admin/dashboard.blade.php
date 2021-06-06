@@ -23,13 +23,12 @@
       <div class="row">
         <div class="col-12 col-sm-6 col-md-3">
           <div class="info-box">
-            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user-tie"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">CPU Traffic</span>
+              <span class="info-box-text">Client</span>
               <span class="info-box-number">
-                10
-                <small>%</small>
+                {{ DbSistem::countData('client')}}
               </span>
             </div>
             <!-- /.info-box-content -->
@@ -39,11 +38,11 @@
         <!-- /.col -->
         <div class="col-12 col-sm-6 col-md-3">
           <div class="info-box mb-3">
-            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-chalkboard-teacher"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Likes</span>
-              <span class="info-box-number">41,410</span>
+              <span class="info-box-text">Proyek</span>
+              <span class="info-box-number">{{ DbSistem::countData('proyek')}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -56,11 +55,11 @@
 
         <div class="col-12 col-sm-6 col-md-3">
           <div class="info-box mb-3">
-            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-business-time"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Sales</span>
-              <span class="info-box-number">760</span>
+              <span class="info-box-text">Proyek Berjalan</span>
+              <span class="info-box-number">{{ DbSistem::countData('proyek',['status_proyek','berjalan'])}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -72,8 +71,8 @@
             <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">New Members</span>
-              <span class="info-box-number">2,000</span>
+              <span class="info-box-text">Anggota</span>
+              <span class="info-box-number">{{ DbSistem::countData('anggota')}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -127,12 +126,12 @@
                 <!-- /.col -->
                 <div class="col-md-4">
                   <p class="text-center">
-                    <strong>Goal Completion</strong>
+                    <strong>Proggress</strong>
                   </p>
 
                   <div class="progress-group">
-                    Add Products to Cart
-                    <span class="float-right"><b>160</b>/200</span>
+                    Proyek
+                    <span class="float-right"><b>{{ DbSistem::countData('proyek',['status_proyek','selesai'])}}</b>/{{ DbSistem::countData('proyek')}}</span>
                     <div class="progress progress-sm">
                       <div class="progress-bar bg-primary" style="width: 80%"></div>
                     </div>
@@ -653,11 +652,11 @@
         <div class="col-md-4">
           <!-- Info Boxes Style 2 -->
           <div class="info-box mb-3 bg-warning">
-            <span class="info-box-icon"><i class="fas fa-tag"></i></span>
+            <span class="info-box-icon"><i class="fas fa-user-clock"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Inventory</span>
-              <span class="info-box-number">5,200</span>
+              <span class="info-box-text">Visit Sistem</span>
+              <span class="info-box-number">12</span>
             </div>
             <!-- /.info-box-content -->
           </div>
