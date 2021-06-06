@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Anggota;
 use App\Models\Client;
+use App\Models\Manajemenproyek;
 use App\Models\Proyek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class ProyekController extends Controller
 {
@@ -76,8 +79,17 @@ class ProyekController extends Controller
      */
     public function show($proyek)
     {
-        $proyek     = Proyek::find(Crypt::decryptString($proyek));
-        return view('admin.proyek.show', compact('proyek'));
+        $proyek         = Proyek::find(Crypt::decryptString($proyek));
+        $manajemenproyek= DB::table('manajemen_proyek')
+                            ->join('anggota','manajemen_proyek.anggota_id','=','anggota.id')
+                            ->join('users','anggota.user_id','=','users.id')
+                            ->select('manajemen_proyek.*','users.name')
+                            ->get();
+        $anggota        = DB::table('anggota')
+                            ->join('users','anggota.user_id','=','users.id')
+                            ->select('anggota.id','users.name')
+                            ->get();
+        return view('admin.proyek.show', compact('proyek','manajemenproyek','anggota'));
     }
 
     /**
