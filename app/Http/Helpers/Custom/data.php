@@ -13,7 +13,7 @@ if (! function_exists('orang_photo')) {
 }
 
 // daftar list level user
-if (! function_exists('list_leveluser()')) {
+if (! function_exists('list_leveluser')) {
     function list_leveluser()
     {
         $level  = ['admin','anggota'];
@@ -22,7 +22,7 @@ if (! function_exists('list_leveluser()')) {
     }
 }
 // daftar status anggota cikara
-if (! function_exists('list_statusanggota()')) {
+if (! function_exists('list_statusanggota')) {
     function list_statusanggota()
     {
         $level  = ['anggota','magang','member'];
@@ -30,10 +30,18 @@ if (! function_exists('list_statusanggota()')) {
     }
 }
 // daftar status anggota
-if (! function_exists('list_statusclient()')) {
-    function list_statusclient()
+if (! function_exists('list_levelproyek')) {
+    function list_levelproyek()
     {
         $level  = ['personal','instansi','perusahaan','organisasi'];
+        return $level;
+    }
+}
+// daftar status anggota
+if (! function_exists('list_statusproyek')) {
+    function list_statusproyek()
+    {
+        $level  = ['berjalan','selesai','berhenti','menunggu'];
         return $level;
     }
 }
