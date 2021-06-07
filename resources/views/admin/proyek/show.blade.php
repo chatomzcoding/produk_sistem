@@ -49,31 +49,35 @@
                     </div>
                     <div class="col-md-8">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-hover">
                                 <tbody>
                                     <tr>
-                                        <th>Nama Aplikasi</th>
-                                        <td>{{ $proyek->nama_proyek}}</td>
+                                        <th>Nama Proyek</th>
+                                        <td>: {{ $proyek->nama_proyek}}</td>
                                     </tr>
                                     <tr>
                                         <th>Masa Pelaksanaan</th>
-                                        <td>{{ $proyek->tgl_dimulai.' - '.$proyek->tgl_berakhir}}</td>
+                                        <td>: {{ date_indo($proyek->tgl_dimulai).' - '.date_indo($proyek->tgl_berakhir)}}</td>
                                     </tr>
                                     <tr>
                                         <th>Biaya</th>
-                                        <td>{{ rupiah($proyek->biaya)}}</td>
+                                        <td>: {{ rupiah($proyek->biaya)}}</td>
                                     </tr>
                                     <tr>
                                         <th>Level Proyek</th>
-                                        <td>{{ $proyek->level_proyek}}</td>
+                                        <td>: {{ $proyek->level_proyek}}</td>
                                     </tr>
                                     <tr>
                                         <th>Detail Proyek</th>
-                                        <td>{{ $proyek->detail_proyek}}</td>
+                                        <td>: {{ $proyek->detail_proyek}}</td>
                                     </tr>
                                     <tr>
                                         <th>Link</th>
-                                        <td>{{ $proyek->link}}</td>
+                                        <td>: <a href="{{ $proyek->link}}" target="_blank">{{ $proyek->link}}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status Proyek</th>
+                                        <td>: {{ $proyek->status_proyek}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -93,12 +97,12 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
-                                        <thead class="text-center">
+                                        <thead class="text-center table-dark">
                                             <tr>
-                                                <th>No</th>
+                                                <th width="5%">No</th>
                                                 <th>Nama Tim</th>
                                                 <th>Catatan</th>
-                                                <th>Aksi</th>
+                                                <th width="10%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -139,15 +143,15 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
-                                        <thead class="text-center">
+                                        <thead class="text-center table-dark">
                                             <tr>
                                                 <th>No</th>
+                                                <th>Aksi</th>
                                                 <th>Tanggal Pembayaran</th>
                                                 <th>Nama Pembayaran</th>
-                                                <th>Nominal</th>
                                                 <th>Bukti Pembayaran</th>
                                                 <th>Keterangan</th>
-                                                <th>Aksi</th>
+                                                <th>Nominal</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -160,18 +164,6 @@
                                             @endphp
                                             <tr>
                                                 <td class="text-center">{{ $loop->iteration}}</td>
-                                                <td>{{ date_indo($item->tgl_pembayaran)}}</td>
-                                                <td>{{ $item->nama_pembayaran}}</td>
-                                                <td>{{ rupiah($item->nominal)}}</td>
-                                                <td>
-                                                    @if (is_null($item->bukti_pembayaran))
-                                                        bukti tidak diupload
-                                                    @else
-                                                        <a href="{{ asset('/img/proyek/'.$item->bukti_pembayaran)}}" target="_blank">{{ $item->bukti_pembayaran}}</a>
-                                                    @endif
-                                                    
-                                                </td>
-                                                <td>{{ $item->keterangan_pembayaran}}</td>
                                                 <td class="text-center">
                                                     <form id="data-{{ $item->id }}" action="{{ url('/pembayaranproyek/'.$item->id)}}" method="post">
                                                         @csrf
@@ -182,20 +174,32 @@
                                                     </button>
                                                     <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                                                 </td>
+                                                <td>{{ date_indo($item->tgl_pembayaran)}}</td>
+                                                <td>{{ $item->nama_pembayaran}}</td>
+                                                <td>
+                                                    @if (is_null($item->bukti_pembayaran))
+                                                        bukti tidak diupload
+                                                        @else
+                                                        <a href="{{ asset('/img/proyek/'.$item->bukti_pembayaran)}}" target="_blank">{{ $item->bukti_pembayaran}}</a>
+                                                        @endif
+                                                        
+                                                    </td>
+                                                <td>{{ $item->keterangan_pembayaran}}</td>
+                                                <td class="text-right">{{ norupiah($item->nominal)}}</td>
                                             </tr>
                                             @endforeach
                                             @if (count($pembayaran) > 0)
                                                 <tr>
                                                     <th colspan="6" class="text-right">Total Pembayaran</th>
-                                                    <td>{{ rupiah($totalpembayaran)}}</td>
+                                                    <td class="text-right">{{ norupiah($totalpembayaran)}}</td>
                                                 </tr>
                                                 {{-- kode sisa pembayaran yaitu biaya dikurangi total pembayaran --}}
                                                 @php
                                                     $sisapembayaran = $proyek->biaya - $totalpembayaran;
                                                 @endphp
-                                                <tr>
+                                                <tr class="table-secondary font-weight-bold">
                                                     <th colspan="6" class="text-right">Sisa Pembayaran</th>
-                                                    <td>{{ rupiah($sisapembayaran)}}</td>
+                                                    <td class="text-right">{{ norupiah($sisapembayaran)}}</td>
                                                 </tr>
                                             @endif
                                         </tbody>
