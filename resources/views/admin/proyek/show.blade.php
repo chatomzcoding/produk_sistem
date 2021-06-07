@@ -146,7 +146,7 @@
                                         <thead class="text-center table-dark">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Aksi</th>
+                                                <th width="10%">Aksi</th>
                                                 <th>Tanggal Pembayaran</th>
                                                 <th>Nama Pembayaran</th>
                                                 <th>Bukti Pembayaran</th>
