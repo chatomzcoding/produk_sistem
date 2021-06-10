@@ -51,15 +51,15 @@
                             </tr>
                             <tr>
                                 <th>Harga Beli</th>
-                                <td>: {{ $layanan->harga_beli}}</td>
+                                <td>: {{ rupiah($layanan->harga_beli)}}</td>
                             </tr>
                             <tr>
                                 <th>Harga Jual</th>
-                                <td>: {{ $layanan->harga_jual}}</td>
+                                <td>: {{ rupiah($layanan->harga_jual)}}</td>
                             </tr>
                             <tr>
                                 <th>Link</th>
-                                <td>: {{ $layanan->link}}</td>
+                                <td>: <a href="{{ $layanan->link}}" target="_blank">{{ $layanan->link}}</a></td>
                             </tr>
                           </table>
                       </div>

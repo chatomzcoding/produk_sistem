@@ -61,4 +61,12 @@ if (! function_exists('list_kategorilayanan')) {
         return $result;
     }
 }
+// daftar skala prioritas
+if (! function_exists('list_skalaprioritas')) {
+    function list_skalaprioritas()
+    {
+        $result  = ['normal','penting'];
+        return $result;
+    }
+}
 
