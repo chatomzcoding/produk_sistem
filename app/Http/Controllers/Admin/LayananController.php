@@ -80,6 +80,7 @@ class LayananController extends Controller
                         ->join('client','manajemen_layanan.client_id','=','client.id')
                         ->select('manajemen_layanan.*','client.nama')
                         ->where('manajemen_layanan.layanan_id',$layanan->id)
+                        ->orderBy('manajemen_layanan.tgl_pemesanan','desc')
                         ->get();
         $client     = Client::all();
         return view('admin.layanan.show', compact('layanan','manajemen','client'));
