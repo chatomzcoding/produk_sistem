@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Layanan;
+use App\Models\Manajemenlayanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class LayananController extends Controller
 {
@@ -73,7 +76,13 @@ class LayananController extends Controller
     public function show($layanan)
     {
         $layanan    = Layanan::find(Crypt::decryptString($layanan));
-        return view('admin.layanan.show', compact('layanan'));
+        $manajemen  = DB::table('manajemen_layanan')
+                        ->join('client','manajemen_layanan.client_id','=','client.id')
+                        ->select('manajemen_layanan.*','client.nama')
+                        ->where('manajemen_layanan.layanan_id',$layanan->id)
+                        ->get();
+        $client     = Client::all();
+        return view('admin.layanan.show', compact('layanan','manajemen','client'));
     }
 
     /**

@@ -27,7 +27,6 @@
             <div class="card">
               <div class="card-header">
                 {{-- <h3 class="card-title">Daftar Unit</h3> --}}
-                <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Layanan </a>
                 {{-- <a href="{{ url('/artikel')}}" class="btn btn-outline-dark btn-flat btn-sm"><i class="fas fa-print"></i> Kembali ke artikel</a> --}}
               </div>
               <div class="card-body">
@@ -65,47 +64,53 @@
                           </table>
                       </div>
                   </section>
-                  {{-- <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead class="text-center">
-                            <tr>
-                                <th width="5%">No</th>
-                                <th>Gambar</th>
-                                <th>Nama Layanan</th>
-                                <th>Harga Jual</th>
-                                <th>Kategori</th>
-                                <th>Tentang Layanan</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-capitalize">
-                            @forelse ($layanan as $item)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration}}</td>
-                                    <td><img src="{{ asset('/img/layanan/'.$item->poto_layanan)}}" alt="" width="100px"></td>
-                                    <td>{{ $item->nama_layanan}}</td>
-                                    <td>{{ rupiah($item->harga_jual)}}</td>
-                                    <td>{{ $item->kategori}}</td>
-                                    <td>{{ $item->tentang_layanan}}</td>
-                                    <td class="text-center">
-                                        <form id="data-{{ $item->id }}" action="{{ url('/layanan/'.$item->id)}}" method="post">
-                                            @csrf
-                                            @method('delete')
-                                        </form>
-                                        <a href="{{ url('/layanan/'.Crypt::encryptString($item->id))}}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i></a>
-                                        <button type="button" data-toggle="modal" data-nama_layanan="{{ $item->nama_layanan }}" data-tentang_layanan="{{ $item->tentang_layanan }}" data-harga_beli="{{ $item->harga_beli }}" data-harga_jual="{{ $item->harga_jual }}" data-kategori="{{ $item->kategori }}" data-link="{{ $item->link }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr class="text-center">
-                                    <td colspan="7">tidak ada data</td>
-                                </tr>
-                            @endforelse
-                    </table>
-                </div> --}}
+
+                  <section class="row">
+                    <div class="col-md-12">
+                        <hr>
+                        
+                <h2>Daftar Client <a href="#" class="btn btn-outline-primary btn-flat btn-sm float-right" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Client Pemesan Layanan </a></h2>
+                        <div class="table-responsive">
+                          <table id="example1" class="table table-bordered table-striped">
+                              <thead class="text-center">
+                                  <tr>
+                                      <th width="5%">No</th>
+                                      <th>Nama Client</th>
+                                      <th>Tanggal Pemesanan</th>
+                                      <th>Harga</th>
+                                      <th>Keterangan</th>
+                                      <th>Aksi</th>
+                                  </tr>
+                              </thead>
+                              <tbody class="text-capitalize">
+                                  @forelse ($manajemen as $item)
+                                      <tr>
+                                          <td class="text-center">{{ $loop->iteration}}</td>
+                                          <td>{{ $item->nama}}</td>
+                                          <td>{{ date_indo($item->tgl_pemesanan)}}</td>
+                                          <td>{{ rupiah($item->harga)}}</td>
+                                          <td>{{ $item->keterangan}}</td>
+                                          <td class="text-center">
+                                              <form id="data-{{ $item->id }}" action="{{ url('/manajemenlayanan/'.$item->id)}}" method="post">
+                                                  @csrf
+                                                  @method('delete')
+                                              </form>
+                                              {{-- <a href="{{ url('/manajemenlayanan/'.Crypt::encryptString($item->id))}}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i></a> --}}
+                                              <button type="button" data-toggle="modal" data-client_id="{{ $item->client_id }}" data-tgl_pemesanan="{{ $item->tgl_pemesanan }}" data-client_id="{{ $item->client_id }}" data-keterangan="{{ $item->keterangan }}" data-harga="{{ $item->harga }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
+                                                  <i class="fa fa-edit"></i>
+                                              </button>
+                                              <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                          </td>
+                                      </tr>
+                                  @empty
+                                      <tr class="text-center">
+                                          <td colspan="6">tidak ada data</td>
+                                      </tr>
+                                  @endforelse
+                          </table>
+                        </div>
+                    </div>
+                  </section>
               </div>
             </div>
           </div>
@@ -116,8 +121,9 @@
     <div class="modal fade" id="tambah">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <form action="{{ url('/layanan')}}" method="post" enctype="multipart/form-data">
+            <form action="{{ url('/manajemenlayanan')}}" method="post" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="layanan_id" value="{{ $layanan->id}}">
             <div class="modal-header">
             <h4 class="modal-title">Tambah Layanan</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -127,36 +133,24 @@
             <div class="modal-body p-3">
                 <section class="p-3">
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Layanan</label>
-                        <input type="text" name="nama_layanan" id="nama_layanan" class="form-control col-md-8" placeholder="Nama Layanan" required>
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Harga Beli</label>
-                        <input type="text" name="harga_beli" id="rupiah" class="form-control col-md-8">
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Harga Jual</label>
-                        <input type="text" name="harga_jual" id="rupiah1" class="form-control col-md-8">
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Link (opsional)</label>
-                        <input type="url" name="link" id="link" class="form-control col-md-8">
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Kategori</label>
-                        <select name="kategori" id="kategori" class="form-control col-md-8">
-                            @foreach (list_kategorilayanan() as $item)
-                                <option value="{{ $item}}">{{ $item}}</option>
+                        <label for="" class="col-md-4 p-2">Nama Client</label>
+                        <select name="client_id" id="client_id" class="form-control col-md-8">
+                            @foreach ($client as $item)
+                                <option value="{{ $item->id}}">{{ $item->nama}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Tentang Layanan</label>
-                        <textarea name="tentang_layanan" id="tentang_layanan" cols="30" rows="4" class="form-control col-md-8" required></textarea>
+                        <label for="" class="col-md-4 p-2">Tanggal Pemesanan</label>
+                        <input type="date" name="tgl_pemesanan" id="tgl_pemesanan" class="form-control col-md-8" placeholder="Nama Layanan" required>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Gambar Layanan</label>
-                        <input type="file" name="poto_layanan" class="form-control col-md-8" required>
+                        <label for="" class="col-md-4 p-2">Harga</label>
+                        <input type="text" name="harga" value="{{ $layanan->harga_jual}}" class="form-control col-md-8">
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Keterangan</label>
+                        <textarea name="keterangan" id="keterangan" cols="30" rows="4" class="form-control col-md-8" required></textarea>
                     </div>
                 </section>
             </div>
@@ -174,11 +168,11 @@
     <div class="modal fade" id="ubah">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <form action="{{ route('layanan.update','test')}}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('manajemenlayanan.update','test')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
             <div class="modal-header">
-            <h4 class="modal-title">Edit Layanan</h4>
+            <h4 class="modal-title">Edit Manajemen Layanan</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -187,36 +181,24 @@
                 <input type="hidden" name="id" id="id">
                 <section class="p-3">
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Layanan</label>
-                        <input type="text" name="nama_layanan" id="nama_layanan" class="form-control col-md-8" placeholder="Nama Layanan" required>
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Harga Beli</label>
-                        <input type="text" name="harga_beli" id="rupiah" class="form-control col-md-8">
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Harga Jual</label>
-                        <input type="text" name="harga_jual" id="rupiah1" class="form-control col-md-8">
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Link (opsional)</label>
-                        <input type="url" name="link" id="link" class="form-control col-md-8">
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Kategori</label>
-                        <select name="kategori" id="kategori" class="form-control col-md-8">
-                            @foreach (list_kategorilayanan() as $item)
-                                <option value="{{ $item}}">{{ $item}}</option>
+                        <label for="" class="col-md-4 p-2">Nama Client</label>
+                        <select name="client_id" id="client_id" class="form-control col-md-8">
+                            @foreach ($client as $item)
+                                <option value="{{ $item->id}}">{{ $item->nama}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Tentang Layanan</label>
-                        <textarea name="tentang_layanan" id="tentang_layanan" cols="30" rows="4" class="form-control col-md-8" required></textarea>
+                        <label for="" class="col-md-4 p-2">Tanggal Pemesanan</label>
+                        <input type="date" name="tgl_pemesanan" id="tgl_pemesanan" class="form-control col-md-8" placeholder="Nama Layanan" required>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Gambar Layanan</label>
-                        <input type="file" name="poto_layanan" class="form-control col-md-8">
+                        <label for="" class="col-md-4 p-2">Harga</label>
+                        <input type="text" name="harga" value="{{ $layanan->harga_jual}}" class="form-control col-md-8">
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Keterangan</label>
+                        <textarea name="keterangan" id="keterangan" cols="30" rows="4" class="form-control col-md-8" required></textarea>
                     </div>
                 </section>
             </div>
@@ -236,24 +218,18 @@
     <script>
         $('#ubah').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
-            var nama_layanan = button.data('nama_layanan')
-            var tentang_layanan = button.data('tentang_layanan')
-            var poto_layanan = button.data('poto_layanan')
-            var harga_beli = button.data('harga_beli')
-            var harga_jual = button.data('harga_jual')
-            var kategori = button.data('kategori')
-            var link = button.data('link')
+            var tgl_pemesanan = button.data('tgl_pemesanan')
+            var client_id = button.data('client_id')
+            var keterangan = button.data('keterangan')
+            var harga = button.data('harga')
             var id = button.data('id')
     
             var modal = $(this)
     
-            modal.find('.modal-body #nama_layanan').val(nama_layanan);
-            modal.find('.modal-body #tentang_layanan').val(tentang_layanan);
-            modal.find('.modal-body #poto_layanan').val(poto_layanan);
-            modal.find('.modal-body #rupiah').val(harga_beli);
-            modal.find('.modal-body #rupiah1').val(harga_jual);
-            modal.find('.modal-body #kategori').val(kategori);
-            modal.find('.modal-body #link').val(link);
+            modal.find('.modal-body #tgl_pemesanan').val(tgl_pemesanan);
+            modal.find('.modal-body #client_id').val(client_id);
+            modal.find('.modal-body #keterangan').val(keterangan);
+            modal.find('.modal-body #harga').val(harga);
             modal.find('.modal-body #id').val(id);
         })
     </script>
