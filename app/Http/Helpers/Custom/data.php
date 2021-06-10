@@ -54,10 +54,10 @@ if (! function_exists('list_tingkatanjobdesk')) {
     }
 }
 // daftar skala prioritas
-if (! function_exists('list_skalaprioritas')) {
-    function list_skalaprioritas()
+if (! function_exists('list_kategorilayanan')) {
+    function list_kategorilayanan()
     {
-        $result  = ['normal','penting'];
+        $result  = ['produk','jasa'];
         return $result;
     }
 }

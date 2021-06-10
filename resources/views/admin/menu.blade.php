@@ -8,7 +8,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-chalkboard-teacher"></i>
       <p>
-        Manajemen Proyek
+        Manajemen Data
         <i class="fas fa-angle-left right"></i>
         {{-- <span class="badge badge-info right">6</span> --}}
       </p>
@@ -24,6 +24,12 @@
         <a href="{{ url('/proyek')}}" class="nav-link">
           &nbsp;&nbsp;<i class="fas fa-laptop-code nav-icon"></i>
           <p>Proyek</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url('/layanan')}}" class="nav-link">
+          &nbsp;&nbsp;<i class="fas fa-file-invoice-dollar nav-icon"></i>
+          <p>Layanan</p>
         </a>
       </li>
     </ul>
