@@ -21,6 +21,12 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="{{ url('/pihaklain')}}" class="nav-link">
+          &nbsp;&nbsp;<i class="fas fa-handshake nav-icon"></i>
+          <p>Pihak Lain</p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ url('/proyek')}}" class="nav-link">
           &nbsp;&nbsp;<i class="fas fa-laptop-code nav-icon"></i>
           <p>Proyek</p>

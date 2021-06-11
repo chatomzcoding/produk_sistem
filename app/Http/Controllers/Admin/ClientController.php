@@ -15,8 +15,14 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $client     = Client::all();
+        $client     = Client::where('level','client')->get();
         return view('admin.client.index', compact('client'));
+    }
+
+    public function pihaklain()
+    {
+        $pihaklain     = Client::where('level','pihaklain')->get();
+        return view('admin.pihaklain.index', compact('pihaklain'));
     }
 
     /**
@@ -37,16 +43,20 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'poto' => 'required|file|image|mimes:jpeg,png,jpg|max:2000',
-        ]);
-        // menyimpan data file yang diupload ke variabel $file
-        $file = $request->file('poto');
-        
-        $poto = time()."_".$file->getClientOriginalName();
-        $tujuan_upload = 'img/client';
-        // isi dengan nama folder tempat kemana file diupload
-        $file->move($tujuan_upload,$poto);
+        if (isset($request->poto)) {
+            $request->validate([
+                'poto' => 'required|file|image|mimes:jpeg,png,jpg|max:2000',
+            ]);
+            // menyimpan data file yang diupload ke variabel $file
+            $file = $request->file('poto');
+            
+            $poto = time()."_".$file->getClientOriginalName();
+            $tujuan_upload = 'img/client';
+            // isi dengan nama folder tempat kemana file diupload
+            $file->move($tujuan_upload,$poto);
+        } else {
+            $poto   = NULL;
+        }
     
         // simpan client
         Client::create([
@@ -55,6 +65,7 @@ class ClientController extends Controller
             'no_hp' => $request->no_hp,
             'poto' => $poto,
             'tentang' => $request->tentang,
+            'level' => $request->level,
         ]);
 
         return redirect()->back()->with('ds','Client');

@@ -1,18 +1,18 @@
 @extends('layouts.admin')
 
 @section('title')
-    ADMIN - Client
+    ADMIN - Pihak Lain
 @endsection
 
 @section('header')
 <div class="row mb-2">
   <div class="col-sm-6">
-    <h1 class="m-0">Data Client</h1>
+    <h1 class="m-0">Data Pihak Lain</h1>
   </div><!-- /.col -->
   <div class="col-sm-6">
     <ol class="breadcrumb float-sm-right">
       <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Beranda</a></li>
-      <li class="breadcrumb-item active">Daftar Client</li>
+      <li class="breadcrumb-item active">Daftar Pihak Lain</li>
     </ol>
   </div><!-- /.col -->
 </div><!-- /.row -->
@@ -26,20 +26,11 @@
             <div class="card">
               <div class="card-header">
                 {{-- <h3 class="card-title">Daftar Unit</h3> --}}
-                <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Client </a>
+                <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Pihak Lain </a>
                 {{-- <a href="{{ url('/artikel')}}" class="btn btn-outline-dark btn-flat btn-sm"><i class="fas fa-print"></i> Kembali ke artikel</a> --}}
               </div>
               <div class="card-body">
                   @include('sistem.notifikasi')
-                  @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
                   <div class="table-responsive">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead class="text-center">
@@ -54,7 +45,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-capitalize">
-                            @forelse ($client as $item)
+                            @forelse ($pihaklain as $item)
                             <tr>
                                     <td class="text-center">{{ $loop->iteration}}</td>
                                     <td class="text-center">
@@ -81,7 +72,7 @@
                                 </tr>
                             @empty
                                 <tr class="text-center">
-                                    <td colspan="6">tidak ada data</td>
+                                    <td colspan="7">tidak ada data</td>
                                 </tr>
                             @endforelse
                     </table>
@@ -98,9 +89,9 @@
           <div class="modal-content">
             <form action="{{ url('/client')}}" method="post" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="level" value="client">
+                <input type="hidden" name="level" value="pihaklain">
             <div class="modal-header">
-            <h4 class="modal-title">Tambah Client</h4>
+            <h4 class="modal-title">Tambah Pihak Lain</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -108,7 +99,7 @@
             <div class="modal-body p-3">
                 <section class="p-3">
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Client <span class="text-danger">*</span></label>
+                        <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
                         <input type="text" name="nama" id="nama" class="form-control col-md-8" placeholder="Nama Client" required>
                     </div>
                     <div class="form-group row">
@@ -119,14 +110,6 @@
                         <label for="" class="col-md-4 p-2">No Kontak</label>
                         <input type="text" name="no_hp" id="no_hp" class="form-control col-md-8" placeholder="08xxxxxx">
                     </div>
-                    {{-- <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Status Client</label>
-                        <select name="status_client" id="status_client" class="form-control col-md-8">
-                            @foreach (list_statusclient() as $item)
-                                <option value="{{ $item}}">{{ $item}}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Tentang <span class="text-danger">*</span></label>
                         <textarea name="tentang" id="tentang" cols="30" rows="4" class="form-control col-md-8" required></textarea>
@@ -155,7 +138,7 @@
                 @csrf
                 @method('patch')
             <div class="modal-header">
-            <h4 class="modal-title">Edit Client</h4>
+            <h4 class="modal-title">Edit Pihak Lain</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -164,7 +147,7 @@
                 <input type="hidden" name="id" id="id">
                 <section class="p-3">
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Client <span class="text-danger">*</span></label>
+                        <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
                         <input type="text" name="nama" id="nama" class="form-control col-md-8" placeholder="Nama Client" required>
                     </div>
                     <div class="form-group row">
