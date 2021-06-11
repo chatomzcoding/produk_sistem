@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::resource('manajemenproyek', 'App\Http\Controllers\Admin\ManajemenproyekController');
         Route::resource('pembayaranproyek', 'App\Http\Controllers\Admin\PembayaranproyekController');
         Route::resource('manajemenlayanan', 'App\Http\Controllers\Admin\ManajemenlayananController');
-        Route::get('pihaklain', 'App\Http\Controllers\Admin\Clientcontroller@pihaklain');
+        Route::get('pihaklain', 'App\Http\Controllers\Admin\ClientController@pihaklain');
 
 
         // SISTEM
