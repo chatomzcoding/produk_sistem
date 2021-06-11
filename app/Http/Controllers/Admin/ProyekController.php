@@ -91,12 +91,18 @@ class ProyekController extends Controller
                             ->select('manajemen_proyek.*','users.name')
                             ->where('manajemen_proyek.proyek_id',$proyek->id)
                             ->get();
+        $manajemenpihaklain= DB::table('manajemen_pihaklain')
+                            ->join('client','manajemen_pihaklain.client_id','=','client.id')
+                            ->select('manajemen_pihaklain.*','client.nama')
+                            ->where('manajemen_pihaklain.proyek_id',$proyek->id)
+                            ->get();
         $anggota        = DB::table('anggota')
                             ->join('users','anggota.user_id','=','users.id')
                             ->select('anggota.id','users.name')
                             ->get();
+        $pihaklain         = Client::where('level','pihaklain')->get();
         $pembayaran     = Pembayaranproyek::where('proyek_id',$proyek->id)->get();
-        return view('admin.proyek.show', compact('proyek','manajemenproyek','anggota','pembayaran'));
+        return view('admin.proyek.show', compact('proyek','manajemenproyek','anggota','pembayaran','manajemenpihaklain','pihaklain'));
     }
 
     /**

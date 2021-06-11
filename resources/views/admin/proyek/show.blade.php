@@ -96,7 +96,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <strong>Manajemen Proyek</strong>
-                                <a href="#" class="btn btn-outline-primary btn-flat btn-sm float-right" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Tim </a>
+                                <div class="float-right">
+                                    <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Manajemen</a> <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambahpihaklain"><i class="fas fa-plus"></i> Tambah Manajemen Pihak Lain</a>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -104,16 +106,19 @@
                                         <thead class="text-center table-dark">
                                             <tr>
                                                 <th width="5%">No</th>
-                                                <th>Nama Tim</th>
+                                                <th>Nama</th>
                                                 <th>Catatan</th>
                                                 <th width="10%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @php
+                                                $no = 1;
+                                            @endphp
                                             @foreach ($manajemenproyek as $item)
                                             <tr>
-                                                <td class="text-center">{{ $loop->iteration}}</td>
-                                                <td>{{ $item->name}}</td>
+                                                <td class="text-center">{{ $no}}</td>
+                                                <td class="text-capitalize">{{ $item->name}}</td>
                                                 <td>{{ $item->catatan}}</td>
                                                 <td class="text-center">
                                                     <form id="data2-{{ $item->id }}" action="{{ url('/manajemenproyek/'.$item->id)}}" method="post">
@@ -126,6 +131,29 @@
                                                     <button onclick="deleteRow2( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                                                 </td>
                                             </tr>
+                                            @php
+                                                $no++;
+                                            @endphp
+                                            @endforeach
+                                            @foreach ($manajemenpihaklain as $item)
+                                            <tr>
+                                                <td class="text-center">{{ $no}}</td>
+                                                <td class="text-capitalize">{{ $item->nama}}</td>
+                                                <td>{{ $item->catatan}}</td>
+                                                <td class="text-center">
+                                                    <form id="data3-{{ $item->id }}" action="{{ url('/manajemenpihaklain/'.$item->id)}}" method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        </form>
+                                                    <button type="button" data-toggle="modal" data-client_id="{{ $item->client_id }}" data-catatan="{{ $item->catatan }}" data-id="{{ $item->id }}" data-target="#ubahpihaklain" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button onclick="deleteRow3( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                                </td>
+                                            </tr>
+                                            @php
+                                                $no++;
+                                            @endphp
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -228,7 +256,7 @@
                 @csrf
                 <input type="hidden" name="proyek_id" value="{{ $proyek->id}}">
             <div class="modal-header">
-            <h4 class="modal-title">Tambah Proyek</h4>
+            <h4 class="modal-title">Tambah Manajemen</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -236,7 +264,7 @@
             <div class="modal-body p-3">
                 <section class="p-3">
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Anggota</label>
+                        <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
                         <select name="anggota_id" id="anggota_id" class="form-control col-md-8">
                             @foreach ($anggota as $item)
                                 <option value="{{ $item->id}}">{{ $item->name}}</option>
@@ -244,7 +272,43 @@
                         </select>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Catatan</label>
+                        <label for="" class="col-md-4 p-2">Catatan / Peran dalam Proyek <span class="text-danger">*</span></label>
+                        <textarea name="catatan" id="catatan" cols="30" rows="3" class="form-control col-md-8" required></textarea>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> SIMPAN</button>
+            </div>
+        </form>
+        </div>
+        </div>
+    </div>
+    <div class="modal fade" id="tambahpihaklain">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form action="{{ url('/manajemenpihaklain')}}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="proyek_id" value="{{ $proyek->id}}">
+            <div class="modal-header">
+            <h4 class="modal-title">Tambah Manajemen Pihak Lain</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body p-3">
+                <section class="p-3">
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
+                        <select name="client_id" id="client_id" class="form-control col-md-8">
+                            @foreach ($pihaklain as $item)
+                                <option value="{{ $item->id}}">{{ $item->nama}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Catatan / Peran dalam Proyek <span class="text-danger">*</span></label>
                         <textarea name="catatan" id="catatan" cols="30" rows="3" class="form-control col-md-8" required></textarea>
                     </div>
                 </section>
@@ -267,7 +331,7 @@
                 @csrf
                 @method('patch')
             <div class="modal-header">
-            <h4 class="modal-title">Edit Manajemen Proyek</h4>
+            <h4 class="modal-title">Edit Manajemen</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -276,7 +340,7 @@
                 <input type="hidden" name="id" id="id">
                 <section class="p-3">
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Anggota</label>
+                        <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
                         <select name="anggota_id" id="anggota_id" class="form-control col-md-8">
                             @foreach ($anggota as $item)
                                 <option value="{{ $item->id}}">{{ $item->name}}</option>
@@ -284,7 +348,44 @@
                         </select>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Catatan</label>
+                        <label for="" class="col-md-4 p-2">Catatan / Peran dalam Proyek <span class="text-danger">*</span></label>
+                        <textarea name="catatan" id="catatan" cols="30" rows="3" class="form-control col-md-8" required></textarea>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
+            <button type="submit" class="btn btn-success"><i class="fas fa-pen"></i> SIMPAN PERUBAHAN</button>
+            </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ubahpihaklain">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form action="{{ route('manajemenpihaklain.update','test')}}" method="post" enctype="multipart/form-data">
+                @csrf
+                @method('patch')
+            <div class="modal-header">
+            <h4 class="modal-title">Edit Manajemen Pihak Lain</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body p-3">
+                <input type="hidden" name="id" id="id">
+                <section class="p-3">
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
+                        <select name="client_id" id="client_id" class="form-control col-md-8">
+                            @foreach ($pihaklain as $item)
+                                <option value="{{ $item->id}}">{{ $item->nama}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Catatan / Peran dalam Proyek <span class="text-danger">*</span></label>
                         <textarea name="catatan" id="catatan" cols="30" rows="3" class="form-control col-md-8" required></textarea>
                     </div>
                 </section>
@@ -406,6 +507,20 @@
             var modal = $(this)
     
             modal.find('.modal-body #anggota_id').val(anggota_id);
+            modal.find('.modal-body #catatan').val(catatan);
+          
+            modal.find('.modal-body #id').val(id);
+        });
+        $('#ubahpihaklain').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var client_id = button.data('client_id')
+            var catatan = button.data('catatan')
+           
+            var id = button.data('id')
+    
+            var modal = $(this)
+    
+            modal.find('.modal-body #client_id').val(client_id);
             modal.find('.modal-body #catatan').val(catatan);
           
             modal.find('.modal-body #id').val(id);

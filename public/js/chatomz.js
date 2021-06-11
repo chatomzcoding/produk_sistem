@@ -28,6 +28,21 @@ function deleteRow2(id)
                     }
                 });
 		}
+function deleteRow3(id)
+        {
+            swal({
+                title: "Yakin akan menghapus data ini?",
+                text: "Data yang terhapus tidak bisa dikembalikan lagi!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $('#data3-'+id).submit();
+                    }
+                });
+		}
 
     var rupiah = document.getElementById('rupiah');
 	rupiah.addEventListener('keyup', function(e){
