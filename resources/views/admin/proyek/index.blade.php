@@ -56,9 +56,15 @@
                             @forelse ($proyek as $item)
                             <tr>
                                     <td class="text-center">{{ $loop->iteration}}</td>
-                                    <td class="text-center"><img src="{{ asset('/img/proyek/'.$item->gambar)}}" alt="{{ $item->photo}}" width="100px"></td>
+                                    <td class="text-center">
+                                        @if (is_null($item->gambar))
+                                            <img src="{{ asset('/img/img-proyek.png')}}" alt="{{ $item->photo}}" width="100px">
+                                        @else
+                                            <img src="{{ asset('/img/proyek/'.$item->gambar)}}" alt="{{ $item->photo}}" width="100px">
+                                        @endif
+                                    </td>
                                     <td>{{ $item->nama_proyek}}</td>
-                                    <td>{{ $item->tgl_dimulai.' - '.$item->tgl_berakhir}}</td>
+                                    <td>{{ date_indo($item->tgl_dimulai).' - '.date_indo($item->tgl_berakhir)}}</td>
                                     <td>{{ $item->status_proyek}}</td>
                                     <td class="text-center">
                                         <form id="data-{{ $item->id }}" action="{{ url('/proyek/'.$item->id)}}" method="post">
@@ -100,27 +106,27 @@
             <div class="modal-body p-3">
                 <section class="p-3">
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Client</label>
+                        <label for="" class="col-md-4 p-2">Nama Client <span class="text-danger">*</span></label>
                         <select name="client_id" id="client_id" class="form-control col-md-8">
                             @foreach ($client as $item)
-                                <option value="{{ $item->id}}">{{ $item->nama}}</option>
+                                <option value="{{ $item->id}}">{{ ucwords($item->nama)}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Aplikasi</label>
-                        <input type="text" name="nama_proyek" id="nama_proyek" class="form-control col-md-8" placeholder="Nama Aplikasi" required>
+                        <label for="" class="col-md-4 p-2">Nama Proyek <span class="text-danger">*</span></label>
+                        <input type="text" name="nama_proyek" id="nama_proyek" class="form-control col-md-8" placeholder="Nama Proyek" required>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Tanggal awal</label>
+                        <label for="" class="col-md-4 p-2">Tanggal awal <span class="text-danger">*</span></label>
                         <input type="date" name="tgl_dimulai" id="tgl_dimulai" class="form-control col-md-8" required>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Tanggal Berakhir</label>
+                        <label for="" class="col-md-4 p-2">Tanggal Berakhir <span class="text-danger">*</span></label>
                         <input type="date" name="tgl_berakhir" id="tgl_berakhir" class="form-control col-md-8" required>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Biaya</label>
+                        <label for="" class="col-md-4 p-2">Biaya <span class="text-danger">*</span></label>
                         <input type="text" name="biaya" id="rupiah" class="form-control col-md-8" required>
                     </div>
                     <div class="form-group row">
@@ -128,7 +134,7 @@
                         <input type="url" name="link" id="link" class="form-control col-md-8">
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Status Proyek</label>
+                        <label for="" class="col-md-4 p-2">Status Proyek <span class="text-danger">*</span></label>
                         <select name="status_proyek" id="status_proyek" class="form-control col-md-8">
                             @foreach (list_statusproyek() as $item)
                                 <option value="{{ $item}}">{{ $item}}</option>
@@ -136,7 +142,7 @@
                         </select>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Level Proyek</label>
+                        <label for="" class="col-md-4 p-2">Level Proyek <span class="text-danger">*</span></label>
                         <select name="level_proyek" id="level_proyek" class="form-control col-md-8">
                             @foreach (list_levelproyek() as $item)
                                 <option value="{{ $item}}">{{ $item}}</option>
@@ -144,12 +150,12 @@
                         </select>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Detail Proyek</label>
+                        <label for="" class="col-md-4 p-2">Detail Proyek <span class="text-danger">*</span></label>
                         <textarea name="detail_proyek" id="detail_proyek" cols="30" rows="4" class="form-control col-md-8" required></textarea>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Gambar</label>
-                        <input type="file" name="gambar" class="form-control col-md-8" required>
+                        <label for="" class="col-md-4 p-2">Gambar (opsional)</label>
+                        <input type="file" name="gambar" class="form-control col-md-8">
                     </div>
                 </section>
             </div>
@@ -183,13 +189,13 @@
                         <label for="" class="col-md-4 p-2">Nama Client</label>
                         <select name="client_id" id="client_id" class="form-control col-md-8">
                             @foreach ($client as $item)
-                                <option value="{{ $item->id}}">{{ $item->nama}}</option>
+                                <option value="{{ $item->id}}">{{ ucwords($item->nama)}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Aplikasi</label>
-                        <input type="text" name="nama_proyek" id="nama_proyek" class="form-control col-md-8" placeholder="Nama Aplikasi" required>
+                        <label for="" class="col-md-4 p-2">Nama Proyek</label>
+                        <input type="text" name="nama_proyek" id="nama_proyek" class="form-control col-md-8" placeholder="Nama Proyek" required>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Tanggal awal</label>

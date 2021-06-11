@@ -44,7 +44,11 @@
                 <div class="row">
                     <div class="col-md-4">
                         <section class="container">
-                            <img src="{{ asset('/img/proyek/'.$proyek->gambar)}}" alt="" class="img-fluid">
+                            @if (is_null($proyek->gambar))
+                            <img src="{{ asset('/img/img-proyek.png')}}" alt="" class="img-fluid" width="100%">
+                            @else
+                            <img src="{{ asset('/img/proyek/'.$proyek->gambar)}}" alt="" class="img-fluid" width="100%">
+                            @endif
                         </section>
                     </div>
                     <div class="col-md-8">

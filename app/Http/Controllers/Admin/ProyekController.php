@@ -44,17 +44,21 @@ class ProyekController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'gambar' => 'required|file|image|mimes:jpeg,png,jpg|max:5000',
-        ]);
-        // menyimpan data file yang diupload ke variabel $file
-        $file = $request->file('gambar');
+        if (isset($request->gambar)) {
+            $request->validate([
+                'gambar' => 'required|file|image|mimes:jpeg,png,jpg|max:5000',
+            ]);
+            // menyimpan data file yang diupload ke variabel $file
+            $file = $request->file('gambar');
+            
+            $gambar = time()."_".$file->getClientOriginalName();
+            $tujuan_upload = 'img/proyek';
+            // isi dengan nama folder tempat kemana file diupload
+            $file->move($tujuan_upload,$gambar);
+        } else {
+            $gambar = NULL;
+        }
         
-        $gambar = time()."_".$file->getClientOriginalName();
-        $tujuan_upload = 'img/proyek';
-        // isi dengan nama folder tempat kemana file diupload
-        $file->move($tujuan_upload,$gambar);
-    
         // simpan client
         Proyek::create([
             'client_id' => $request->client_id,

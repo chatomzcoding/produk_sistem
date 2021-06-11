@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Keterangan Jobdesk (lengkapi keperluan posting di dalam keterangan)</label>
-                                <textarea name="keterangan_monitoring" id="keterangan" cols="30" rows="10">{{ $monitoring->jumlah}}</textarea>
+                                <textarea name="keterangan_monitoring" id="keterangan" cols="30" rows="10">{{ $monitoring->keterangan_monitoring}}</textarea>
                             </div>
                             <script>
                                 // Replace the <textarea id="editor1"> with a CKEditor 4
