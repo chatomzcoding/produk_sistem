@@ -49,6 +49,7 @@
 
     <script type="text/javascript" src="{{ asset('/vendor/ckeditor/ckeditor.js')}}"></script>
 
+    @yield('head')
   @livewireStyles
 
 </head>

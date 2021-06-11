@@ -1,16 +1,21 @@
 <li class="nav-item">
-    <a href="#" class="nav-link">
-      <i class="nav-icon fas fa-file-signature"></i>
-      <p class="text">Jobdesk</p>
+    <a href="{{ url('monitoringjobdesk')}}" class="nav-link">
+      <i class="nav-icon fas fa-chart-area"></i>
+      <p class="text">Monitoring</p>
     </a>
   </li>
-  <li class="nav-item">
+<li class="nav-item">
+    <a href="{{ url('daftarjobdesk')}}" class="nav-link">
+      <i class="nav-icon fas fa-file-signature"></i>
+      <p class="text">Daftar Jobdesk</p>
+    </a>
+  </li>
+  {{-- <li class="nav-item">
       <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user-secret"></i>
         <p>
           Menu
           <i class="fas fa-angle-left right"></i>
-          {{-- <span class="badge badge-info right">6</span> --}}
         </p>
       </a>
       <ul class="nav nav-treeview">
@@ -27,4 +32,4 @@
           </a>
         </li>
       </ul>
-  </li>
+  </li> --}}

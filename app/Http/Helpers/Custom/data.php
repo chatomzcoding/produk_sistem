@@ -53,7 +53,7 @@ if (! function_exists('list_tingkatanjobdesk')) {
         return $result;
     }
 }
-// daftar skala prioritas
+// daftar kategori layanan
 if (! function_exists('list_kategorilayanan')) {
     function list_kategorilayanan()
     {
@@ -67,6 +67,55 @@ if (! function_exists('list_skalaprioritas')) {
     {
         $result  = ['normal','penting'];
         return $result;
+    }
+}
+
+// daftar status monitoring
+if (! function_exists('list_statusmonitoring')) {
+    function list_statusmonitoring()
+    {
+        $result  = ['proses','menunggu','selesai','gagal'];
+        return $result;
+    }
+}
+// status monitoring
+if (! function_exists('status_monitoring')) {
+    function status_monitoring($status)
+    {
+        $notif  = NULL;
+        switch ($status) {
+            case 'proses':
+                $notif = "<span class='badge badge-warning'>$status</span>";
+                break;
+            case 'menunggu':
+                $notif = "<span class='badge badge-secondary'>$status</span>";
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        return $notif;
+    }
+}
+
+// dashboard
+// daftar skala prioritas
+if (! function_exists('dashboard_persentase')) {
+    function dashboard_persentase($nilai1,$nilai2)
+    {
+        $result  = $nilai1/$nilai2 * 100;
+        return $result;
+    }
+}
+if (! function_exists('chart_tgljobdeskharian')) {
+    function chart_tgljobdeskharian($tglhariini)
+    {
+        $tanggal = NULL;
+        for ($i=1; $i <= $tglhariini; $i++) { 
+            $tanggal .= $i.', ';
+        }
+        return $tanggal;
     }
 }
 

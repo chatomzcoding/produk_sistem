@@ -49,6 +49,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::resource('visitor', 'App\Http\Controllers\Sistem\VisitorController');
     });
 
+    // route anggota
+
+    Route::get('daftarjobdesk', 'App\Http\Controllers\Anggota\HomeanggotaController@jobdesk');
+    Route::get('posting/{id}', 'App\Http\Controllers\Anggota\MonitoringjobdeskController@posting');
+    Route::get('posting/{id}/edit', 'App\Http\Controllers\Anggota\MonitoringjobdeskController@postingedit');
+    Route::post('simpanposting', 'App\Http\Controllers\Anggota\MonitoringjobdeskController@simpanposting');
+    Route::resource('monitoringjobdesk', 'App\Http\Controllers\Anggota\MonitoringjobdeskController');
+
     Route::resource('user', 'App\Http\Controllers\Sistem\UserController');
 });
 
