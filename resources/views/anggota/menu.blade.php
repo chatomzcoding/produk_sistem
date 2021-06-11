@@ -10,6 +10,12 @@
       <p class="text">Daftar Jobdesk</p>
     </a>
   </li>
+<li class="nav-item">
+    <a href="{{ url('daftarproyek')}}" class="nav-link">
+      <i class="nav-icon fas fa-laptop-code"></i>
+      <p class="text">Daftar Proyek</p>
+    </a>
+  </li>
   {{-- <li class="nav-item">
       <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user-secret"></i>
