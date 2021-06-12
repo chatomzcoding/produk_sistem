@@ -19,6 +19,7 @@
 @endsection
 @section('content')
     <div class="container-fluid">
+        @include('sistem.notifikasi')
         <div class="row">
           <!-- left column -->
           <div class="col-md-12">
@@ -30,7 +31,6 @@
                 {{-- <a href="{{ url('/artikel')}}" class="btn btn-outline-dark btn-flat btn-sm"><i class="fas fa-print"></i> Kembali ke artikel</a> --}}
               </div>
               <div class="card-body">
-                  @include('sistem.notifikasi')
                   @if (count($listjobdesk) > 0)
                     @if (count($jobdesk) > 0)
                         <div class="table-responsive">
@@ -38,9 +38,9 @@
                                 <thead class="text-center">
                                     <tr>
                                         <th width="5%">No</th>
-                                        <th>Nama Jobdesk</th>
+                                        <th width="20%">Nama Jobdesk</th>
                                         <th>Keterangan</th>
-                                        <th>Status</th>
+                                        <th width="10%">Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -49,7 +49,7 @@
                                     <tr>
                                             <td class="text-center">{{ $loop->iteration}}</td>
                                             <td>{{ $item->nama_jobdesk}}</td>
-                                            <td>{{ $item->keterangan_jobdesk}}</td>
+                                            <td>{{ $item->keterangan_jobdesk}} <br><small>{{ $item->catatan}}</small></td>
                                             <td class="text-center">{!! status_monitoring($item->status_monitoring)!!}</td>
                                             <td class="text-center" width="10%">
                                                 @switch($item->status_monitoring)
@@ -78,7 +78,79 @@
                             <form action="{{ url('/monitoringjobdesk')}}" method="post">
                                 @csrf
                                 <input type="hidden" name="anggota_id" value="{{ $anggota->id}}">
+                                <input type="hidden" name="tingkatan" value="harian">
                                 <button class="btn btn-outline btn-secondary"><i class="fas fa-plus-circle"></i> Ambil Jobdesk Hari ini</button>
+                            </form>
+                        </div>
+                    @endif
+                  @else
+                     <div class="alert alert-danger">
+                        <h5>Maaf! belum ada jobdesk yang diberikan.</h5>
+                     </div>
+                  @endif
+              </div>
+            </div>
+          </div>
+        </div>
+        {{-- jobdesk bulanan --}}
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Daftar Jobdesk Bulan ini</h3>
+              </div>
+              <div class="card-body">
+                  @if (count($listjobdeskbulanan) > 0)
+                    @if (count($jobdeskbulanan) > 0)
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th width="5%">No</th>
+                                        <th width="20%">Nama Jobdesk</th>
+                                        <th>Keterangan</th>
+                                        <th width="10%">Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-capitalize">
+                                    @forelse ($jobdeskbulanan as $item)
+                                    <tr>
+                                            <td class="text-center">{{ $loop->iteration}}</td>
+                                            <td>{{ $item->nama_jobdesk}}</td>
+                                            <td>{{ $item->keterangan_jobdesk}} <br><small>{{ $item->catatan}}</small></td>
+                                            <td class="text-center">{!! status_monitoring($item->status_monitoring)!!}</td>
+                                            <td class="text-center" width="10%">
+                                                @switch($item->status_monitoring)
+                                                    @case('proses')
+                                                        <a href="{{ url('/posting/'.Crypt::encryptString($item->id))}}" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> posting</a>
+                                                        @break
+                                                    @case('revisi')
+                                                    <a href="{{ url('/posting/'.Crypt::encryptString($item->id).'/edit')}}" class="btn btn-danger btn-sm"><i class="fas fa-pen"></i> revisi</a>
+                                                        @break
+                                                    @case('selesai')
+                                                    <span class="badge badge-success">Jobdesk Selesai</span>
+                                                        @break
+                                                    @default
+                                                @endswitch
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr class="text-center">
+                                            <td colspan="5">tidak ada data</td>
+                                        </tr>
+                                    @endforelse
+                            </table>
+                        </div>
+                    @else
+                        <div class="text-center">
+                            <form action="{{ url('/monitoringjobdesk')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="anggota_id" value="{{ $anggota->id}}">
+                                <input type="hidden" name="tingkatan" value="bulanan">
+                                <button class="btn btn-outline btn-secondary"><i class="fas fa-plus-circle"></i> Ambil Jobdesk Bulan ini</button>
                             </form>
                         </div>
                     @endif

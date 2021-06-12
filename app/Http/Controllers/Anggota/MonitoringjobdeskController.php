@@ -27,10 +27,19 @@ class MonitoringjobdeskController extends Controller
                         ->where('manajemen_jobdesk.anggota_id',$anggota->id)
                         ->where('manajemen_jobdesk.tingkatan','harian')
                         ->whereDate('monitoring_jobdesk.created_at',tgl_sekarang())
-                        ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk')
+                        ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk','manajemen_jobdesk.catatan')
                         ->get();
-        $listjobdesk = Manajemenjobdesk::where('anggota_id',$anggota->id)->get();
-        return view('anggota.monitoring.index', compact('jobdesk','listjobdesk','anggota'));
+        $jobdeskbulanan    = DB::table('monitoring_jobdesk')
+                        ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
+                        ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
+                        ->where('manajemen_jobdesk.anggota_id',$anggota->id)
+                        ->where('manajemen_jobdesk.tingkatan','bulanan')
+                        ->whereMonth('monitoring_jobdesk.created_at',ambil_bulan())
+                        ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk','manajemen_jobdesk.catatan')
+                        ->get();
+        $listjobdesk = Manajemenjobdesk::where('anggota_id',$anggota->id)->where('tingkatan','harian')->get();
+        $listjobdeskbulanan = Manajemenjobdesk::where('anggota_id',$anggota->id)->where('tingkatan','bulanan')->get();
+        return view('anggota.monitoring.index', compact('jobdesk','listjobdesk','anggota','jobdeskbulanan','listjobdeskbulanan'));
     }
 
     public function posting($id)
@@ -118,7 +127,7 @@ class MonitoringjobdeskController extends Controller
      */
     public function store(Request $request)
     {
-        $manajemenjobdesk   = Manajemenjobdesk::where('tingkatan','harian')->where('anggota_id',$request->anggota_id)->get();
+        $manajemenjobdesk   = Manajemenjobdesk::where('tingkatan',$request->tingkatan)->where('anggota_id',$request->anggota_id)->get();
 
         foreach ($manajemenjobdesk as $item) {
             // simpan monitoring
