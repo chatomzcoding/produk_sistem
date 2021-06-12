@@ -76,4 +76,23 @@ class DbSistem {
                 ->get();
         return $data;
     }
+
+    // dashboard anggota
+    public static function dashbord_monitoring($anggota,$sesi)
+    {
+        $tglhariini     = ambil_tgl();
+        $jumlah         = NULL;
+        for ($i=1; $i <= $tglhariini; $i++) { 
+            $data = DB::table('monitoring_jobdesk')
+                    ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
+                    ->where('manajemen_jobdesk.anggota_id',$anggota)
+                    ->where('manajemen_jobdesk.tingkatan','harian')
+                    ->where('monitoring_jobdesk.status_monitoring',$sesi)
+                    ->whereMonth('monitoring_jobdesk.created_at',ambil_bulan())
+                    ->whereDay('monitoring_jobdesk.created_at',$i)
+                    ->count();
+            $jumlah     .= $data.',';
+        }
+        return $jumlah;
+    }
 }
