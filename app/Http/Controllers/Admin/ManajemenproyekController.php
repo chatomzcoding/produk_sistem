@@ -75,6 +75,8 @@ class ManajemenproyekController extends Controller
         Manajemenproyek::where('id',$request->id)->update([
             'anggota_id' => $request->anggota_id,
             'catatan' => $request->catatan,
+            'tgl_berakhir' => $request->tgl_berakhir,
+            'pendapatan' => $request->pendapatan,
         ]);
 
         return redirect()->back()->with('du','Manajemen Proyek');
