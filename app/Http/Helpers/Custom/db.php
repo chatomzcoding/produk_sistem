@@ -77,6 +77,16 @@ class DbSistem {
         return $data;
     }
 
+    public static function listjobdeskanggota($anggota)
+    {
+        $data = DB::table('manajemen_jobdesk')
+                ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
+                ->where('manajemen_jobdesk.anggota_id',$anggota)
+                ->select('jobdesk.*','manajemen_jobdesk.*','manajemen_jobdesk.id as idmanajemen')
+                ->get();
+        return $data;
+    }
+
     // dashboard anggota
     public static function dashbord_monitoring($anggota,$sesi)
     {

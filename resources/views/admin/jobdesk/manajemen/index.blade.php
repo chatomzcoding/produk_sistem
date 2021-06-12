@@ -30,51 +30,50 @@
               </div>
               <div class="card-body">
                   @include('sistem.notifikasi')
-                  @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
                   <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead class="text-center">
+                    <table id="example1" class="table table-bordered table-hover">
+                        <thead class="text-center table-dark">
                             <tr>
                                 <th width="5%">No</th>
-                                <th>Nama Anggota</th>
+                                <th>Nama / Jobdesk</th>
                                 <th>Jobdesk</th>
                                 <th>Tingkatan</th>
                                 <th>Catatan</th>
-                                <th>Aksi</th>
+                                <th width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="text-capitalize">
-                            @forelse ($manajemen as $item)
-                            <tr>
-                                    <td class="text-center">{{ $loop->iteration}}</td>
-                                    <td>{{ $item->name}}</td>
-                                    <td>{{ $item->nama_jobdesk}}</td>
-                                    <td class="text-center">{{ $item->tingkatan}}</td>
-                                    <td>{{ $item->catatan}}</td>
-                                    <td class="text-center">
-                                        <form id="data-{{ $item->id }}" action="{{ url('/manajemenjobdesk/'.$item->id)}}" method="post">
-                                            @csrf
-                                            @method('delete')
-                                            </form>
-                                        <button type="button" data-toggle="modal" data-anggota_id="{{ $item->anggota_id }}" data-jobdesk_id="{{ $item->jobdesk_id }}" data-tingkatan="{{ $item->tingkatan }}" data-catatan="{{ $item->catatan }}" data-skala_prioritas="{{ $item->skala_prioritas }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                                    </td>
+                            @php
+                                $no = 1;
+                            @endphp
+                            @foreach ($anggota as $item)
+                                <tr class="table-secondary">
+                                    <td>{{ $no}}</td>
+                                    <td colspan="5" class="font-weight-bold">{{ $item->name}}</td>
                                 </tr>
-                            @empty
-                                <tr class="text-center">
-                                    <td colspan="6">tidak ada data</td>
-                                </tr>
-                            @endforelse
+                                @foreach (DbSistem::listjobdeskanggota($item->id) as $item2)
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2">{{ $item2->nama_jobdesk}}</td>
+                                        <td class="text-center">{{ $item2->tingkatan}}</td>
+                                        <td>{{ $item2->keterangan_jobdesk}} <br> <small>{{ $item2->catatan}}</small></td>
+                                        <td class="text-center">
+                                            <form id="data-{{ $item2->idmanajemen }}" action="{{ url('/manajemenjobdesk/'.$item2->idmanajemen)}}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                </form>
+                                            <button type="button" data-toggle="modal" data-anggota_id="{{ $item2->anggota_id }}" data-jobdesk_id="{{ $item2->jobdesk_id }}" data-tingkatan="{{ $item2->tingkatan }}" data-catatan="{{ $item2->catatan }}" data-skala_prioritas="{{ $item2->skala_prioritas }}" data-id="{{ $item2->idmanajemen }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button onclick="deleteRow( {{ $item2->idmanajemen }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @php
+                                    $no++;
+                                @endphp
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
               </div>

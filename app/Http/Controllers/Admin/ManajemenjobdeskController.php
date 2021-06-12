@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Anggota;
 use App\Models\Jobdesk;
 use App\Models\Manajemenjobdesk;
+use App\Models\Manajemenproyek;
 use App\Models\Monitoringjobdesk;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -65,9 +68,20 @@ class ManajemenjobdeskController extends Controller
      */
     public function store(Request $request)
     {
-        Manajemenjobdesk::create($request->all());
-
-        return redirect()->back()->with('ds','Manajemen Jobdesk');
+        // pengecekan jika anggota dan jobdesk sama (duplikat)
+        $cek    = Manajemenjobdesk::where('anggota_id',$request->anggota_id)->where('jobdesk_id',$request->jobdesk_id)->first();
+        if ($cek) {
+            $anggota    = Anggota::find($cek->anggota_id);
+            $user       = User::find($anggota->user_id);
+            $jobdesk    = Jobdesk::find($cek->jobdesk_id);
+            $nama       = ucwords($user->name);
+            return redirect()->back()->with('danger',$nama." sudah memiliki jobdesk '".$jobdesk->nama_jobdesk."'");
+        } else {
+            Manajemenjobdesk::create($request->all());
+    
+            return redirect()->back()->with('ds','Manajemen Jobdesk');
+        }
+        
     }
 
     /**
