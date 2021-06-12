@@ -35,8 +35,7 @@
                         <thead class="text-center table-dark">
                             <tr>
                                 <th width="5%">No</th>
-                                <th>Nama / Jobdesk</th>
-                                <th>Jobdesk</th>
+                                <th width="20%">Nama / Jobdesk</th>
                                 <th>Tingkatan</th>
                                 <th>Catatan</th>
                                 <th width="10%">Aksi</th>
@@ -49,12 +48,12 @@
                             @foreach ($anggota as $item)
                                 <tr class="table-secondary">
                                     <td>{{ $no}}</td>
-                                    <td colspan="5" class="font-weight-bold">{{ $item->name}}</td>
+                                    <td colspan="4" class="font-weight-bold">{{ $item->name}}</td>
                                 </tr>
                                 @foreach (DbSistem::listjobdeskanggota($item->id) as $item2)
                                     <tr>
                                         <td></td>
-                                        <td colspan="2">{{ $item2->nama_jobdesk}}</td>
+                                        <td>{{ $item2->nama_jobdesk}}</td>
                                         <td class="text-center">{{ $item2->tingkatan}}</td>
                                         <td>{{ $item2->keterangan_jobdesk}} <br> <small>{{ $item2->catatan}}</small></td>
                                         <td class="text-center">
