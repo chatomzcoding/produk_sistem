@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Monitoring
+    ADMIN - Monitoring Jobdesk
 @endsection
 @section('header')
 <div class="row mb-2">
@@ -11,8 +11,7 @@
   <div class="col-sm-6">
     <ol class="breadcrumb float-sm-right">
       <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Beranda</a></li>
-      <li class="breadcrumb-item"><a href="{{ url('daftarjobdesk')}}">Daftar Jobdesk</a></li>
-      <li class="breadcrumb-item active">Detail Monitoring</li>
+      <li class="breadcrumb-item active">Daftar Monitoring Jobdesk</li>
     </ol>
   </div><!-- /.col -->
 </div><!-- /.row -->
@@ -25,68 +24,83 @@
             <!-- general form elements -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Daftar Jobdesk Hari ini</h3>
+                <h3 class="card-title">Monitoring Jobdesk Tanggal {{ date_indo(tgl_sekarang())}}</h3>
                 {{-- <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Jobdesk </a> --}}
                 {{-- <a href="{{ url('/artikel')}}" class="btn btn-outline-dark btn-flat btn-sm"><i class="fas fa-print"></i> Kembali ke artikel</a> --}}
               </div>
               <div class="card-body">
                   @include('sistem.notifikasi')
-                  @if (count($listjobdesk) > 0)
-                    @if (count($jobdesk) > 0)
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <thead class="text-center">
+                  <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead class="text-center">
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>Nama / Jobdesk</th>
+                                <th width="20%">Status</th>
+                                <th width="10%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-capitalize">
+                            @php
+                                $no = 1;
+                            @endphp
+                            @forelse ($anggota as $item)
+                                {{-- cek apakah anggota ini punya jobdesk --}}
+                                @if (DbSistem::countData('manajemen_jobdesk',['anggota_id',$item->id]) > 0)
                                     <tr>
-                                        <th width="5%">No</th>
-                                        <th>Nama Jobdesk</th>
-                                        <th>Keterangan</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
+                                        <td class="text-center">{{ $no}}</td>
+                                        <td colspan="4">{{ $item->name}}</td>
                                     </tr>
-                                </thead>
-                                <tbody class="text-capitalize">
-                                    @forelse ($jobdesk as $item)
-                                    <tr>
-                                            <td class="text-center">{{ $loop->iteration}}</td>
-                                            <td>{{ $item->nama_jobdesk}}</td>
-                                            <td>{{ $item->keterangan_jobdesk}}</td>
-                                            <td class="text-center">{!! status_monitoring($item->status_monitoring)!!}</td>
-                                            <td class="text-center" width="10%">
-                                                @switch($item->status_monitoring)
+                                    {{-- tampilkan jobdsek dibawah nama --}}
+                                    @forelse (DbSistem::listjobdeskanggotahariini($item->id) as $item2)
+                                        <tr>
+                                            <th></th>
+                                            <th>- {{ $item2->nama_jobdesk}} <br> &nbsp;&nbsp;<small>{{ $item2->keterangan_jobdesk}}</small></th>
+                                                @switch($item2->status_monitoring)
                                                     @case('proses')
-                                                        <a href="{{ url('/posting/'.Crypt::encryptString($item->id))}}" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> posting</a>
-                                                        @break
-                                                    @case('revisi')
-                                                    <a href="{{ url('/posting/'.Crypt::encryptString($item->id).'/edit')}}" class="btn btn-danger btn-sm"><i class="fas fa-pen"></i> revisi</a>
+                                                        <td>
+                                                            <span class="badge badge-warning w-100">DALAM PROSES PENGERJAAN</span>
+                                                        </td>
+                                                        <td></td>
                                                         @break
                                                     @case('selesai')
-                                                    <span class="badge badge-success">Jobdesk Selesai</span>
+                                                        <td>
+                                                            <span class="badge badge-success w-100">JOBDESK SELESAI</span>
+                                                        </td>
+                                                        <td></td>
+                                                        @break
+                                                    @case('revisi')
+                                                        <td>
+                                                            <span class="badge badge-danger w-100">PROSES REVISI</span>
+                                                        </td>
+                                                        <td></td>
+                                                        @break
+                                                    @case('menunggu')
+                                                        <td>
+                                                            <span class="badge badge-secondary w-100">MENUNGGU PENGECEKAN</span>
+                                                        </td>
+                                                        <td><a href="{{ url('admin/cekjobdesk/'.Crypt::encryptString($item2->id))}}" class="btn btn-success btn-sm">cek proggres</a></td>
                                                         @break
                                                     @default
                                                 @endswitch
-                                            </td>
                                         </tr>
                                     @empty
-                                        <tr class="text-center">
-                                            <td colspan="5">tidak ada data</td>
+                                        <tr>
+                                            <th class="text-danger text-center" colspan="4">Belum mengambil jobdesk hari ini</th>
                                         </tr>
                                     @endforelse
-                            </table>
-                        </div>
-                    @else
-                        <div class="text-center">
-                            <form action="{{ url('/monitoringjobdesk')}}" method="post">
-                                @csrf
-                                <input type="hidden" name="anggota_id" value="{{ $anggota->id}}">
-                                <button class="btn btn-outline btn-secondary"><i class="fas fa-plus-circle"></i> Ambil Jobdesk Hari ini</button>
-                            </form>
-                        </div>
-                    @endif
-                  @else
-                     <div class="alert alert-danger">
-                        <h5>Maaf! belum ada jobdesk yang diberikan.</h5>
-                     </div>
-                  @endif
+
+                                    @php
+                                        $no++;
+                                    @endphp
+                                @endif
+                            @empty
+                                <tr class="text-center">
+                                    <td colspan="5">tidak ada data</td>
+                                </tr>
+                            @endforelse
+                    </table>
+                </div>
               </div>
             </div>
           </div>

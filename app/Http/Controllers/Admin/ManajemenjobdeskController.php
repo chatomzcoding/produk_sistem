@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Jobdesk;
 use App\Models\Manajemenjobdesk;
+use App\Models\Monitoringjobdesk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class ManajemenjobdeskController extends Controller
@@ -29,6 +31,20 @@ class ManajemenjobdeskController extends Controller
                         ->select('manajemen_jobdesk.*','jobdesk.nama_jobdesk','users.name')
                         ->get();
         return view('admin.jobdesk.manajemen.index', compact('jobdesk','manajemen','anggota'));
+    }
+
+    public function monitoring()
+    {
+        $anggota    = DB::table('anggota')
+                    ->join('users','anggota.user_id','=','users.id')
+                    ->select('users.name','anggota.id')
+                    ->get();
+        return view('admin.jobdesk.monitoring', compact('anggota'));
+    }
+    public function cekjobdesk($id)
+    {
+        $monitoring     = Monitoringjobdesk::find(Crypt::decryptString($id));
+        return view('admin.jobdesk.cekjobdesk', compact('monitoring'));
     }
 
     /**

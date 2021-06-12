@@ -62,6 +62,12 @@
           <p>Jobdesk Anggota</p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ url('/admin/monitoringjobdesk')}}" class="nav-link">
+          &nbsp;&nbsp;<i class="fas fa-chart-area nav-icon"></i>
+          <p>Monitoring</p>
+        </a>
+      </li>
     </ul>
 </li>
 <li class="nav-item">

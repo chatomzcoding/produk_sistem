@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Helpers\Custom;
 
+use App\Models\Monitoringjobdesk;
 use Illuminate\Support\Facades\DB;
 
 class DbSistem {
@@ -60,5 +61,19 @@ class DbSistem {
             ->first();
         }
         return $show;
+    }
+
+    // khusus untuk sistm cikara
+    public static function listjobdeskanggotahariini($anggota)
+    {
+        $data = DB::table('monitoring_jobdesk')
+                ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
+                ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
+                ->where('manajemen_jobdesk.anggota_id',$anggota)
+                ->where('manajemen_jobdesk.tingkatan','harian')
+                ->whereDate('monitoring_jobdesk.created_at',tgl_sekarang())
+                ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk')
+                ->get();
+        return $data;
     }
 }

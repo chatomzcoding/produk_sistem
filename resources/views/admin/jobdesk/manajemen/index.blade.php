@@ -60,7 +60,7 @@
                                     <td class="text-center">{{ $item->tingkatan}}</td>
                                     <td>{{ $item->catatan}}</td>
                                     <td class="text-center">
-                                        <form id="data-{{ $item->id }}" action="{{ url('/jobdesk/'.$item->id)}}" method="post">
+                                        <form id="data-{{ $item->id }}" action="{{ url('/manajemenjobdesk/'.$item->id)}}" method="post">
                                             @csrf
                                             @method('delete')
                                             </form>

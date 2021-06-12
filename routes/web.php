@@ -50,6 +50,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::resource('manajemenlayanan', 'App\Http\Controllers\Admin\ManajemenlayananController');
         Route::get('pihaklain', 'App\Http\Controllers\Admin\ClientController@pihaklain');
 
+        Route::get('admin/monitoringjobdesk', 'App\Http\Controllers\Admin\ManajemenjobdeskController@monitoring');
+        Route::get('admin/cekjobdesk/{id}', 'App\Http\Controllers\Admin\ManajemenjobdeskController@cekjobdesk');
+
 
         // SISTEM
         Route::resource('info-website', 'App\Http\Controllers\Admin\InfowebsiteController');

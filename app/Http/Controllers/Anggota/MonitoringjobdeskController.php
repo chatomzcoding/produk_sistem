@@ -90,7 +90,14 @@ class MonitoringjobdeskController extends Controller
             'dokumen' => $dokumen,
         ]);
 
-        return redirect('monitoringjobdesk')->with('success','Jobdesk sudah diposting');
+        // pengecekan
+        if (Auth::user()->level == 'admin') {
+            return redirect('admin/monitoringjobdesk')->with('success','Jobdesk sudah konfirmasi');
+        } else {
+            return redirect('monitoringjobdesk')->with('success','Jobdesk sudah diposting');
+        }
+        
+
     }
 
     /**

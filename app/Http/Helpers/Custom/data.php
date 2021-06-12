@@ -74,7 +74,7 @@ if (! function_exists('list_skalaprioritas')) {
 if (! function_exists('list_statusmonitoring')) {
     function list_statusmonitoring()
     {
-        $result  = ['proses','menunggu','selesai','gagal'];
+        $result  = ['proses','menunggu','selesai','revisi','gagal'];
         return $result;
     }
 }
@@ -89,6 +89,12 @@ if (! function_exists('status_monitoring')) {
                 break;
             case 'menunggu':
                 $notif = "<span class='badge badge-secondary'>$status</span>";
+                break;
+            case 'selesai':
+                $notif = "<span class='badge badge-success'>$status</span>";
+                break;
+            case 'revisi':
+                $notif = "<span class='badge badge-danger'>$status</span>";
                 break;
             
             default:
