@@ -104,6 +104,31 @@ if (! function_exists('status_monitoring')) {
         return $notif;
     }
 }
+if (! function_exists('status_proyek')) {
+    function status_proyek($status)
+    {
+        $notif  = NULL;
+        switch ($status) {
+            case 'berjalan':
+                $notif = "<span class='badge badge-warning'>$status</span>";
+                break;
+            case 'menunggu':
+                $notif = "<span class='badge badge-secondary'>$status</span>";
+                break;
+            case 'selesai':
+                $notif = "<span class='badge badge-success'>$status</span>";
+                break;
+            case 'berhenti':
+                $notif = "<span class='badge badge-danger'>$status</span>";
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        return $notif;
+    }
+}
 
 // dashboard
 // daftar skala prioritas

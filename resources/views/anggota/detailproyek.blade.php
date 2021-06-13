@@ -44,7 +44,7 @@
                                 <tbody>
                                     <tr>
                                         <th>Nama Proyek</th>
-                                        <td>: {{ $proyek->nama_proyek}}</td>
+                                        <td class="text-capitalize">: {{ $proyek->nama_proyek}}</td>
                                     </tr>
                                     <tr>
                                         <th>Masa Pelaksanaan</th>
@@ -68,7 +68,7 @@
                                     </tr>
                                     <tr>
                                         <th>Status Proyek</th>
-                                        <td>: {{ $proyek->status_proyek}}</td>
+                                        <td>: {!! status_proyek($proyek->status_proyek)!!}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -91,6 +91,7 @@
                                             <tr>
                                                 <th width="5%">No</th>
                                                 <th>Nama Tim</th>
+                                                <th>Batas Pengerjaan</th>
                                                 <th>Catatan</th>
                                             </tr>
                                         </thead>
@@ -98,7 +99,8 @@
                                             @foreach ($manajemenproyek as $item)
                                             <tr>
                                                 <td class="text-center">{{ $loop->iteration}}</td>
-                                                <td>{{ $item->name}}</td>
+                                                <td class="text-capitalize">{{ $item->name}}</td>
+                                                <td>{{ date_indo($item->tgl_berakhir)}}</td>
                                                 <td>{{ $item->catatan}}</td>
                                             </tr>
                                             @endforeach
