@@ -59,6 +59,9 @@
                                                     @case('revisi')
                                                     <a href="{{ url('/posting/'.Crypt::encryptString($item->id).'/edit')}}" class="btn btn-danger btn-sm"><i class="fas fa-pen"></i> revisi</a>
                                                         @break
+                                                    @case('menunggu')
+                                                    <a href="{{ url('/posting/'.Crypt::encryptString($item->id).'/edit')}}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Edit</a>
+                                                        @break
                                                     @case('selesai')
                                                     <span class="badge badge-success">Jobdesk Selesai</span>
                                                         @break
@@ -129,6 +132,9 @@
                                                         @break
                                                     @case('revisi')
                                                     <a href="{{ url('/posting/'.Crypt::encryptString($item->id).'/edit')}}" class="btn btn-danger btn-sm"><i class="fas fa-pen"></i> revisi</a>
+                                                        @break
+                                                    @case('menunggu')
+                                                    <a href="{{ url('/posting/'.Crypt::encryptString($item->id).'/edit')}}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Edit</a>
                                                         @break
                                                     @case('selesai')
                                                     <span class="badge badge-success">Jobdesk Selesai</span>

@@ -40,7 +40,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-md-4">Jumlah (opsional)</label>
-                                <input type="number" name="jumlah" class="form-control col-md-8" value="{{ $monitoring->jumlah}}">
+                                <input type="number" name="jumlah" class="form-control col-md-8" value="{{ $monitoring->jumlah}}"  step="any">
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-md-4">Link (opsional)</label>
