@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Anggota;
 
 use App\Http\Controllers\Controller;
 use App\Models\Anggota;
+use App\Models\Layanan;
 use App\Models\Pembayaranproyek;
 use App\Models\Proyek;
 use Illuminate\Http\Request;
@@ -36,6 +37,13 @@ class HomeanggotaController extends Controller
                         ->get();
         $daftarproyek   = Proyek::all();
         return view('anggota.proyek', compact('proyek','daftarproyek'));
+    }
+
+    public function layanan()
+    {
+        $layanan    = Layanan::all();
+
+        return view('anggota.daftarlayanan', compact('layanan'));
     }
 
     public function detailproyek($id)

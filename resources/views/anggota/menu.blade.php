@@ -16,6 +16,12 @@
       <p class="text">Daftar Proyek</p>
     </a>
   </li>
+<li class="nav-item">
+    <a href="{{ url('daftarlayanan')}}" class="nav-link">
+      <i class="nav-icon fas fa-file-invoice-dollar"></i>
+      <p class="text">Daftar Layanan</p>
+    </a>
+  </li>
   {{-- <li class="nav-item">
       <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user-secret"></i>
