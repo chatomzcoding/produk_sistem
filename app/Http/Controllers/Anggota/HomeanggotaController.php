@@ -47,10 +47,7 @@ class HomeanggotaController extends Controller
                             ->select('manajemen_proyek.*','users.name')
                             ->where('manajemen_proyek.proyek_id',$proyek->id)
                             ->get();
-        $anggota        = DB::table('anggota')
-                            ->join('users','anggota.user_id','=','users.id')
-                            ->select('anggota.id','users.name')
-                            ->get();
+        $anggota        = Anggota::where('user_id',Auth::user()->id)->first();
         $pembayaran     = Pembayaranproyek::where('proyek_id',$proyek->id)->get();
         return view('anggota.detailproyek', compact('proyek','manajemenproyek','anggota','pembayaran'));
     }
