@@ -61,7 +61,7 @@
                                                 @csrf
                                                 @method('delete')
                                                 </form>
-                                            <button type="button" data-toggle="modal" data-anggota_id="{{ $item2->anggota_id }}" data-jobdesk_id="{{ $item2->jobdesk_id }}" data-tingkatan="{{ $item2->tingkatan }}" data-catatan="{{ $item2->catatan }}" data-skala_prioritas="{{ $item2->skala_prioritas }}" data-id="{{ $item2->idmanajemen }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
+                                            <button type="button" data-toggle="modal" data-anggota_id="{{ $item2->anggota_id }}" data-jobdesk_id="{{ $item2->jobdesk_id }}" data-tingkatan="{{ $item2->tingkatan }}" data-catatan="{{ $item2->catatan }}" data-skala_prioritas="{{ $item2->skala_prioritas }}" data-tgl_awal="{{ $item2->tgl_awal }}" data-tgl_akhir="{{ $item2->tgl_akhir }}" data-id="{{ $item2->idmanajemen }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
                                                 <i class="fa fa-edit"></i>
                                             </button>
                                             <button onclick="deleteRow( {{ $item2->idmanajemen }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
@@ -119,6 +119,16 @@
                             @endforeach
                         </select>
                     </div>
+                    <section id="tanggal" style="display: none;">
+                        <div class="form-group row">
+                            <label for="" class="col-md-4 p-2">Tanggal Awal</label>
+                            <input type="date" name="tgl_awal" class="form-control col-md-8">
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-md-4 p-2">Tanggal Akhir</label>
+                            <input type="date" name="tgl_akhir" class="form-control col-md-8">
+                        </div>
+                    </section>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Skala Priotitas</label>
                         <select name="skala_prioritas" id="skala_prioritas" class="form-control col-md-8" required>
@@ -183,6 +193,17 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="alert alert-warning">
+                        Tanggal Awal dan Tanggal Akhir disesuaikan untuk tingkatan jobdesk kondisional
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Tanggal Awal</label>
+                        <input type="date" name="tgl_awal" id="tgl_awal" class="form-control col-md-8">
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Tanggal Akhir</label>
+                        <input type="date" name="tgl_akhir" id="tgl_akhir" class="form-control col-md-8">
+                    </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Skala Priotitas</label>
                         <select name="skala_prioritas" id="skala_prioritas" class="form-control col-md-8" required>
@@ -217,6 +238,8 @@
             var anggota_id = button.data('anggota_id')
             var tingkatan = button.data('tingkatan')
             var catatan = button.data('catatan')
+            var tgl_awal = button.data('tgl_awal')
+            var tgl_akhir = button.data('tgl_akhir')
             var skala_prioritas = button.data('skala_prioritas')
             var id = button.data('id')
     
@@ -226,6 +249,8 @@
             modal.find('.modal-body #anggota_id').val(anggota_id);
             modal.find('.modal-body #tingkatan').val(tingkatan);
             modal.find('.modal-body #catatan').val(catatan);
+            modal.find('.modal-body #tgl_awal').val(tgl_awal);
+            modal.find('.modal-body #tgl_akhir').val(tgl_akhir);
             modal.find('.modal-body #skala_prioritas').val(skala_prioritas);
             modal.find('.modal-body #id').val(id);
         })
@@ -245,6 +270,15 @@
             "autoWidth": false,
             "responsive": true,
         });
+        });
+        $(function () {
+            $("#tingkatan").change(function () {
+                if ($(this).val() == "kondisional") {
+                    $("#tanggal").show();
+                } else {
+                    $("#tanggal").hide();
+                }
+            });
         });
     </script>
 @endsection

@@ -123,6 +123,8 @@ class ManajemenjobdeskController extends Controller
             'anggota_id' => $request->anggota_id,
             'tingkatan' => $request->tingkatan,
             'catatan' => $request->catatan,
+            'tgl_awal' => $request->tgl_awal,
+            'tgl_akhir' => $request->tgl_akhir,
             'skala_prioritas' => $request->skala_prioritas,
         ]);
 
