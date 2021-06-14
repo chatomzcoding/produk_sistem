@@ -113,6 +113,15 @@ class MonitoringjobdeskController extends Controller
                 if (isset($request->potongan_utama)) {
                     $potongan   = $nominal * ($request->potongan_utama/100);
                     $nominal    = $nominal - $potongan;
+                    // simpan ke rekening cikara studio
+                    $admin      = Anggota::where('user_id',1)->first();
+                    Rekening::create([
+                        'anggota_id' => $admin->id,
+                        'status' => $request->status,
+                        'matauang' => $request->matauang,
+                        'keterangan_rekening' => $request->keterangan_rekeningadmin,
+                        'nominal' => $potongan,
+                    ]);
                 }
                 // simpan ke rekening anggota
                 Rekening::create([

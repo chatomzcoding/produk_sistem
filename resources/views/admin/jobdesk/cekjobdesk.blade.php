@@ -106,6 +106,7 @@
                             @if (!is_null($jobdesk->potongan_pengeluaran) || !is_null($jobdesk->potongan_utama))
                             <input type="hidden" name="anggota_id" value="{{ $anggota->id}}">
                             <input type="hidden" name="keterangan_rekening" value="pemasukan dari jobdesk bulanan {{ $jobdesk->nama_jobdesk}}">
+                            <input type="hidden" name="keterangan_rekeningadmin" value="pemasukan dari jobdesk bulanan {{ $jobdesk->nama_jobdesk.' - '.$user->name}}">
                             <input type="hidden" name="status" value="debit">
                             <div class="alert alert-warning">
                               Setelah di konfirmasi (selesai), Maka sistem akan otomatis melakukan perhitungan berdasarkan pengaturan jobdesk (potongan pengeluaran dan potongan utama) <br>
