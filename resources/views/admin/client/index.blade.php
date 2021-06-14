@@ -154,6 +154,7 @@
             <form action="{{ route('client.update','test')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
+                <input type="hidden" name="level" value="client">
             <div class="modal-header">
             <h4 class="modal-title">Edit Client</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
