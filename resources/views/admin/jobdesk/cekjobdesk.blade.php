@@ -102,6 +102,48 @@
                                 @endforeach
                               </select>
                             </div>
+                            {{-- kode untuk pengecekan keuangan --}}
+                            @if (!is_null($jobdesk->potongan_pengeluaran) || !is_null($jobdesk->potongan_utama))
+                            <input type="hidden" name="anggota_id" value="{{ $anggota->id}}">
+                            <input type="hidden" name="keterangan_rekening" value="pemasukan dari jobdesk bulanan {{ $jobdesk->nama_jobdesk}}">
+                            <input type="hidden" name="status" value="debit">
+                            <div class="alert alert-warning">
+                              Setelah di konfirmasi (selesai), Maka sistem akan otomatis melakukan perhitungan berdasarkan pengaturan jobdesk (potongan pengeluaran dan potongan utama) <br>
+                              dibawah ini perhitungan dari jobdesk tersebut
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-md-4">
+                                  <label for="">Mata Uang <strong class="text-danger">*</strong> </label>
+                              </div>
+                              <div class="col-md-8 p-0">
+                                <select name="matauang" id="" class="form-control" required>
+                                  <option value="">-- pilih mata uang --</option>
+                                  @foreach (list_matauang() as $item)
+                                      <option value="{{ $item}}" @if ($jobdesk->matauang == $item)
+                                          selected
+                                      @endif>{{ $item}}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-md-4">
+                                  <label for="">Pemotongan Pengeluaran</label> <br>
+                              </div>
+                              <div class="col-md-8 p-0">
+                                <input type="number" name="potongan_pengeluaran" class="form-control" step="any" value="{{ $jobdesk->potongan_pengeluaran}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-md-4">
+                                  <label for="">Pemotongan Utama (bagi hasil)</label> <br>
+                              </div>
+                              <div class="col-md-8 p-0">
+                                <input type="number" class="form-control" name="potongan_utama" min="0" max="100" value="{{ $jobdesk->potongan_utama}}">
+                                <small>hasil dikali persentase</small>
+                              </div>
+                            </div>
+                            @endif
                             <div class="form-group text-right">
                                 <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> KONFIRMASI JOBDESK</button>
                             </div>

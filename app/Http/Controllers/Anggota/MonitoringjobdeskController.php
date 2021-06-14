@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Anggota;
 use App\Models\Manajemenjobdesk;
 use App\Models\Monitoringjobdesk;
+use App\Models\Rekening;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -101,6 +102,27 @@ class MonitoringjobdeskController extends Controller
 
         // pengecekan
         if (Auth::user()->level == 'admin') {
+            // jika adanya perhitungan keuangan
+            if (isset($request->anggota_id) AND $request->status_monitoring == 'selesai') {
+                $nominal    = $request->jumlah;
+                // cek potongan_pengeluaran
+                if (isset($request->potongan_pengeluaran)) {
+                    $nominal    = $nominal - $request->potongan_pengeluaran;
+                }
+                // cek potongan_utama
+                if (isset($request->potongan_utama)) {
+                    $potongan   = $nominal * ($request->potongan_utama/100);
+                    $nominal    = $nominal - $potongan;
+                }
+                // simpan ke rekening anggota
+                Rekening::create([
+                    'anggota_id' => $request->anggota_id,
+                    'status' => $request->status,
+                    'matauang' => $request->matauang,
+                    'keterangan_rekening' => $request->keterangan_rekening,
+                    'nominal' => $nominal,
+                ]);
+            }
             return redirect('admin/monitoringjobdesk')->with('success','Jobdesk sudah konfirmasi');
         } else {
             return redirect('monitoringjobdesk')->with('success','Jobdesk sudah diposting');
