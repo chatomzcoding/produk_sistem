@@ -18,7 +18,12 @@ class HomeController extends Controller
                 break;
             case 'anggota':
                 $anggota    = Anggota::where('user_id',$user->id)->first();
-                return view('anggota.dashboard',compact('anggota'));
+                if ($anggota) {
+                    return view('anggota.dashboard',compact('anggota'));
+                } else {
+                    echo 'Maaf, belum masuk ke daftar anggota. Hubungi Admin';
+                }
+                
                 break;
         }
     }
