@@ -78,6 +78,9 @@ class JobdeskController extends Controller
             'nama_jobdesk' => $request->nama_jobdesk,
             'status_jobdesk' => $request->status_jobdesk,
             'keterangan_jobdesk' => $request->keterangan_jobdesk,
+            'potongan_pengeluaran' => $request->potongan_pengeluaran,
+            'potongan_utama' => $request->potongan_utama,
+            'matauang' => $request->matauang,
         ]);
 
         return redirect()->back()->with('du','Jobdesk');

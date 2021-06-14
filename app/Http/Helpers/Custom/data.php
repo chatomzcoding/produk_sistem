@@ -21,6 +21,15 @@ if (! function_exists('list_leveluser')) {
         return $level;
     }
 }
+// daftar list mata uang
+if (! function_exists('list_matauang')) {
+    function list_matauang()
+    {
+        $level  = ['USD','IDR'];
+
+        return $level;
+    }
+}
 // daftar status anggota cikara
 if (! function_exists('list_statusanggota')) {
     function list_statusanggota()

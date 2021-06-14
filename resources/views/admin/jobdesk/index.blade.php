@@ -46,8 +46,11 @@
                                 <th width="5%">No</th>
                                 <th>Nama Jobdesk</th>
                                 <th>Keterangan</th>
+                                <th>Pemotongan Biaya</th>
+                                <th>Pemotongan Utama</th>
+                                <th>Mata Uang</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                <th width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="text-capitalize">
@@ -56,13 +59,20 @@
                                     <td class="text-center">{{ $loop->iteration}}</td>
                                     <td>{{ $item->nama_jobdesk}}</td>
                                     <td>{{ $item->keterangan_jobdesk}}</td>
+                                    <td>{{ $item->potongan_pengeluaran}}</td>
+                                    <td>{{ $item->potongan_utama}}
+                                        @if (!is_null($item->potongan_utama))
+                                            %
+                                        @endif
+                                        </td>
+                                    <td>{{ $item->matauang}}</td>
                                     <td class="text-center">{{ $item->status_jobdesk}}</td>
                                     <td class="text-center">
                                         <form id="data-{{ $item->id }}" action="{{ url('/jobdesk/'.$item->id)}}" method="post">
                                             @csrf
                                             @method('delete')
                                             </form>
-                                        <button type="button" data-toggle="modal" data-nama_jobdesk="{{ $item->nama_jobdesk }}" data-keterangan_jobdesk="{{ $item->keterangan_jobdesk }}" data-status_jobdesk="{{ $item->status_jobdesk }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
+                                        <button type="button" data-toggle="modal" data-nama_jobdesk="{{ $item->nama_jobdesk }}" data-keterangan_jobdesk="{{ $item->keterangan_jobdesk }}" data-status_jobdesk="{{ $item->status_jobdesk }}"  data-potongan_pengeluaran="{{ $item->potongan_pengeluaran }}"  data-potongan_utama="{{ $item->potongan_utama }}"  data-matauang="{{ $item->matauang }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
                                             <i class="fa fa-edit"></i>
                                         </button>
                                         <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
@@ -96,12 +106,41 @@
             <div class="modal-body p-3">
                 <section class="p-3">
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama Jobdesk</label>
+                        <label for="" class="col-md-4 p-2">Nama Jobdesk <strong class="text-danger">*</strong></label>
                         <input type="text" name="nama_jobdesk" id="nama_jobdesk" class="form-control col-md-8" placeholder="Masukkan jobdesk" required>
                     </div>
                     <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Keterangan Jobdesk</label>
-                        <textarea name="keterangan_jobdesk" id="keterangan_jobdesk" cols="30" rows="4" class="form-control col-md-8" required></textarea>
+                        <label for="" class="col-md-4 p-2">Keterangan Jobdesk <strong class="text-danger">*</strong></label>
+                        <textarea name="keterangan_jobdesk" id="keterangan_jobdesk" cols="30" rows="4" class="form-control col-md-8" placeholder="penjelasan singkat tentang jobdesk" required></textarea>
+                    </div>
+                    <section class="alert alert-success">
+                        Form Perhitungan Keuangan Jobdesk (opsional) <br>
+                        isi untuk masuk ke perhitungan deposit anggota
+                    </section>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Potongan Pengeluaran</label>
+                        <div class="col-md-8 p-0">
+                            <input type="number" name="potongan_pengeluaran" id="potongan_pengeluaran" class="form-control">
+                            <small>(bila kosong tidak akan dikenai biaya pengeluaran)</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Pembagian penghasilan </label>
+                        <div class="col-md-8 p-0">
+                            <input type="number" name="potongan_utama" id="potongan_utama" min="0" max="100" class="form-control">
+                            <small>(bentuk persentase 0-100 % )</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Mata Uang</label>
+                        <div class="col-md-8 p-0">
+                            <select name="matauang" id="" class="form-control">
+                                @foreach (list_matauang() as $item)
+                                    <option value="{{ $item}}">{{ $item}}</option>
+                                @endforeach
+                            </select>
+                            <small>(keperluan konvert ke deposit)</small>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -146,6 +185,35 @@
                         <label for="" class="col-md-4 p-2">Keterangan Jobdesk</label>
                         <textarea name="keterangan_jobdesk" id="keterangan_jobdesk" cols="30" rows="4" class="form-control col-md-8" required></textarea>
                     </div>
+                    <section class="alert alert-success">
+                        Form Perhitungan Keuangan Jobdesk (opsional) <br>
+                        isi untuk masuk ke perhitungan deposit anggota
+                    </section>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Potongan Pengeluaran</label>
+                        <div class="col-md-8 p-0">
+                            <input type="number" name="potongan_pengeluaran" id="potongan_pengeluaran" class="form-control">
+                            <small>(bila kosong tidak akan dikenai biaya pengeluaran)</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Pembagian penghasilan </label>
+                        <div class="col-md-8 p-0">
+                            <input type="number" name="potongan_utama" id="potongan_utama" min="0" max="100" class="form-control">
+                            <small>(bentuk persentase 0-100 % )</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Mata Uang</label>
+                        <div class="col-md-8 p-0">
+                            <select name="matauang" id="matauang" class="form-control">
+                                @foreach (list_matauang() as $item)
+                                    <option value="{{ $item}}">{{ $item}}</option>
+                                @endforeach
+                            </select>
+                            <small>(keperluan konvert ke deposit)</small>
+                        </div>
+                    </div>
                 </section>
             </div>
             <div class="modal-footer justify-content-between">
@@ -167,6 +235,9 @@
             var nama_jobdesk = button.data('nama_jobdesk')
             var status_jobdesk = button.data('status_jobdesk')
             var keterangan_jobdesk = button.data('keterangan_jobdesk')
+            var potongan_pengeluaran = button.data('potongan_pengeluaran')
+            var potongan_utama = button.data('potongan_utama')
+            var matauang = button.data('matauang')
             var id = button.data('id')
     
             var modal = $(this)
@@ -174,6 +245,9 @@
             modal.find('.modal-body #nama_jobdesk').val(nama_jobdesk);
             modal.find('.modal-body #status_jobdesk').val(status_jobdesk);
             modal.find('.modal-body #keterangan_jobdesk').val(keterangan_jobdesk);
+            modal.find('.modal-body #potongan_pengeluaran').val(potongan_pengeluaran);
+            modal.find('.modal-body #potongan_utama').val(potongan_utama);
+            modal.find('.modal-body #matauang').val(matauang);
             modal.find('.modal-body #id').val(id);
         })
     </script>
