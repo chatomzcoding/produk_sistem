@@ -38,9 +38,20 @@ class MonitoringjobdeskController extends Controller
                         ->whereMonth('monitoring_jobdesk.created_at',ambil_bulan())
                         ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk','manajemen_jobdesk.catatan')
                         ->get();
+        $jobdeskondisional    = DB::table('monitoring_jobdesk')
+                                ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
+                                ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
+                                ->where('manajemen_jobdesk.anggota_id',$anggota->id)
+                                ->where('manajemen_jobdesk.tingkatan','kondisional')
+                                ->where('manajemen_jobdesk.tgl_awal','<=',tgl_sekarang())
+                                ->where('manajemen_jobdesk.tgl_akhir','>=',tgl_sekarang())
+                                // ->where('monitoring_jobdesk.status_monitoring','<>','selesai')
+                                ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk','manajemen_jobdesk.catatan','manajemen_jobdesk.tgl_awal','manajemen_jobdesk.tgl_akhir')
+                                ->get();
         $listjobdesk = Manajemenjobdesk::where('anggota_id',$anggota->id)->where('tingkatan','harian')->get();
         $listjobdeskbulanan = Manajemenjobdesk::where('anggota_id',$anggota->id)->where('tingkatan','bulanan')->get();
-        return view('anggota.monitoring.index', compact('jobdesk','listjobdesk','anggota','jobdeskbulanan','listjobdeskbulanan'));
+        $listjobdeskondisional = Manajemenjobdesk::where('anggota_id',$anggota->id)->where('tingkatan','kondisional')->where('manajemen_jobdesk.tgl_awal','<=',tgl_sekarang())->where('manajemen_jobdesk.tgl_akhir','>=',tgl_sekarang())->get();
+        return view('anggota.monitoring.index', compact('jobdesk','listjobdesk','anggota','jobdeskbulanan','listjobdeskbulanan','jobdeskondisional','listjobdeskondisional'));
     }
 
     public function posting($id)

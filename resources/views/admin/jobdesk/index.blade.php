@@ -47,7 +47,7 @@
                                 <th>Nama Jobdesk</th>
                                 <th>Keterangan</th>
                                 <th>Pemotongan Biaya</th>
-                                <th>Pemotongan Utama</th>
+                                <th>Bagi Hasil (%)</th>
                                 <th>Mata Uang</th>
                                 <th>Status</th>
                                 <th width="10%">Aksi</th>
@@ -65,7 +65,7 @@
                                             %
                                         @endif
                                         </td>
-                                    <td>{{ $item->matauang}}</td>
+                                    <td class="text-center">{{ $item->matauang}}</td>
                                     <td class="text-center">{{ $item->status_jobdesk}}</td>
                                     <td class="text-center">
                                         <form id="data-{{ $item->id }}" action="{{ url('/jobdesk/'.$item->id)}}" method="post">

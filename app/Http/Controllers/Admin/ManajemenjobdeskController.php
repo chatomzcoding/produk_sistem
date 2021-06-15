@@ -51,7 +51,7 @@ class ManajemenjobdeskController extends Controller
         $jobdesk            = Jobdesk::find($manajemenjobdesk->jobdesk_id);
         $anggota            = Anggota::find($manajemenjobdesk->anggota_id);
         $user               = User::find($anggota->user_id);
-        return view('admin.jobdesk.cekjobdesk', compact('monitoring','jobdesk','anggota','user'));
+        return view('admin.jobdesk.cekjobdesk', compact('monitoring','jobdesk','anggota','user','manajemenjobdesk'));
     }
 
     /**

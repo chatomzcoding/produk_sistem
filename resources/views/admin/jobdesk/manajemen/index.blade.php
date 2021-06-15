@@ -54,7 +54,15 @@
                                     <tr>
                                         <td></td>
                                         <td>{{ $item2->nama_jobdesk}}</td>
-                                        <td class="text-center">{{ $item2->tingkatan}}</td>
+                                        <td class="text-center">{{ $item2->tingkatan}} <br>
+                                            {{-- jika kondisional --}}
+                                            <small>
+                                                @if ($item2->tingkatan == 'kondisional')
+                                                    Periode Pengerjaan <br>
+                                                    {{ date_indo($item2->tgl_awal).' - '.date_indo($item2->tgl_akhir)}}
+                                                @endif
+                                            </small>
+                                        </td>
                                         <td>{{ $item2->keterangan_jobdesk}} <br> <small>{{ $item2->catatan}}</small></td>
                                         <td class="text-center">
                                             <form id="data-{{ $item2->idmanajemen }}" action="{{ url('/manajemenjobdesk/'.$item2->idmanajemen)}}" method="post">

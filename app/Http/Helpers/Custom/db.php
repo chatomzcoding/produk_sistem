@@ -90,6 +90,20 @@ class DbSistem {
                 ->get();
         return $data;
     }
+    // kondisional
+    public static function listjobdeskanggotakondisional($anggota)
+    {
+        $data = DB::table('monitoring_jobdesk')
+                ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
+                ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
+                ->where('manajemen_jobdesk.anggota_id',$anggota)
+                ->where('manajemen_jobdesk.tingkatan','kondisional')
+                ->where('manajemen_jobdesk.tgl_awal','<=',tgl_sekarang())
+                ->where('manajemen_jobdesk.tgl_akhir','>=',tgl_sekarang())
+                ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk','manajemen_jobdesk.tgl_awal','manajemen_jobdesk.tgl_akhir')
+                ->get();
+        return $data;
+    }
 
     public static function listjobdeskanggota($anggota)
     {
