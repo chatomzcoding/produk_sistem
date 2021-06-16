@@ -22,6 +22,12 @@
       <p class="text">Daftar Layanan</p>
     </a>
   </li>
+<li class="nav-item">
+    <a href="{{ url('rekeninganggota')}}" class="nav-link">
+      <i class="nav-icon fas fa-money-check-alt"></i>
+      <p class="text">Rekening</p>
+    </a>
+  </li>
   {{-- <li class="nav-item">
       <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user-secret"></i>

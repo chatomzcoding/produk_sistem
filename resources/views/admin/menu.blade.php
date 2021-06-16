@@ -71,6 +71,12 @@
     </ul>
 </li>
 <li class="nav-item">
+  <a href="{{ url('/rekening')}}" class="nav-link">
+    <i class="nav-icon fas fa-money-check-alt"></i>
+    <p class="text">Rekening</p>
+  </a>
+</li>
+<li class="nav-item">
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-user-tie"></i>
       <p>

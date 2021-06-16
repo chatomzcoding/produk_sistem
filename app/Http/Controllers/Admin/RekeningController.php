@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Anggota;
 use App\Models\Rekening;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RekeningController extends Controller
 {
@@ -15,7 +17,11 @@ class RekeningController extends Controller
      */
     public function index()
     {
-        //
+        $anggota    = DB::table('anggota')
+                        ->join('users','anggota.user_id','=','users.id')
+                        ->select('anggota.id','users.name')
+                        ->get();
+        return view('admin.rekening.index', compact('anggota'));
     }
 
     /**
@@ -36,7 +42,9 @@ class RekeningController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Rekening::create($request->all());
+
+        return redirect()->back()->with('status','Transaksi berhasil');
     }
 
     /**

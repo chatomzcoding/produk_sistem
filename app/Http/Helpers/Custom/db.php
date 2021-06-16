@@ -2,6 +2,7 @@
 namespace App\Http\Helpers\Custom;
 
 use App\Models\Monitoringjobdesk;
+use App\Models\Rekening;
 use Illuminate\Support\Facades\DB;
 
 class DbSistem {
@@ -113,6 +114,16 @@ class DbSistem {
                 ->select('jobdesk.*','manajemen_jobdesk.*','manajemen_jobdesk.id as idmanajemen')
                 ->get();
         return $data;
+    }
+
+    // cek rekening anggota
+    public static function rekeninganggota($anggota,$matauang)
+    {
+        $jumlah     = 0;
+        // cek ke table rekening
+        $jumlah   = Rekening::where('anggota_id',$anggota)->where('matauang',$matauang)->sum('nominal');
+       
+        return $jumlah;
     }
 
     // dashboard anggota

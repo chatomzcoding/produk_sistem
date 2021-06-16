@@ -7,6 +7,7 @@ use App\Models\Anggota;
 use App\Models\Layanan;
 use App\Models\Pembayaranproyek;
 use App\Models\Proyek;
+use App\Models\Rekening;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -58,5 +59,13 @@ class HomeanggotaController extends Controller
         $anggota        = Anggota::where('user_id',Auth::user()->id)->first();
         $pembayaran     = Pembayaranproyek::where('proyek_id',$proyek->id)->get();
         return view('anggota.detailproyek', compact('proyek','manajemenproyek','anggota','pembayaran'));
+    }
+
+    public function rekeninganggota()
+    {
+        $anggota    = Anggota::where('user_id',Auth::user()->id)->first();
+        $rekening   = Rekening::where('anggota_id',$anggota->id)->orderBy('id','DESC')->get();
+
+        return view('anggota.rekening', compact('rekening','anggota'));
     }
 }
