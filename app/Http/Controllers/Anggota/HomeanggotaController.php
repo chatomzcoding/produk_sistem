@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Anggota;
 
 use App\Http\Controllers\Controller;
 use App\Models\Anggota;
+use App\Models\Jobdesk;
 use App\Models\Layanan;
+use App\Models\Manajemenjobdesk;
+use App\Models\Monitoringjobdesk;
 use App\Models\Pembayaranproyek;
 use App\Models\Proyek;
 use App\Models\Rekening;
@@ -26,6 +29,21 @@ class HomeanggotaController extends Controller
                         ->get();
         return view('anggota.jobdesk', compact('jobdesk'));
     }
+
+    public function manajemenjobdesk($manajemenjobdesk)
+    {
+        $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',Crypt::decryptString($manajemenjobdesk))->orderBy('id','DESC')->get();
+        $manajemen      = Manajemenjobdesk::find(Crypt::decryptString($manajemenjobdesk));
+        $jobdesk        = Jobdesk::find($manajemen->jobdesk_id);
+        $user           = DB::table('anggota')
+                            ->join('users','anggota.user_id','=','users.id')
+                            ->select('users.name')
+                            ->where('anggota.id',$manajemen->anggota_id)
+                            ->first();
+        $total          = Monitoringjobdesk::where('manajemenjobdesk_id',Crypt::decryptString($manajemenjobdesk))->orderBy('id','DESC')->sum('jumlah');
+        return view('anggota.manajemenjobdesk', compact('monitoring','manajemen','jobdesk','user','total'));
+    }
+
     public function proyek()
     {
         $user       = Auth::user();

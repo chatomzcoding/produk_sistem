@@ -50,7 +50,7 @@
                                 <th>Bagi Hasil (%)</th>
                                 <th>Mata Uang</th>
                                 <th>Status</th>
-                                <th width="10%">Aksi</th>
+                                <th width="15%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="text-capitalize">
@@ -72,6 +72,7 @@
                                             @csrf
                                             @method('delete')
                                             </form>
+                                        <a href="{{ url('/jobdesk',Crypt::encryptString($item->id))}}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i></a>
                                         <button type="button" data-toggle="modal" data-nama_jobdesk="{{ $item->nama_jobdesk }}" data-keterangan_jobdesk="{{ $item->keterangan_jobdesk }}" data-status_jobdesk="{{ $item->status_jobdesk }}"  data-potongan_pengeluaran="{{ $item->potongan_pengeluaran }}"  data-potongan_utama="{{ $item->potongan_utama }}"  data-matauang="{{ $item->matauang }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
                                             <i class="fa fa-edit"></i>
                                         </button>

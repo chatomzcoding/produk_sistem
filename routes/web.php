@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     // route anggota
 
     Route::get('daftarjobdesk', 'App\Http\Controllers\Anggota\HomeanggotaController@jobdesk');
+    Route::get('manajemenjobdeskanggota/{id}', 'App\Http\Controllers\Anggota\HomeanggotaController@manajemenjobdesk');
     Route::get('rekeninganggota', 'App\Http\Controllers\Anggota\HomeanggotaController@rekeninganggota');
     Route::get('daftarproyek', 'App\Http\Controllers\Anggota\HomeanggotaController@proyek');
     Route::get('daftarlayanan', 'App\Http\Controllers\Anggota\HomeanggotaController@layanan');

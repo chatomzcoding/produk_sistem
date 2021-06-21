@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Daftar Jobdesk
+    ADMIN - Jobdesk
 @endsection
 @section('header')
 <div class="row mb-2">
@@ -11,7 +11,8 @@
   <div class="col-sm-6">
     <ol class="breadcrumb float-sm-right">
       <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Beranda</a></li>
-      <li class="breadcrumb-item active">Daftar Jobdesk</li>
+      <li class="breadcrumb-item"><a href="{{ url('jobdesk')}}">Daftar Jobdesk</a></li>
+      <li class="breadcrumb-item active">Detail</li>
     </ol>
   </div><!-- /.col -->
 </div><!-- /.row -->
@@ -24,7 +25,7 @@
             <!-- general form elements -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Daftar Jobdesk</h3>
+                <h3 class="card-title">Daftar anggota yang mendapatkan jobdesk {{ $jobdesk->nama_jobdesk}}</h3>
                 {{-- <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Jobdesk </a> --}}
                 {{-- <a href="{{ url('/artikel')}}" class="btn btn-outline-dark btn-flat btn-sm"><i class="fas fa-print"></i> Kembali ke artikel</a> --}}
               </div>
@@ -35,28 +36,24 @@
                         <thead class="text-center">
                             <tr>
                                 <th width="5%">No</th>
-                                <th width="20%">Nama Jobdesk</th>
-                                <th>Keterangan</th>
-                                <th width="10%">Prioritas</th>
-                                <th width="10%">Tingkatan</th>
-                                <th width="5%">Aksi</th>
+                                <th>Nama</th>
+                                <th>Tanggal awal pemberian jobdesk</th>
+                                <th width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="text-capitalize">
-                            @forelse ($jobdesk as $item)
+                            @forelse ($manajemen as $item)
                             <tr>
                                     <td class="text-center">{{ $loop->iteration}}</td>
-                                    <td>{{ $item->nama_jobdesk}}</td>
-                                    <td>{{ $item->keterangan_jobdesk}} <br> <small class="text-muted">{{ $item->catatan}}</small></td>
-                                    <td class="text-center">{{ $item->skala_prioritas}}</td>
-                                    <td class="text-center">{{ $item->tingkatan}}</td>
-                                    <td>
-                                      <a href="{{ url('/manajemenjobdeskanggota',Crypt::encryptString($item->idmanajemen))}}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i> Detail</a>
+                                    <td>{{ $item->name}}</td>
+                                    <td>{{ $item->created_at}}</td>
+                                    <td class="text-center">
+                                        <a href="{{ url('/manajemenjobdesk',Crypt::encryptString($item->id))}}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i> Monitoring</a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr class="text-center">
-                                    <td colspan="5">tidak ada data</td>
+                                    <td colspan="4">tidak ada data</td>
                                 </tr>
                             @endforelse
                     </table>
@@ -73,6 +70,7 @@
         $(function () {
         $("#example1").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         $('#example2').DataTable({
             "paging": true,

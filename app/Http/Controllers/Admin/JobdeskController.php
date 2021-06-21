@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Jobdesk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class JobdeskController extends Controller
 {
@@ -49,9 +51,16 @@ class JobdeskController extends Controller
      * @param  \App\Models\Jobdesk  $jobdesk
      * @return \Illuminate\Http\Response
      */
-    public function show(Jobdesk $jobdesk)
+    public function show($jobdesk)
     {
-        //
+        $jobdesk        = Jobdesk::find(Crypt::decryptString($jobdesk));
+        $manajemen     = DB::table('manajemen_jobdesk')
+                            ->join('anggota','manajemen_jobdesk.anggota_id','=','anggota.id')
+                            ->join('users','anggota.user_id','=','users.id')
+                            ->select('manajemen_jobdesk.*','users.name')
+                            ->where('manajemen_jobdesk.jobdesk_id','=',$jobdesk->id)
+                            ->get();
+        return view('admin.jobdesk.show', compact('jobdesk','manajemen'));
     }
 
     /**

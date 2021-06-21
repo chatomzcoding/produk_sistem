@@ -94,9 +94,17 @@ class ManajemenjobdeskController extends Controller
      * @param  \App\Models\Manajemenjobdesk  $manajemenjobdesk
      * @return \Illuminate\Http\Response
      */
-    public function show(Manajemenjobdesk $manajemenjobdesk)
+    public function show($manajemenjobdesk)
     {
-        //
+        $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',Crypt::decryptString($manajemenjobdesk))->get();
+        $manajemen      = Manajemenjobdesk::find(Crypt::decryptString($manajemenjobdesk));
+        $jobdesk        = Jobdesk::find($manajemen->jobdesk_id);
+        $user           = DB::table('anggota')
+                            ->join('users','anggota.user_id','=','users.id')
+                            ->select('users.name')
+                            ->where('anggota.id',$manajemen->anggota_id)
+                            ->first();
+        return view('admin.jobdesk.manajemen.show', compact('monitoring','manajemen','jobdesk','user'));
     }
 
     /**
