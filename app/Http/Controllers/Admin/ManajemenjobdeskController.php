@@ -96,7 +96,7 @@ class ManajemenjobdeskController extends Controller
      */
     public function show($manajemenjobdesk)
     {
-        $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',Crypt::decryptString($manajemenjobdesk))->get();
+        $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',Crypt::decryptString($manajemenjobdesk))->orderBy('id','DESC')->get();
         $manajemen      = Manajemenjobdesk::find(Crypt::decryptString($manajemenjobdesk));
         $jobdesk        = Jobdesk::find($manajemen->jobdesk_id);
         $user           = DB::table('anggota')
@@ -104,7 +104,8 @@ class ManajemenjobdeskController extends Controller
                             ->select('users.name')
                             ->where('anggota.id',$manajemen->anggota_id)
                             ->first();
-        return view('admin.jobdesk.manajemen.show', compact('monitoring','manajemen','jobdesk','user'));
+        $total          = Monitoringjobdesk::where('manajemenjobdesk_id',Crypt::decryptString($manajemenjobdesk))->sum('jumlah');
+        return view('admin.jobdesk.manajemen.show', compact('monitoring','manajemen','jobdesk','user','total'));
     }
 
     /**

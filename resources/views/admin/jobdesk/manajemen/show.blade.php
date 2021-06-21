@@ -33,16 +33,20 @@
                     <section>
                         <table class="table">
                             <tr>
+                                <th width="20%">Nama Anggota</th>
+                                <th>: {{ $user->name}}</th>
+                            </tr>
+                            <tr>
                                 <th>Nama Jobdesk</th>
                                 <th>: {{ $jobdesk->nama_jobdesk}}</th>
                             </tr>
                             <tr>
-                                <th>Nama Anggota</th>
-                                <th>: {{ $user->name}}</th>
+                                <th>Keterangan</th>
+                                <th>: {{ $jobdesk->keterangan_jobdesk}} <br> &nbsp; <small>{{$manajemen->catatan}}</small></th>
                             </tr>
                             <tr>
-                                <th>Keterangan</th>
-                                <th>: {{ $jobdesk->keterangan_jobdesk}} <br> <small>{{$manajemen->catatan}}</small></th>
+                                <th>Jumlah</th>
+                                <th>: {{ $total}}</th>
                             </tr>
                         </table>
                     </section>
@@ -72,7 +76,7 @@
                                             <td>
                                                 <span class="badge badge-warning w-100">DALAM PROSES PENGERJAAN</span>
                                             </td>
-                                            <td><a href="{{ url('admin/cekjobdesk/'.Crypt::encryptString($item->id))}}" class="btn btn-danger btn-sm">batalkan</a></td>
+                                            <td><a href="{{ url('admin/cekjobdesk/'.Crypt::encryptString($item->id))}}"  target="_blank" class="btn btn-danger btn-sm">batalkan</a></td>
                                             @break
                                         @case('selesai')
                                             <td>
@@ -90,7 +94,7 @@
                                             <td>
                                                 <span class="badge badge-secondary w-100">MENUNGGU PENGECEKAN</span>
                                             </td>
-                                            <td><a href="{{ url('admin/cekjobdesk/'.Crypt::encryptString($item->id))}}" class="btn btn-success btn-sm">cek proggres</a></td>
+                                            <td><a href="{{ url('admin/cekjobdesk/'.Crypt::encryptString($item->id))}}" target="_blank" class="btn btn-success btn-sm">cek proggres</a></td>
                                             @break
                                         @default
                                     @endswitch
