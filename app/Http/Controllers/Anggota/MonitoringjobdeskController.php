@@ -114,7 +114,7 @@ class MonitoringjobdeskController extends Controller
         // pengecekan
         if (Auth::user()->level == 'admin') {
             // jika adanya perhitungan keuangan
-            if (isset($request->anggota_id) AND $request->status_monitoring == 'selesai') {
+            if (isset($request->anggota_id) AND $request->status_monitoring == 'selesai' AND $request->jumlah > 0) {
                 $nominal    = $request->jumlah;
                 // cek potongan_pengeluaran
                 if (isset($request->potongan_pengeluaran)) {
