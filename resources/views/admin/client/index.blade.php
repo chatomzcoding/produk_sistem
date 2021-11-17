@@ -58,7 +58,7 @@
                             @forelse ($client as $item)
                             <tr>
                                     <td class="text-center">{{ $loop->iteration}}</td>
-                                    <td class="text-center">bumdes-{{ $item->id}}</td>
+                                    <td class="text-center">client-{{ $item->id}}</td>
                                     <td class="text-center">
                                         @if (is_null($item->poto))
                                             <img src="{{ asset('/img/avatar.png')}}" alt="{{ $item->photo}}" width="100px">
