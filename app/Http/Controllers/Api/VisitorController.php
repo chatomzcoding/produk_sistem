@@ -38,11 +38,11 @@ class VisitorController extends Controller
     {
         // save visitor ketika ada middleware ini
         // get informasi visitor
-        $ipaddress      = get_client_ip_2();
-        $browser        = get_client_browser();
+        $ipaddress      = $request->ip;
+        $browser        = $request->browser;
         // $ipaddress      = $request->ip;
         // $browser        = $request->browser;
-        $tglvisitor     = tgl_sekarang();
+        $tglvisitor     = $request->tanggal;
 
         
         // cek visitor

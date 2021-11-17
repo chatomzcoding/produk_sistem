@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Helpers\Custom\DbSistem;
+
 if (! function_exists('sistem_cekuserphoto')) {
     function sistem_cekuserphoto($photo=null){
         $avatar  = '/img/avatar.png';
@@ -20,6 +22,17 @@ if (! function_exists('cek_internet')) {
         }
         return $is_conn;
        }
+}
+if (! function_exists('kodeip')) {
+    function kodeip($kode){
+        $result     = $kode;
+        $adata      = explode('-',$kode);
+        if (count($adata) == 2) {
+            $client     = DbSistem::showtablefirst('client',['id',$adata[1]]);
+            $result     = $client->nama;
+        }
+        return $result;
+    }
 }
 
 // disabled link

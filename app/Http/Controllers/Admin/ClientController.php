@@ -51,7 +51,7 @@ class ClientController extends Controller
             $file = $request->file('poto');
             
             $poto = time()."_".$file->getClientOriginalName();
-            $tujuan_upload = 'img/client';
+            $tujuan_upload = 'public/img/client';
             // isi dengan nama folder tempat kemana file diupload
             $file->move($tujuan_upload,$poto);
         } else {
@@ -110,7 +110,7 @@ class ClientController extends Controller
             $file = $request->file('poto');
             
             $poto = time()."_".$file->getClientOriginalName();
-            $tujuan_upload = 'img/client';
+            $tujuan_upload = 'public/img/client';
             // isi dengan nama folder tempat kemana file diupload
             $file->move($tujuan_upload,$poto);
             deletefile($tujuan_upload.'/'.$client->poto);    
