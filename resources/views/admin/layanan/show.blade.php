@@ -121,18 +121,20 @@
                   <a href="" class="btn btn-outline-info btn-flat btn-sm float-right"><i class="fas fa-sync"></i> perbaharui Chat </a>
                 </div>
                 <div class="card-body">
-                    <section>
-                      <div class="progress-group">
-                          Proggres Monitoring (proses/total)
-                          <span class="float-right"><b>{{ $total['proses'] }}</b>/{{ $total['jumlah'] }}</span>
-                          <div class="progress progress-sm">
-                              @php
-                                  $presentase = $total['proses']/$total['jumlah']*100;
-                              @endphp
-                            <div class="progress-bar bg-primary" style="width: {{ $presentase }}%"></div>
-                          </div>
-                        </div>
-                    </section>
+                    @if (count($mentoring) > 0)
+                        <section>
+                        <div class="progress-group">
+                            Proggres Monitoring (selesai/total)
+                            <span class="float-right"><b>{{ $total['selesai'] }}</b>/{{ $total['jumlah'] }}</span>
+                            <div class="progress progress-sm">
+                                @php
+                                    $presentase = $total['selesai']/$total['jumlah']*100;
+                                @endphp
+                                <div class="progress-bar bg-primary" style="width: {{ $presentase }}%"></div>
+                            </div>
+                            </div>
+                        </section>
+                    @endif
                     <div class="table-responsive">
                       <table id="example1" class="table table-bordered table-striped">
                           <thead class="text-center">

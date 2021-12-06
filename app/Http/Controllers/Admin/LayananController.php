@@ -93,7 +93,7 @@ class LayananController extends Controller
                         ->get();
         $user       = Auth::user();
         $total      = [
-            'proses' => Layananmentoring::where('layanan_id',$layanan->id)->where('status','proses')->count(),
+            'selesai' => Layananmentoring::where('layanan_id',$layanan->id)->where('status','selesai')->count(),
             'jumlah' => count($mentoring),
         ];
         return view('admin.layanan.show', compact('layanan','manajemen','client','total','user','mentoring'));

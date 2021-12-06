@@ -26,7 +26,7 @@ class LayananmentoringController extends Controller
                         ->get();
         $user       = Auth::user();
         $total      = [
-            'proses' => Layananmentoring::where('layanan_id',$layanan->id)->where('status','proses')->count(),
+            'selesai' => Layananmentoring::where('layanan_id',$layanan->id)->where('status','selesai')->count(),
             'jumlah' => count($mentoring),
         ];
 
