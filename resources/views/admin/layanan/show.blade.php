@@ -113,6 +113,146 @@
                   </section>
               </div>
             </div>
+
+
+            <div class="card">
+                <div class="card-header">
+                    <h4>Daftar Layanan Monitoring</h4>
+                  <a href="" class="btn btn-outline-info btn-flat btn-sm float-right"><i class="fas fa-sync"></i> perbaharui Chat </a>
+                </div>
+                <div class="card-body">
+                    <section>
+                      <div class="progress-group">
+                          Proggres Monitoring (proses/total)
+                          <span class="float-right"><b>{{ $total['proses'] }}</b>/{{ $total['jumlah'] }}</span>
+                          <div class="progress progress-sm">
+                              @php
+                                  $presentase = $total['proses']/$total['jumlah']*100;
+                              @endphp
+                            <div class="progress-bar bg-primary" style="width: {{ $presentase }}%"></div>
+                          </div>
+                        </div>
+                    </section>
+                    <div class="table-responsive">
+                      <table id="example1" class="table table-bordered table-striped">
+                          <thead class="text-center">
+                              <tr>
+                                  <th width="5%">No</th>
+                                  <th>Aksi</th>
+                                  <th>Nama User</th>
+                                  <th>Mentoring</th>
+                                  <th>Status</th>
+                                  <th>Diskusi</th>
+                              </tr>
+                          </thead>
+                          <tbody class="text-capitalize">
+                              @forelse ($mentoring as $item)
+                                  <tr>
+                                      <td class="text-center">{{ $loop->iteration}}</td>
+                                      <td class="text-center">
+                                        <form id="data-{{ $item->id }}" action="{{url('/layananmentoring',$item->id)}}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            </form>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info btn-sm btn-flat">Aksi</button>
+                                                <button type="button" class="btn btn-info btn-sm btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                                  <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <button type="button" data-toggle="modal" data-status="{{ $item->status }}" data-id="{{ $item->id }}" data-target="#ubahmentoring" title="" class="dropdown-item text-success" data-original-title="Edit Task">
+                                                    <i class="fa fa-edit"></i> Edit
+                                                    </button>
+                                                  <div class="dropdown-divider"></div>
+                                                  <button onclick="deleteRow( {{ $item->id }} )" class="dropdown-item text-danger"><i class="fas fa-trash-alt"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                    </td>
+                                      <td>{{ $item->name}}</td>
+                                      <td>{{ $item->nama}}
+                                          <div>
+                                              <img src="{{ asset('/img/layanan/'.$item->gambar)}}" alt="" width="100px">
+                                          </div>
+                                          <i class="text-secondary">Catatan : {{ $item->keterangan}}</i>
+                                      </td>
+                                      <td>
+                                          @switch($item->status)
+                                              @case('proses')
+                                                  <span class="badge badge-warning w-100">proses</span>
+                                                  @break
+                                              @case('selesai')
+                                                  <span class="badge badge-success w-100">selesai</span>
+                                                  @break
+                                              @default
+                                                  
+                                          @endswitch
+                                      </td>
+                                      <td class="text-center">
+                                          @if (!is_null($item->diskusi))
+                                              @php
+                                                  $diskusi = json_decode($item->diskusi);
+                                              @endphp
+                                              <div class="direct-chat-messages">
+                                              @foreach ($diskusi as $key)
+                                              @if ($key->nama == Auth::user()->name)
+                                              {{-- chat untuk orang lain --}}
+                                              <div class="direct-chat-msg">
+                                                  <div class="direct-chat-infos clearfix">
+                                                  <span class="direct-chat-name float-left">{{ $key->nama }}</span>
+                                                  <span class="direct-chat-timestamp float-right">{{ $key->tanggal }}</span>
+                                                  </div>
+                                                  <!-- /.direct-chat-infos -->
+                                                  <img class="direct-chat-img" src="{{ asset('img/user/'.$key->photo) }}" alt="message user image">
+                                                  <!-- /.direct-chat-img -->
+                                                  <div class="direct-chat-text">
+                                                      {{ $key->isi }}
+                                                  </div>
+                                              </div>
+                                          @else
+                                               <!-- chat untuk saya -->
+                                              <div class="direct-chat-msg right">
+                                                  <div class="direct-chat-infos clearfix">
+                                                  <span class="direct-chat-name float-right">{{ $key->nama }}</span>
+                                                  <span class="direct-chat-timestamp float-left">{{ $key->tanggal }}</span>
+                                                  </div>
+                                                  <!-- /.direct-chat-infos -->
+                                                  <img class="direct-chat-img" src="{{ asset('img/user/'.$key->photo) }}" alt="message user image">
+                                                  <!-- /.direct-chat-img -->
+                                                  <div class="direct-chat-text">
+                                                      {{ $key->isi }}
+                                                  </div>
+                                                  <!-- /.direct-chat-text -->
+                                              </div>
+                                              <!-- /.direct-chat-msg -->
+                                          @endif
+                                              @endforeach
+                                              </div>
+                                          @endif
+                                          <form action="{{ url('layananmentoring') }}" method="post">
+                                              @csrf
+                                              <input type="hidden" name="id" value="{{ $item->id }}">
+                                              <input type="hidden" name="nama" value="{{ $user->name }}">
+                                              <input type="hidden" name="photo" value="{{ $user->photo }}">
+                                              <input type="hidden" name="tanggal" value="{{ tgl_sekarang() }}">
+                                              <input type="hidden" name="diskusi" value="TRUE">
+                                              <div class="input-group">
+                                                  <input type="text" name="isi" placeholder="ketik disini ..." class="form-control">
+                                                  <span class="input-group-append">
+                                                    <button type="button" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                                                  </span>
+                                                </div>
+                                          </form>
+                                      </td>
+                                  </tr>
+                              @empty
+                                  <tr class="text-center">
+                                      <td colspan="7">tidak ada data</td>
+                                  </tr>
+                              @endforelse
+                      </table>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
     </div>
@@ -210,6 +350,33 @@
         </div>
         </div>
     </div>
+    <div class="modal fade" id="ubahmentoring">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form action="{{ route('layananmentoring.update','test')}}" method="post">
+                @csrf
+                @method('patch')
+            <div class="modal-header">
+            <h4 class="modal-title">Edit Layanan Mentoring</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body p-3">
+                <input type="hidden" name="id" id="id">
+                <input type="hidden" name="status" value="selesai">
+                <section class="p-3">
+                    <p>Ubah Status Menjadi Selesai</p>
+                </section>
+            </div>
+            <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
+            <button type="submit" class="btn btn-success"><i class="fas fa-pen"></i> UBAH STATUS</button>
+            </div>
+            </form>
+        </div>
+        </div>
+    </div>
     <!-- /.modal -->
 
 @endsection
@@ -230,6 +397,16 @@
             modal.find('.modal-body #client_id').val(client_id);
             modal.find('.modal-body #keterangan').val(keterangan);
             modal.find('.modal-body #harga').val(harga);
+            modal.find('.modal-body #id').val(id);
+        })
+    </script>
+    <script>
+        $('#ubahmentoring').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('id')
+    
+            var modal = $(this)
+    
             modal.find('.modal-body #id').val(id);
         })
     </script>

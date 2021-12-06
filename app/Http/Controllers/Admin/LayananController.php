@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Layanan;
+use App\Models\Layananmentoring;
 use App\Models\Manajemenlayanan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
@@ -49,7 +51,7 @@ class LayananController extends Controller
         $file = $request->file('poto_layanan');
         
         $poto_layanan = time()."_".$file->getClientOriginalName();
-        $tujuan_upload = 'img/layanan';
+        $tujuan_upload = 'public/img/layanan';
         // isi dengan nama folder tempat kemana file diupload
         $file->move($tujuan_upload,$poto_layanan);
     
@@ -83,7 +85,18 @@ class LayananController extends Controller
                         ->orderBy('manajemen_layanan.tgl_pemesanan','desc')
                         ->get();
         $client     = Client::all();
-        return view('admin.layanan.show', compact('layanan','manajemen','client'));
+        $mentoring  = DB::table('layanan_monitoring')
+                        ->join('users','layanan_monitoring.user_id','=','users.id')
+                        ->select('layanan_monitoring.*','users.name')
+                        ->where('layanan_monitoring.layanan_id',$layanan->id)
+                        ->orderByDesc('layanan_monitoring.id')
+                        ->get();
+        $user       = Auth::user();
+        $total      = [
+            'proses' => Layananmentoring::where('layanan_id',$layanan->id)->where('status','proses')->count(),
+            'jumlah' => count($mentoring),
+        ];
+        return view('admin.layanan.show', compact('layanan','manajemen','client','total','user','mentoring'));
     }
 
     /**
@@ -115,7 +128,7 @@ class LayananController extends Controller
             $file = $request->file('poto_layanan');
             
             $poto_layanan = time()."_".$file->getClientOriginalName();
-            $tujuan_upload = 'img/layanan';
+            $tujuan_upload = 'public/img/layanan';
             // isi dengan nama folder tempat kemana file diupload
             $file->move($tujuan_upload,$poto_layanan);
             deletefile($tujuan_upload.'/'.$layanan->poto_layanan);

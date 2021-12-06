@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::resource('monitoringjobdesk', 'App\Http\Controllers\Anggota\MonitoringjobdeskController');
 
     Route::resource('user', 'App\Http\Controllers\Sistem\UserController');
+    Route::resource('layananmentoring', 'App\Http\Controllers\LayananmentoringController');
 });
 
 // --------------------------------------------------------------------------------------------

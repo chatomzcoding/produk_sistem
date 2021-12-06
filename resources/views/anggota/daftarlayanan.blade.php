@@ -40,6 +40,7 @@
                                 <th>Harga Jual</th>
                                 <th>Kategori</th>
                                 <th>Tentang Layanan</th>
+                                <th>Mentoring</th>
                             </tr>
                         </thead>
                         <tbody class="text-capitalize">
@@ -51,9 +52,9 @@
                                     <td>{{ rupiah($item->harga_jual)}}</td>
                                     <td>{{ $item->kategori}}</td>
                                     <td>{{ $item->tentang_layanan}}</td>
-                                    {{-- <td class="text-center">
-                                        <a href="{{ url('/layanan/'.Crypt::encryptString($item->id))}}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i></a>
-                                    </td> --}}
+                                    <td class="text-center">
+                                        <a href="{{ url('/layananmentoring?id='.$item->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i> Detail</a>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr class="text-center">
