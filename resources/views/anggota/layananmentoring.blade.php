@@ -28,7 +28,7 @@
               <div class="card-header">
                   <h4>Daftar Layanan</h4>
                 <a href="{{ url('daftarlayanan') }}" class="btn btn-outline-secondary btn-flat btn-sm"><i class="fas fa-angle-left"></i> Kembali </a>
-                <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Mentoring </a>
+                <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah</a>
                 <a href="" class="btn btn-outline-info btn-flat btn-sm float-right"><i class="fas fa-sync"></i> perbaharui Chat </a>
               </div>
               <div class="card-body">
@@ -63,9 +63,11 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration}}</td>
                                     <td>{{ $item->name}}</td>
-                                    <td>{{ $item->nama}}
+                                    <td>{{ $item->nama}} <hr>
                                         <div>
-                                            <img src="{{ asset('/img/layanan/'.$item->gambar)}}" alt="" width="100px">
+                                            <a href="{{ asset('/img/layanan/'.$item->gambar)}}" target="_blank">
+                                                <img src="{{ asset('/img/layanan/'.$item->gambar)}}" alt="" width="100px">
+                                            </a>
                                         </div>
                                         <i class="text-secondary">Catatan : {{ $item->keterangan}}</i>
                                     </td>
@@ -98,7 +100,7 @@
                                                 <!-- /.direct-chat-infos -->
                                                 <img class="direct-chat-img" src="{{ asset('img/user/'.$key->photo) }}" alt="message user image">
                                                 <!-- /.direct-chat-img -->
-                                                <div class="direct-chat-text">
+                                                <div class="direct-chat-text small text-left">
                                                     {{ $key->isi }}
                                                 </div>
                                             </div>
@@ -112,7 +114,7 @@
                                                 <!-- /.direct-chat-infos -->
                                                 <img class="direct-chat-img" src="{{ asset('img/user/'.$key->photo) }}" alt="message user image">
                                                 <!-- /.direct-chat-img -->
-                                                <div class="direct-chat-text">
+                                                <div class="direct-chat-text small text-left">
                                                     {{ $key->isi }}
                                                 </div>
                                                 <!-- /.direct-chat-text -->
@@ -132,7 +134,7 @@
                                             <div class="input-group">
                                                 <input type="text" name="isi" placeholder="ketik disini ..." class="form-control">
                                                 <span class="input-group-append">
-                                                  <button type="button" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                                                  <button type="submit"  class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
                                                 </span>
                                               </div>
                                         </form>
