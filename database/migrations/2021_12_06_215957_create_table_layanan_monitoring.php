@@ -18,6 +18,7 @@ class CreateTableLayananMonitoring extends Migration
             $table->string('nama');
             $table->string('gambar')->nullable();
             $table->string('status');
+            $table->text('link')->nullable();
             $table->longText('diskusi')->nullable();
             $table->longText('keterangan')->nullable();
             $table->timestamps();

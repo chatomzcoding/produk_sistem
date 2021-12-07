@@ -22,12 +22,13 @@ class LayananmentoringController extends Controller
                         ->join('users','layanan_monitoring.user_id','=','users.id')
                         ->select('layanan_monitoring.*','users.name')
                         ->where('layanan_monitoring.layanan_id',$layanan->id)
+                        ->where('layanan_monitoring.status','proses')
                         ->orderByDesc('layanan_monitoring.id')
                         ->get();
         $user       = Auth::user();
         $total      = [
             'selesai' => Layananmentoring::where('layanan_id',$layanan->id)->where('status','selesai')->count(),
-            'jumlah' => count($mentoring),
+            'jumlah' => Layananmentoring::where('layanan_id',$layanan->id)->count(),
         ];
 
         return view('anggota.layananmentoring', compact('layanan','mentoring','user','total'));
@@ -60,6 +61,7 @@ class LayananmentoringController extends Controller
                     'isi' => $request->isi,
                     'photo' => $request->photo,
                     'tanggal' => $request->tanggal,
+                    'jam' => $request->jam,
 
                 ]
             ];
@@ -75,15 +77,16 @@ class LayananmentoringController extends Controller
         }
         if (isset($request->gambar)) {
             $request->validate([
-                'gambar' => 'required|file|image|mimes:jpeg,png,jpg|max:5000',
+                'gambar' => 'required|file|image|mimes:jpeg,png,jpg|max:10000',
             ]);
-            // menyimpan data file yang diupload ke variabel $file
             $file = $request->file('gambar');
+            $tujuan_upload = 'public/img/layanan/';
+            $gambar = kompres($file,$tujuan_upload);
+            // menyimpan data file yang diupload ke variabel $file
             
-            $gambar = time()."_".$file->getClientOriginalName();
-            $tujuan_upload = 'public/img/layanan';
+            // $gambar = time()."_".$file->getClientOriginalName();
             // isi dengan nama folder tempat kemana file diupload
-            $file->move($tujuan_upload,$gambar);
+            // $file->move($tujuan_upload,$gambar);
         } else {
             $gambar   = NULL;
         }
@@ -95,6 +98,7 @@ class LayananmentoringController extends Controller
             'nama' => $request->nama,
             'keterangan' => $request->keterangan,
             'status' => $request->status,
+            'link' => $request->link,
             'gambar' => $gambar,
         ]);
 
