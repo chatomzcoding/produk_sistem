@@ -20,7 +20,7 @@ class LayananmentoringController extends Controller
         $layanan    = Layanan::find($_GET['id']);
         $mentoring  = DB::table('layanan_monitoring')
                         ->join('users','layanan_monitoring.user_id','=','users.id')
-                        ->select('layanan_monitoring.*','users.name')
+                        ->select('layanan_monitoring.*','users.name','users.photo')
                         ->where('layanan_monitoring.layanan_id',$layanan->id)
                         ->where('layanan_monitoring.status','proses')
                         ->orderByDesc('layanan_monitoring.id')
@@ -136,9 +136,32 @@ class LayananmentoringController extends Controller
      */
     public function update(Request $request)
     {
-        Layananmentoring::where('id',$request->id)->update([
-            'status' => $request->status
-        ]);
+        if (isset($request->ubah)) {
+            $layananmentoring = Layananmentoring::find($request->id);
+            if (isset($request->gambar)) {
+                $request->validate([
+                    'gambar' => 'required|file|image|mimes:jpeg,png,jpg|max:10000',
+                ]);
+                $file = $request->file('gambar');
+                $tujuan_upload = 'public/img/layanan/';
+                $gambar = kompres($file,$tujuan_upload);
+            } else {
+                $gambar   = $layananmentoring->gambar;
+            }
+        
+            // simpan client
+            Layananmentoring::where('id',$request->id)->update([
+                'nama' => $request->nama,
+                'keterangan' => $request->keterangan,
+                'link' => $request->link,
+                'gambar' => $gambar,
+            ]);
+        } else {
+            Layananmentoring::where('id',$request->id)->update([
+                'status' => $request->status
+            ]);
+        }
+        
 
         return back()->with('du','Diskusi');
     }

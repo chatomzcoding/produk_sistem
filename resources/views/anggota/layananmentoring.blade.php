@@ -54,12 +54,18 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="media">
-                                                <img src="{{ asset('img/user/'.$user->photo) }}" class="align-self-start mr-3" alt="..." width="50px">
+                                                <img src="{{ asset('img/user/'.$item->photo) }}" class="align-self-start mr-3" alt="..." width="50px">
                                                 <div class="media-body">
-                                                  <h6 class="mt-0">{{ $item->name}}</h6><hr>
+                                                  <h6 class="mt-0">{{ $item->name}} 
+                                                    @if ($item->name == $user->name)
+                                                        <button type="button" data-toggle="modal" data-nama="{{ $item->nama }}" data-link="{{ $item->link }}" data-keterangan="{{ $item->keterangan }}"  data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm float-right" data-original-title="Edit Task">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                    @endif
+                                                </h6><hr>
                                                   <h5 class="text-capitalize">{{ $item->nama }}</h5>
                                                   @if (!is_null($item->keterangan))
-                                                  <i class="text-secondary">Catatan : {{ $item->keterangan}}</i>
+                                                  <i class="text-secondary">Catatan : {{ $item->keterangan}}</i> <br>
                                                   @endif
                                                   @if (!is_null($item->gambar))
                                                   <p>
@@ -186,10 +192,68 @@
         </div>
         </div>
     </div>
+
+    <div class="modal fade" id="ubah">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form action="{{ route('layananmentoring.update','test')}}" method="post" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="ubah" value="TRUE">
+                @method('patch')
+            <div class="modal-header">
+            <h4 class="modal-title">Edit Layanan Mentoring</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body p-3">
+                <input type="hidden" name="id" id="id">
+                <section class="p-3">
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Judul Mentoring</label>
+                        <input type="text" name="nama" id="nama" class="form-control col-md-8" placeholder="berikan laporan pengujian/mentoring/masukan dll" required>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Link (opsional)</label>
+                        <input type="url" name="link" id="link" class="form-control col-md-8" placeholder="masukkan tambahan link video, website dll">
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Keterangan (opsional)</label>
+                        <textarea name="keterangan" id="keterangan" cols="30" rows="4" class="form-control col-md-8"></textarea>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Gambar (opsional)</label>
+                        <input type="file" name="gambar" class="form-control col-md-8">
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
+            <button type="submit" class="btn btn-success"><i class="fas fa-pen"></i> SIMPAN PERUBAHAN</button>
+            </div>
+            </form>
+        </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
-    
+<script>
+    $('#ubah').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var nama = button.data('nama')
+        var link = button.data('link')
+        var keterangan = button.data('keterangan')
+        var id = button.data('id')
+
+        var modal = $(this)
+
+        modal.find('.modal-body #nama').val(nama);
+        modal.find('.modal-body #link').val(link);
+        modal.find('.modal-body #keterangan').val(keterangan);
+        modal.find('.modal-body #id').val(id);
+    })
+</script>
     <script>
         $(function () {
         $("#example1").DataTable({
