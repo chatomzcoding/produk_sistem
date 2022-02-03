@@ -73,7 +73,7 @@ class ManajemenjobdeskController extends Controller
     public function store(Request $request)
     {
         // pengecekan jika anggota dan jobdesk sama (duplikat)
-        $cek    = Manajemenjobdesk::where('anggota_id',$request->anggota_id)->where('jobdesk_id',$request->jobdesk_id)->first();
+        $cek    = Manajemenjobdesk::where('anggota_id',$request->anggota_id)->where('jobdesk_id',$request->jobdesk_id)->where('catatan',$request->catatan)->first();
         if ($cek) {
             $anggota    = Anggota::find($cek->anggota_id);
             $user       = User::find($anggota->user_id);
