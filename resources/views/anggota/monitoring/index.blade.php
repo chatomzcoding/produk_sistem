@@ -32,7 +32,6 @@
               </div>
               <div class="card-body">
                   @if (count($listjobdesk) > 0)
-                    @if (count($jobdesk) > 0)
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
                                 <thead class="text-center">
@@ -75,17 +74,17 @@
                                         </tr>
                                     @endforelse
                             </table>
+                            @if (count($jobdesk) <> count($listjobdesk))
+                                <div class="text-center">
+                                    <form action="{{ url('/monitoringjobdesk')}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="anggota_id" value="{{ $anggota->id}}">
+                                        <input type="hidden" name="tingkatan" value="harian">
+                                        <button class="btn btn-outline btn-secondary"><i class="fas fa-plus-circle"></i> Ambil Jobdesk Hari ini</button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
-                    @else
-                        <div class="text-center">
-                            <form action="{{ url('/monitoringjobdesk')}}" method="post">
-                                @csrf
-                                <input type="hidden" name="anggota_id" value="{{ $anggota->id}}">
-                                <input type="hidden" name="tingkatan" value="harian">
-                                <button class="btn btn-outline btn-secondary"><i class="fas fa-plus-circle"></i> Ambil Jobdesk Hari ini</button>
-                            </form>
-                        </div>
-                    @endif
                   @else
                      <div class="alert alert-danger">
                         <h5>Maaf! belum ada jobdesk yang diberikan.</h5>

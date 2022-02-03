@@ -172,12 +172,16 @@ class MonitoringjobdeskController extends Controller
         $manajemenjobdesk   = Manajemenjobdesk::where('tingkatan',$request->tingkatan)->where('anggota_id',$request->anggota_id)->get();
 
         foreach ($manajemenjobdesk as $item) {
-            // simpan monitoring
-            Monitoringjobdesk::create([
-                'manajemenjobdesk_id' => $item->id,
-                'keterangan_monitoring' => 'tambahkan keterangan',
-                'status_monitoring' => 'proses',
-            ]);
+            // cek jika sudah ditambahkan sebelumnya
+            $cek    = Monitoringjobdesk::where('manajemenjobdesk_id',$item->id)->whereDate('created_at',tgl_sekarang())->first();
+            if (!$cek) {
+                // simpan monitoring
+                Monitoringjobdesk::create([
+                    'manajemenjobdesk_id' => $item->id,
+                    'keterangan_monitoring' => 'tambahkan keterangan',
+                    'status_monitoring' => 'proses',
+                ]);
+            }
         }
 
         return redirect()->back()->with('success','Jobdesk berhasil diambil');
