@@ -38,7 +38,8 @@
                                     <tr>
                                         <th width="5%">No</th>
                                         <th width="20%">Nama Jobdesk</th>
-                                        <th>Keterangan</th>
+                                        <th>Keterangan Jobdesk</th>
+                                        <th>Rincian Pekerjaan</th>
                                         <th width="10%">Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -49,6 +50,11 @@
                                             <td class="text-center">{{ $loop->iteration}}</td>
                                             <td>{{ $item->nama_jobdesk}}</td>
                                             <td>{{ $item->keterangan_jobdesk}} <br><small>{{ $item->catatan}}</small></td>
+                                            <td>
+                                                @if (!is_null($item->jumlah))
+                                                    Jumlah : {{ $item->jumlah }}
+                                                @endif
+                                            </td>
                                             <td class="text-center">{!! status_monitoring($item->status_monitoring)!!}</td>
                                             <td class="text-center" width="10%">
                                                 @switch($item->status_monitoring)

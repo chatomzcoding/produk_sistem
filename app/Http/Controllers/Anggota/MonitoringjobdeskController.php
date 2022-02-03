@@ -27,6 +27,7 @@ class MonitoringjobdeskController extends Controller
                         ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
                         ->where('manajemen_jobdesk.anggota_id',$anggota->id)
                         ->where('manajemen_jobdesk.tingkatan','harian')
+                        ->where('manajemen_jobdesk.skala_prioritas','<>','sembunyikan')
                         ->whereDate('monitoring_jobdesk.created_at',tgl_sekarang())
                         ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk','manajemen_jobdesk.catatan')
                         ->get();
@@ -48,7 +49,7 @@ class MonitoringjobdeskController extends Controller
                                 // ->where('monitoring_jobdesk.status_monitoring','<>','selesai')
                                 ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk','manajemen_jobdesk.catatan','manajemen_jobdesk.tgl_awal','manajemen_jobdesk.tgl_akhir')
                                 ->get();
-        $listjobdesk = Manajemenjobdesk::where('anggota_id',$anggota->id)->where('tingkatan','harian')->get();
+        $listjobdesk = Manajemenjobdesk::where('anggota_id',$anggota->id)->where('tingkatan','harian')->where('skala_prioritas','<>','sembunyikan')->get();
         $listjobdeskbulanan = Manajemenjobdesk::where('anggota_id',$anggota->id)->where('tingkatan','bulanan')->get();
         $listjobdeskondisional = Manajemenjobdesk::where('anggota_id',$anggota->id)->where('tingkatan','kondisional')->where('manajemen_jobdesk.tgl_awal','<=',tgl_sekarang())->where('manajemen_jobdesk.tgl_akhir','>=',tgl_sekarang())->get();
         return view('anggota.monitoring.index', compact('jobdesk','listjobdesk','anggota','jobdeskbulanan','listjobdeskbulanan','jobdeskondisional','listjobdeskondisional'));

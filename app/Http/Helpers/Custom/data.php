@@ -74,7 +74,7 @@ if (! function_exists('list_kategorilayanan')) {
 if (! function_exists('list_skalaprioritas')) {
     function list_skalaprioritas()
     {
-        $result  = ['normal','penting'];
+        $result  = ['normal','penting','sembunyikan'];
         return $result;
     }
 }
