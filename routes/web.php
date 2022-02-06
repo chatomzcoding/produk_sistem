@@ -43,23 +43,23 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::resource('jobdesk', 'App\Http\Controllers\Admin\JobdeskController');
         Route::resource('manajemenjobdesk', 'App\Http\Controllers\Admin\ManajemenjobdeskController');
         Route::resource('client', 'App\Http\Controllers\Admin\ClientController');
-        Route::resource('proyek', 'App\Http\Controllers\Admin\ProyekController');
         Route::resource('layanan', 'App\Http\Controllers\Admin\LayananController');
         Route::resource('rekening', 'App\Http\Controllers\Admin\RekeningController');
         Route::resource('manajemenproyek', 'App\Http\Controllers\Admin\ManajemenproyekController');
         Route::resource('manajemenpihaklain', 'App\Http\Controllers\Admin\ManajemenpihaklainController');
-        Route::resource('pembayaranproyek', 'App\Http\Controllers\Admin\PembayaranproyekController');
         Route::resource('manajemenlayanan', 'App\Http\Controllers\Admin\ManajemenlayananController');
         Route::get('pihaklain', 'App\Http\Controllers\Admin\ClientController@pihaklain');
-
+        
         Route::get('admin/monitoringjobdesk', 'App\Http\Controllers\Admin\ManajemenjobdeskController@monitoring');
         Route::get('admin/cekjobdesk/{id}', 'App\Http\Controllers\Admin\ManajemenjobdeskController@cekjobdesk');
-
-
+        Route::resource('proyek', 'App\Http\Controllers\Admin\ProyekController');
+        
+        
         // SISTEM
         Route::resource('info-website', 'App\Http\Controllers\Admin\InfowebsiteController');
         Route::resource('visitor', 'App\Http\Controllers\Sistem\VisitorController');
     });
+    Route::resource('pembayaranproyek', 'App\Http\Controllers\Admin\PembayaranproyekController');
 
     // route anggota
 

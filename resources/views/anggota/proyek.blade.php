@@ -45,7 +45,7 @@
                                           </div>
                                           <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize">{{ $item->nama_proyek}}</h5>
+                                                <h5 class="card-title text-capitalize"><a href="{{ url('detailproyek/'.Crypt::encryptString($item->id)) }}">{{ $item->nama_proyek}}</a></h5>
                                                 <p class="card-text text-justify small">{{ $item->detail_proyek}}</p><hr>
                                               <p class="card-text"><small class="text-muted">status proyek {!! status_proyek($item->status_proyek)!!}</small></p>
                                             </div>

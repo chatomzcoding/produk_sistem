@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Anggota;
 
 use App\Http\Controllers\Controller;
 use App\Models\Anggota;
+use App\Models\Client;
 use App\Models\Jobdesk;
 use App\Models\Layanan;
 use App\Models\Manajemenjobdesk;
@@ -53,6 +54,7 @@ class HomeanggotaController extends Controller
                         ->join('proyek','manajemen_proyek.proyek_id','=','proyek.id')
                         ->where('manajemen_proyek.anggota_id',$anggota->id)
                         ->select('manajemen_proyek.*','proyek.*','proyek.id as idproyek')
+                        ->orderByDesc('manajemen_proyek.id')
                         ->get();
         $daftarproyek   = Proyek::all();
         return view('anggota.proyek', compact('proyek','daftarproyek'));
@@ -74,9 +76,18 @@ class HomeanggotaController extends Controller
                             ->select('manajemen_proyek.*','users.name')
                             ->where('manajemen_proyek.proyek_id',$proyek->id)
                             ->get();
-        $anggota        = Anggota::where('user_id',Auth::user()->id)->first();
+        $manajemenpihaklain= DB::table('manajemen_pihaklain')
+                            ->join('client','manajemen_pihaklain.client_id','=','client.id')
+                            ->select('manajemen_pihaklain.*','client.nama')
+                            ->where('manajemen_pihaklain.proyek_id',$proyek->id)
+                            ->get();
+        $anggota        = DB::table('anggota')
+                            ->join('users','anggota.user_id','=','users.id')
+                            ->select('anggota.id','users.name')
+                            ->get();
+        $pihaklain         = Client::where('level','pihaklain')->get();
         $pembayaran     = Pembayaranproyek::where('proyek_id',$proyek->id)->get();
-        return view('anggota.detailproyek', compact('proyek','manajemenproyek','anggota','pembayaran'));
+        return view('anggota.detailproyek', compact('proyek','manajemenproyek','anggota','pembayaran','manajemenpihaklain','pihaklain'));
     }
 
     public function rekeninganggota()
