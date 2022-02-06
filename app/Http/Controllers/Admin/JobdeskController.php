@@ -84,6 +84,7 @@ class JobdeskController extends Controller
     public function update(Request $request)
     {
         Jobdesk::where('id',$request->id)->update([
+            'kode' => $request->kode,
             'nama_jobdesk' => $request->nama_jobdesk,
             'status_jobdesk' => $request->status_jobdesk,
             'keterangan_jobdesk' => $request->keterangan_jobdesk,

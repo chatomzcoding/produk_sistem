@@ -206,6 +206,24 @@
               @default
                   
           @endswitch
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-bar"></i>
+              <p>
+                Statistik Data
+                <i class="fas fa-angle-left right"></i>
+                {{-- <span class="badge badge-info right">6</span> --}}
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url('/statistik/shutterstock')}}" class="nav-link">
+                  &nbsp;&nbsp;<i class="far fa-images nav-icon"></i>
+                  <p>Data Shutterstock</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-header">SISTEM</li>
           <li class="nav-item">
             <a href="#" class="nav-link active">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StatistikController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::resource('user', 'App\Http\Controllers\Sistem\UserController');
     Route::resource('layananmentoring', 'App\Http\Controllers\LayananmentoringController');
+
+    // statistik
+    Route::get('statistik/{page}', [StatistikController::class, 'halaman']);
 });
 
 // --------------------------------------------------------------------------------------------

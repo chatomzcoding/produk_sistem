@@ -50,10 +50,11 @@
                                 <th>Bagi Hasil (%)</th>
                                 <th>Mata Uang</th>
                                 <th>Status</th>
+                                <th>Kode</th>
                                 <th width="15%">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="text-capitalize">
+                        <tbody>
                             @forelse ($jobdesk as $item)
                             <tr>
                                     <td class="text-center">{{ $loop->iteration}}</td>
@@ -67,13 +68,14 @@
                                         </td>
                                     <td class="text-center">{{ $item->matauang}}</td>
                                     <td class="text-center">{{ $item->status_jobdesk}}</td>
+                                    <td class="text-center">{{ strtolower($item->kode)}}</td>
                                     <td class="text-center">
                                         <form id="data-{{ $item->id }}" action="{{ url('/jobdesk/'.$item->id)}}" method="post">
                                             @csrf
                                             @method('delete')
                                             </form>
                                         <a href="{{ url('/jobdesk',Crypt::encryptString($item->id))}}" class="btn btn-primary btn-sm"><i class="fas fa-file"></i></a>
-                                        <button type="button" data-toggle="modal" data-nama_jobdesk="{{ $item->nama_jobdesk }}" data-keterangan_jobdesk="{{ $item->keterangan_jobdesk }}" data-status_jobdesk="{{ $item->status_jobdesk }}"  data-potongan_pengeluaran="{{ $item->potongan_pengeluaran }}"  data-potongan_utama="{{ $item->potongan_utama }}"  data-matauang="{{ $item->matauang }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
+                                        <button type="button" data-toggle="modal" data-kode="{{ $item->kode }}"  data-nama_jobdesk="{{ $item->nama_jobdesk }}" data-keterangan_jobdesk="{{ $item->keterangan_jobdesk }}" data-status_jobdesk="{{ $item->status_jobdesk }}"  data-potongan_pengeluaran="{{ $item->potongan_pengeluaran }}"  data-potongan_utama="{{ $item->potongan_utama }}"  data-matauang="{{ $item->matauang }}" data-id="{{ $item->id }}" data-target="#ubah" title="" class="btn btn-success btn-sm" data-original-title="Edit Task">
                                             <i class="fa fa-edit"></i>
                                         </button>
                                         <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
@@ -106,6 +108,10 @@
             </div>
             <div class="modal-body p-3">
                 <section class="p-3">
+                    <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Kode Jobdesk</label>
+                        <input type="text" name="kode" id="kode" class="form-control col-md-8" placeholder="Masukkan Kode">
+                    </div>
                     <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Nama Jobdesk <strong class="text-danger">*</strong></label>
                         <input type="text" name="nama_jobdesk" id="nama_jobdesk" class="form-control col-md-8" placeholder="Masukkan jobdesk" required>
@@ -172,6 +178,10 @@
                 <input type="hidden" name="id" id="id">
                 <section class="p-3">
                     <div class="form-group row">
+                        <label for="" class="col-md-4 p-2">Kode Jobdesk</label>
+                        <input type="text" name="kode" id="kode" class="form-control col-md-8" placeholder="Masukkan Kode">
+                    </div>
+                    <div class="form-group row">
                         <label for="" class="col-md-4 p-2">Nama Jobdesk</label>
                         <input type="text" name="nama_jobdesk" id="nama_jobdesk" class="form-control col-md-8" placeholder="Masukkan jobdesk" required>
                     </div>
@@ -234,6 +244,7 @@
         $('#ubah').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var nama_jobdesk = button.data('nama_jobdesk')
+            var kode = button.data('kode')
             var status_jobdesk = button.data('status_jobdesk')
             var keterangan_jobdesk = button.data('keterangan_jobdesk')
             var potongan_pengeluaran = button.data('potongan_pengeluaran')
@@ -243,6 +254,7 @@
     
             var modal = $(this)
     
+            modal.find('.modal-body #kode').val(kode);
             modal.find('.modal-body #nama_jobdesk').val(nama_jobdesk);
             modal.find('.modal-body #status_jobdesk').val(status_jobdesk);
             modal.find('.modal-body #keterangan_jobdesk').val(keterangan_jobdesk);

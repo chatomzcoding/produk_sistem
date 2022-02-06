@@ -15,6 +15,7 @@ class CreateTableJobdesk extends Migration
     {
         Schema::create('jobdesk', function (Blueprint $table) {
             $table->id();
+            $table->string('kode')->nullable();
             $table->string('nama_jobdesk');
             $table->text('keterangan_jobdesk');
             $table->enum('status_jobdesk',['aktif','tidak aktif']);
