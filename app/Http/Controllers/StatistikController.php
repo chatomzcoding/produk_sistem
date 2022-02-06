@@ -20,13 +20,19 @@ class StatistikController extends Controller
                 $total      = 0;
                 $perhitungan= 0;
                 $akun       = [];
+                $akuncair   = 0;
+                $akunbanned = 0;
                 foreach ($manajemenjobdesk as $item) {
                     $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',$item->id)->orderBy('id','DESC')->first();
                     if ($monitoring) {
                         $akun[]     = $monitoring;
                         $jumlah     = $monitoring->jumlah;
                         if ($jumlah >= $batas) {
+                            $akuncair       = $akuncair + 1;
                             $perhitungan = $perhitungan + $jumlah; 
+                        }
+                        if ($jumlah == 0) {
+                            $akunbanned = $akunbanned + 1;
                         }
                         $total  = $total + $jumlah;
                     }
@@ -35,22 +41,27 @@ class StatistikController extends Controller
                 $perhitunganrp      = $perhitungan * $dr;
                 $sisa               = $total - $perhitungan;
                 $sisarp             = $sisa * $dr;
+                $totalakun          = count($manajemenjobdesk);
+                $akunsisa           = $totalakun - $akuncair;
                 $data       = [
                     'total' => [
                         'nilai' => $total,
                         'rp' => rupiah($totalrp),
+                        'akun' => $totalakun,
                     ],
                     'perhitungan' => [
                         'nilai' => $perhitungan,
                         'rp' => rupiah($perhitunganrp),
+                        'akun' => $akuncair
                     ],
                     'sisa' => [
                         'nilai' => $sisa,
                         'rp' => rupiah($sisarp),
+                        'akun' => $akunsisa,
                     ],
                     'dr' => $dr,
                     'batas' => $batas,
-                    'akun' => $akun,
+                    'akunbanned' => $akunbanned,
                     'totalakun' => count($akun)
                 ];
                 return view('sistem.statistik.shutterstock', compact('data'));

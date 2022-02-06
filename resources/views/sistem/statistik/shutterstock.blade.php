@@ -44,10 +44,10 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="info-box mb-3">
-                                        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-file-invoice-dollar"></i></span>
+                                        <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-file-invoice-dollar"></i></span>
                             
                                         <div class="info-box-content">
-                                          <span class="info-box-text">Total Keseluruhan</span>
+                                          <span class="info-box-text">Total Keseluruhan <span class="float-right">({{ $data['total']['akun'] }} akun)</span></span>
                                           <span class="info-box-number">${{ $data['total']['nilai'].' | '.$data['total']['rp']}}</span>
                                         </div>
                                         <!-- /.info-box-content -->
@@ -58,28 +58,30 @@
                                         <span class="info-box-icon bg-success elevation-1"><i class="fas fa-file-invoice-dollar"></i></span>
                             
                                         <div class="info-box-content">
-                                          <span class="info-box-text">Total Pencairan</span>
+                                          <span class="info-box-text">Total Pencairan <span class="float-right">({{ $data['perhitungan']['akun'] }} akun)</span></span>
                                           <span class="info-box-number">${{ $data['perhitungan']['nilai'].' | '.$data['perhitungan']['rp']}}</span>
                                         </div>
                                         <!-- /.info-box-content -->
                                       </div>
                                 </div>
+                               
                                 <div class="col-md-6">
                                     <div class="info-box mb-3">
-                                        <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-user"></i></span>
+                                        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-file-invoice-dollar"></i></span>
                                         <div class="info-box-content">
-                                          <span class="info-box-text">Total Akun</span>
-                                          <span class="info-box-number">{{ $data['totalakun']}}</span>
+                                          <span class="info-box-text">Sisa dari pencairan  <span class="float-right">({{ $data['sisa']['akun'] }} akun)</span></span>
+                                          <span class="info-box-number">${{ $data['sisa']['nilai'].' | '.$data['sisa']['rp']}}</span>
+
                                         </div>
                                         <!-- /.info-box-content -->
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="info-box mb-3">
-                                        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-file-invoice-dollar"></i></span>
+                                        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-user"></i></span>
                                         <div class="info-box-content">
-                                          <span class="info-box-text">Sisa dari pencairan</span>
-                                          <span class="info-box-number">${{ $data['sisa']['nilai'].' | '.$data['sisa']['rp']}}</span>
+                                          <span class="info-box-text">Akun Banned</span>
+                                          <span class="info-box-number">{{ $data['akunbanned']}}</span>
 
                                         </div>
                                         <!-- /.info-box-content -->
