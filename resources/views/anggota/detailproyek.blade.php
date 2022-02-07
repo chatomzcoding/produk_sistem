@@ -185,9 +185,9 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th width="10%">Aksi</th>
+                                                <th>Bukti</th>
                                                 <th>Tanggal Pembayaran</th>
                                                 <th>Nama Pembayaran</th>
-                                                <th>Bukti Pembayaran</th>
                                                 <th>Keterangan</th>
                                                 <th>Nominal</th>
                                             </tr>
@@ -212,17 +212,24 @@
                                                     </button>
                                                     <button onclick="deleteRow( {{ $item->id }} )" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                                                 </td>
-                                                <td>{{ date_indo($item->tgl_pembayaran)}}</td>
-                                                <td>{{ $item->nama_pembayaran}}</td>
                                                 <td>
                                                     @if (is_null($item->bukti_pembayaran))
                                                         bukti tidak diupload
                                                         @else
-                                                        <a href="{{ asset('/img/proyek/'.$item->bukti_pembayaran)}}" target="_blank">{{ $item->bukti_pembayaran}}</a>
+                                                        <a href="{{ asset('/img/proyek/'.$item->bukti_pembayaran)}}" target="_blank"><img src="{{ asset('/img/proyek/'.$item->bukti_pembayaran)}}" alt="" width="200px"></a>
                                                         @endif
                                                         
                                                     </td>
-                                                <td>{{ $item->keterangan_pembayaran}}</td>
+                                                <td>{{ date_indo($item->tgl_pembayaran)}}</td>
+                                                <td>{{ $item->nama_pembayaran}}</td>
+                                                <td>
+                                                    @php
+                                                        $ket = explode('||',$item->keterangan_pembayaran)
+                                                    @endphp
+                                                    @for ($i = 0; $i < count($ket); $i++)
+                                                        {{ $ket[$i] }} <br>
+                                                    @endfor
+                                                    </td>
                                                 <td class="text-right">{{ norupiah($item->nominal)}}</td>
                                             </tr>
                                             @endforeach
@@ -254,177 +261,6 @@
         </div>
     </div>
     {{-- modal --}}
-    {{-- modal tambah manajemen proyek--}}
-    <div class="modal fade" id="tambah">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <form action="{{ url('/manajemenproyek')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="proyek_id" value="{{ $proyek->id}}">
-            <div class="modal-header">
-            <h4 class="modal-title">Tambah Manajemen</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body p-3">
-                <section class="p-3">
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
-                        <select name="anggota_id" id="anggota_id" class="form-control col-md-8">
-                            @foreach ($anggota as $item)
-                                <option value="{{ $item->id}}">{{ $item->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Catatan / Peran dalam Proyek <span class="text-danger">*</span></label>
-                        <textarea name="catatan" id="catatan" cols="30" rows="3" class="form-control col-md-8" required></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Batas Pengerjaan</label>
-                        <input type="date" name="tgl_berakhir" class="form-control col-md-8">
-                    </div>
-                </section>
-            </div>
-            <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
-            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> SIMPAN</button>
-            </div>
-        </form>
-        </div>
-        </div>
-    </div>
-    <div class="modal fade" id="tambahpihaklain">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <form action="{{ url('/manajemenpihaklain')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="proyek_id" value="{{ $proyek->id}}">
-            <div class="modal-header">
-            <h4 class="modal-title">Tambah Manajemen Pihak Lain</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body p-3">
-                <section class="p-3">
-                    @if (count($pihaklain) > 0)
-                        <div class="form-group row">
-                            <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
-                            <select name="client_id" id="client_id" class="form-control col-md-8">
-                                @foreach ($pihaklain as $item)
-                                    <option value="{{ $item->id}}">{{ $item->nama}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group row">
-                            <label for="" class="col-md-4 p-2">Catatan / Peran dalam Proyek <span class="text-danger">*</span></label>
-                            <textarea name="catatan" id="catatan" cols="30" rows="3" class="form-control col-md-8" required></textarea>
-                        </div>
-                    @else
-                    <section class="text-center">
-                        <p>belum ada data pihak lain dalam manajemen pihak lain</p>
-                        <a href="{{ url('pihaklain')}}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambahkan Sekarang</a>                        
-                    </section>
-                    @endif
-                </section>
-            </div>
-            <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
-            @if (count($pihaklain) > 0)
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> SIMPAN</button>
-            @endif
-            </div>
-        </form>
-        </div>
-        </div>
-    </div>
-    <!-- /.modal -->
-
-    {{-- modal edit manajemen proyek--}}
-    <div class="modal fade" id="ubah">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <form action="{{ route('manajemenproyek.update','test')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                @method('patch')
-            <div class="modal-header">
-            <h4 class="modal-title">Edit Manajemen</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body p-3">
-                <input type="hidden" name="id" id="id">
-                <section class="p-3">
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
-                        <select name="anggota_id" id="anggota_id" class="form-control col-md-8">
-                            @foreach ($anggota as $item)
-                                <option value="{{ $item->id}}">{{ $item->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Catatan / Peran dalam Proyek <span class="text-danger">*</span></label>
-                        <textarea name="catatan" id="catatan" cols="30" rows="3" class="form-control col-md-8" required></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Batas Pengerjaan</label>
-                        <input type="date" name="tgl_berakhir" id="tgl_berakhir" class="form-control col-md-8">
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Pendapan dari proyek</label>
-                        <input type="text" name="pendapatan" id="pendapatan" class="form-control col-md-8">
-                    </div>
-                </section>
-            </div>
-            <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
-            <button type="submit" class="btn btn-success"><i class="fas fa-pen"></i> SIMPAN PERUBAHAN</button>
-            </div>
-            </form>
-        </div>
-        </div>
-    </div>
-    <div class="modal fade" id="ubahpihaklain">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <form action="{{ route('manajemenpihaklain.update','test')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                @method('patch')
-            <div class="modal-header">
-            <h4 class="modal-title">Edit Manajemen Pihak Lain</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body p-3">
-                <input type="hidden" name="id" id="id">
-                <section class="p-3">
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Nama <span class="text-danger">*</span></label>
-                        <select name="client_id" id="client_id" class="form-control col-md-8">
-                            @foreach ($pihaklain as $item)
-                                <option value="{{ $item->id}}">{{ $item->nama}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group row">
-                        <label for="" class="col-md-4 p-2">Catatan / Peran dalam Proyek <span class="text-danger">*</span></label>
-                        <textarea name="catatan" id="catatan" cols="30" rows="3" class="form-control col-md-8" required></textarea>
-                    </div>
-                </section>
-            </div>
-            <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
-            <button type="submit" class="btn btn-success"><i class="fas fa-pen"></i> SIMPAN PERUBAHAN</button>
-            </div>
-            </form>
-        </div>
-        </div>
-    </div>
     {{-- modal tambah manajemen proyek--}}
     <div class="modal fade" id="tambahpembayaran">
         <div class="modal-dialog modal-lg">
