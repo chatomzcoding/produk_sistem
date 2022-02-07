@@ -86,7 +86,7 @@ class HomeanggotaController extends Controller
                             ->select('anggota.id','users.name')
                             ->get();
         $pihaklain         = Client::where('level','pihaklain')->get();
-        $pembayaran     = Pembayaranproyek::where('proyek_id',$proyek->id)->get();
+        $pembayaran     = Pembayaranproyek::where('proyek_id',$proyek->id)->orderBy('id','DESC')->get();
         return view('anggota.detailproyek', compact('proyek','manajemenproyek','anggota','pembayaran','manajemenpihaklain','pihaklain'));
     }
 

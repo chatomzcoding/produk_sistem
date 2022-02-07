@@ -83,6 +83,7 @@
                                         <th>Status Proyek</th>
                                         <td>: {{ $proyek->status_proyek}}</td>
                                     </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -180,7 +181,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" id="example1">
                                         <thead class="text-center table-dark">
                                             <tr>
                                                 <th>No</th>
@@ -233,21 +234,24 @@
                                                 <td class="text-right">{{ norupiah($item->nominal)}}</td>
                                             </tr>
                                             @endforeach
-                                            @if (count($pembayaran) > 0)
-                                                <tr>
-                                                    <th colspan="6" class="text-right">Total Pembayaran</th>
-                                                    <td class="text-right">{{ norupiah($totalpembayaran)}}</td>
-                                                </tr>
-                                                {{-- kode sisa pembayaran yaitu biaya dikurangi total pembayaran --}}
-                                                @php
-                                                    $sisapembayaran = $proyek->biaya - $totalpembayaran;
-                                                @endphp
-                                                <tr class="table-secondary font-weight-bold">
-                                                    <th colspan="6" class="text-right">Sisa Pembayaran</th>
-                                                    <td class="text-right">{{ norupiah($sisapembayaran)}}</td>
-                                                </tr>
-                                            @endif
+
+                                           
                                         </tbody>
+                                    </table>
+                                    <table class="table table-bordered mt-3">
+                                        @if (count($pembayaran) > 0)
+                                        <tr>
+                                            <th width="80%" class="text-right">Total Pembayaran</th>
+                                            <td class="text-right">{{ norupiah($totalpembayaran)}}</td>
+                                        </tr>
+                                        @php
+                                            $sisapembayaran = $proyek->biaya - $totalpembayaran;
+                                        @endphp
+                                        <tr class="table-secondary font-weight-bold">
+                                            <th class="text-right">Sisa Pembayaran</th>
+                                            <td class="text-right">{{ norupiah($sisapembayaran)}}</td>
+                                        </tr>
+                                    @endif
                                     </table>
                                 </div>
                             </div>
@@ -502,7 +506,7 @@
         $(function () {
         $("#example1").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            "buttons": ["csv", "excel", "pdf"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         $('#example2').DataTable({
             "paging": true,
