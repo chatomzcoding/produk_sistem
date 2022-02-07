@@ -44,7 +44,7 @@ class PembayaranproyekController extends Controller
             $file = $request->file('bukti_pembayaran');
             
             $bukti_pembayaran = time()."_".$file->getClientOriginalName();
-            $tujuan_upload = 'img/proyek';
+            $tujuan_upload = 'public/img/proyek';
             // isi dengan nama folder tempat kemana file diupload
             $file->move($tujuan_upload,$bukti_pembayaran);
             # code...
@@ -105,7 +105,7 @@ class PembayaranproyekController extends Controller
             $file = $request->file('bukti_pembayaran');
             
             $bukti_pembayaran = time()."_".$file->getClientOriginalName();
-            $tujuan_upload = 'img/proyek';
+            $tujuan_upload = 'public/img/proyek';
             // isi dengan nama folder tempat kemana file diupload
             $file->move($tujuan_upload,$bukti_pembayaran);
             deletefile($tujuan_upload.'/'.$pembayaranproyek->bukti_pembayaran);
