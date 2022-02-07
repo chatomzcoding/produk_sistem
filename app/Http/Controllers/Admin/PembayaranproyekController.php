@@ -55,7 +55,7 @@ class PembayaranproyekController extends Controller
         // simpan client
         Pembayaranproyek::create([
             'proyek_id' => $request->proyek_id,
-            'nama_pembayaran' => $request->nama_pembayaran,
+            'nama_pembayaran' => strtolower($request->nama_pembayaran),
             'tgl_pembayaran' => $request->tgl_pembayaran,
             'nominal' => default_nilai($request->nominal),
             'bukti_pembayaran' => $bukti_pembayaran,
@@ -115,7 +115,7 @@ class PembayaranproyekController extends Controller
     
         // simpan client
         Pembayaranproyek::where('id',$request->id)->update([
-            'nama_pembayaran' => $request->nama_pembayaran,
+            'nama_pembayaran' => strtolower($request->nama_pembayaran),
             'tgl_pembayaran' => $request->tgl_pembayaran,
             'nominal' => default_nilai($request->nominal),
             'bukti_pembayaran' => $bukti_pembayaran,

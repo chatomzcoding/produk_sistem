@@ -19,19 +19,24 @@ class StatistikController extends Controller
                 $manajemenjobdesk   = Manajemenjobdesk::where('jobdesk_id',$jobdesk->id)->get();
                 $total      = 0;
                 $perhitungan= 0;
-                $akun       = [];
+                $akunatas       = [];
+                $akunbawah       = [];
                 $akuncair   = 0;
                 $akunbanned = 0;
+                $totalakun  = 0;
                 foreach ($manajemenjobdesk as $item) {
                     $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',$item->id)->orderBy('id','DESC')->first();
                     if ($monitoring) {
-                        $akun[]     = $monitoring;
+                        $totalakun  = $totalakun + 1;
                         $jumlah     = $monitoring->jumlah;
                         if ($jumlah >= $batas) {
                             $akuncair       = $akuncair + 1;
                             $perhitungan = $perhitungan + $jumlah; 
+                            $akunatas[]     = $monitoring;
+                        }else {
+                            $akunbawah[]     = $monitoring;
                         }
-                        if ($jumlah == 0) {
+                        if ($jumlah == 0 AND $item->status_monitoring == 'selesai') {
                             $akunbanned = $akunbanned + 1;
                         }
                         $total  = $total + $jumlah;
@@ -62,7 +67,11 @@ class StatistikController extends Controller
                     'dr' => $dr,
                     'batas' => $batas,
                     'akunbanned' => $akunbanned,
-                    'totalakun' => count($akun)
+                    'totalakun' => $totalakun,
+                    'akun' => [
+                        'atas' => $akunatas,
+                        'bawah' => $akunbawah,
+                    ]
                 ];
                 return view('sistem.statistik.shutterstock', compact('data'));
                 break;

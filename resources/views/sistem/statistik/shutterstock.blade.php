@@ -111,6 +111,118 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- data akun --}}
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="card">
+                          <div class="card-header bg-secondary">
+                            <strong>Akun Dibawah Pencairan</strong>
+                          </div>
+                          <div class="card-body">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th width="5%">No</th>
+                                    <th width="20%">Nama Akun</th>
+                                    <th width="15%">Gambar</th>
+                                    <th>Keterangan</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach ($data['akun']['bawah'] as $item)
+                                      @php
+                                          $manajemen  = DbSistem::showtablefirst('manajemen_jobdesk',['id',$item->manajemenjobdesk_id]);
+                                          $nama       = strtolower(substr($manajemen->catatan,5,strlen($manajemen->catatan)));
+                                          $pembayaran  = DbSistem::showtablefirst('pembayaran_proyek',['nama_pembayaran',$nama]);
+                                      @endphp
+                                      <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $nama }}</td>
+                                        <td> 
+                                          @if ($pembayaran)
+                                            @if (is_null($pembayaran->bukti_pembayaran))
+                                              bukti tidak diupload
+                                            @else
+                                              <a href="{{ asset('/img/proyek/'.$pembayaran->bukti_pembayaran)}}" target="_blank"><img src="{{ asset('/img/proyek/'.$pembayaran->bukti_pembayaran)}}" alt="" width="100px"></a>
+                                            @endif
+                                          @endif
+                                        </td>
+                                        <td>
+                                          @if ($pembayaran)
+                                            @php
+                                                $ket = explode('||',$pembayaran->keterangan_pembayaran)
+                                            @endphp
+                                            @for ($i = 0; $i < count($ket); $i++)
+                                                {{ $ket[$i] }} <br>
+                                            @endfor
+                                          @endif
+                                        </td>
+                                      </tr>
+                                  @endforeach
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="card">
+                          <div class="card-header bg-success">
+                            <strong>Akun Diatas Pencairan</strong>
+                          </div>
+                          <div class="card-body">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th width="5%">No</th>
+                                    <th width="20%">Nama Akun</th>
+                                    <th width="15%">Gambar</th>
+                                    <th>Keterangan</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach ($data['akun']['atas'] as $item)
+                                      @php
+                                          $manajemen  = DbSistem::showtablefirst('manajemen_jobdesk',['id',$item->manajemenjobdesk_id]);
+                                          $nama       = strtolower(substr($manajemen->catatan,5,strlen($manajemen->catatan)));
+                                          $pembayaran  = DbSistem::showtablefirst('pembayaran_proyek',['nama_pembayaran',$nama]);
+                                      @endphp
+                                      <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $nama }}</td>
+                                        <td> 
+                                          @if ($pembayaran)
+                                            @if (is_null($pembayaran->bukti_pembayaran))
+                                              bukti tidak diupload
+                                            @else
+                                              <a href="{{ asset('/img/proyek/'.$pembayaran->bukti_pembayaran)}}" target="_blank"><img src="{{ asset('/img/proyek/'.$pembayaran->bukti_pembayaran)}}" alt="" width="100px"></a>
+                                            @endif
+                                          @endif
+                                        </td>
+                                        <td>
+                                          @if ($pembayaran)
+                                            @php
+                                                $ket = explode('||',$pembayaran->keterangan_pembayaran)
+                                            @endphp
+                                            @for ($i = 0; $i < count($ket); $i++)
+                                                {{ $ket[$i] }} <br>
+                                            @endfor
+                                          @endif
+                                        </td>
+                                      </tr>
+                                  @endforeach
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 </section>
               </div>
             </div>
