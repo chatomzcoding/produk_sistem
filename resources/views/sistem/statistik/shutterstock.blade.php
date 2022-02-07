@@ -128,6 +128,7 @@
                                     <th width="20%">Nama Akun</th>
                                     <th width="15%">Gambar</th>
                                     <th>Keterangan</th>
+                                    <th width="5%">Jumlah</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -159,6 +160,7 @@
                                             @endfor
                                           @endif
                                         </td>
+                                        <td>${{ $item->jumlah }}</td>
                                       </tr>
                                   @endforeach
                                 </tbody>
@@ -183,6 +185,7 @@
                                     <th width="20%">Nama Akun</th>
                                     <th width="15%">Gambar</th>
                                     <th>Keterangan</th>
+                                    <th width="5%">Jumlah</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -214,6 +217,8 @@
                                             @endfor
                                           @endif
                                         </td>
+                                        <td>${{ $item->jumlah }}</td>
+
                                       </tr>
                                   @endforeach
                                 </tbody>
