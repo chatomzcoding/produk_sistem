@@ -121,7 +121,7 @@
                           </div>
                           <div class="card-body">
                             <div class="table-responsive">
-                              <table class="table">
+                              <table class="table table-striped" id="example1">
                                 <thead>
                                   <tr>
                                     <th width="5%">No</th>
@@ -178,7 +178,7 @@
                           </div>
                           <div class="card-body">
                             <div class="table-responsive">
-                              <table class="table">
+                              <table class="table table-striped"  id="example2">
                                 <thead>
                                   <tr>
                                     <th width="5%">No</th>
@@ -241,17 +241,21 @@
         $(function () {
         $("#example1").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
+        $("#example2").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+        // $('#example2').DataTable({
+        //     "paging": true,
+        //     "lengthChange": false,
+        //     "searching": false,
+        //     "ordering": true,
+        //     "info": true,
+        //     "autoWidth": false,
+        //     "responsive": true,
+        // });
         });
     </script>
 @endsection
