@@ -92,20 +92,19 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card">
-                                <div class="card-body">
-                                    <p>Pengaturan Dasar</p>
+                                <div class="card-body p-2">
                                     <form action="" method="get">
                                         @csrf
                                         <div class="form-group">
                                             <label for="">Nilai 1 Dollar ke Rupiah</label>
                                             <input type="number" name="dr" value="{{ $data['dr'] }}" placeholder="rubah margin rupiah disini" class="form-control">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="">Batas minimal pencarian</label>
-                                            <input type="number" name="batas" value="{{ $data['batas'] }}" placeholder="batas pencarian" class="form-control">
-                                        </div>
-                                        <div class="form-group text-right">
-                                            <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save"></i> SIMPAN PENGATURAN</button>
+                                        <div class="form-group row">
+                                            <label for="" class="col-md-4">Batas minimal pencarian</label>
+                                            <input type="number" name="batas" value="{{ $data['batas'] }}" placeholder="batas pencarian" class="form-control col-md-4">
+                                            <div class="col-md-4">
+                                                <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i> UPDATE</button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
