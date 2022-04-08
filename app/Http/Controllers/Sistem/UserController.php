@@ -56,7 +56,7 @@ class UserController extends Controller
         $file = $request->file('photo');
         
         $nama_file = time()."_".$file->getClientOriginalName();
-        $tujuan_upload = 'img/user';
+        $tujuan_upload = 'public/img/user';
         // isi dengan nama folder tempat kemana file diupload
         $file->move($tujuan_upload,$nama_file);
 
@@ -120,7 +120,7 @@ class UserController extends Controller
             $file = $request->file('photo');
             
             $nama_file = time()."_".$file->getClientOriginalName();
-            $tujuan_upload = 'img/user';
+            $tujuan_upload = 'public/img/user';
             // isi dengan nama folder tempat kemana file diupload
             $file->move($tujuan_upload,$nama_file);
             deletefile($tujuan_upload.'/'.$user->photo);
