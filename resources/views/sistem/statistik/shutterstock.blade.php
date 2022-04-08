@@ -146,39 +146,45 @@
                                           $manajemen  = DbSistem::showtablefirst('manajemen_jobdesk',['id',$item->manajemenjobdesk_id]);
                                           $nama       = strtolower(substr($manajemen->catatan,5,strlen($manajemen->catatan)));
                                           $pembayaran  = DbSistem::showtablefirst('pembayaran_proyek',['nama_pembayaran',$nama]);
+                                          $banned = TRUE;
+                                          if ($pembayaran) {
+                                            $ket = explode('||',$pembayaran->keterangan_pembayaran);
+                                            if (in_array('banned',$ket)) {
+                                              $banned = FALSE;
+                                            }
+                                          }
                                       @endphp
-                                      <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $nama }}</td>
-                                        <td> 
-                                          @if ($pembayaran)
-                                            @if (is_null($pembayaran->bukti_pembayaran))
-                                              bukti tidak diupload
-                                            @else
-                                              <a href="{{ asset('/img/proyek/'.$pembayaran->bukti_pembayaran)}}" target="_blank"><img src="{{ asset('/img/proyek/'.$pembayaran->bukti_pembayaran)}}" alt="" width="100px"></a>
+                                      @if ($banned)
+                                        <tr>
+                                          <td>{{ $loop->iteration }}</td>
+                                          <td>{{ $nama }}</td>
+                                          <td> 
+                                            @if ($pembayaran)
+                                              @if (is_null($pembayaran->bukti_pembayaran))
+                                                bukti tidak diupload
+                                              @else
+                                                <a href="{{ asset('/img/proyek/'.$pembayaran->bukti_pembayaran)}}" target="_blank"><img src="{{ asset('/img/proyek/'.$pembayaran->bukti_pembayaran)}}" alt="" width="100px"></a>
+                                              @endif
                                             @endif
-                                          @endif
-                                        </td>
-                                        <td>
-                                          @if ($pembayaran)
-                                            @php
-                                                $ket = explode('||',$pembayaran->keterangan_pembayaran)
-                                            @endphp
-                                            @if ($user->level <> 'pkl')
-                                              @for ($i = 0; $i < count($ket); $i++)
-                                                  {{ $ket[$i] }} <br>
-                                              @endfor
-                                            @else
-                                                {{ end($ket) }}
+                                          </td>
+                                          <td>
+                                            @if ($pembayaran)
+                                              @if ($user->level <> 'pkl')
+                                                @for ($i = 0; $i < count($ket); $i++)
+                                                    {{ $ket[$i] }} <br>
+                                                @endfor
+                                              @else
+                                                  {{ end($ket) }}
+                                              @endif
                                             @endif
+                                          </td>
+                                          @if ($user->level <> 'pkl')
+                                          <td>
+                                            ${{ $item->jumlah }}
+                                          </td>
                                           @endif
-                                        </td>
-                                        @if ($user->level <> 'pkl')
-                                        <td>
-                                          ${{ $item->jumlah }}
-                                        </td>
-                                        @endif
-                                      </tr>
+                                        </tr>
+                                      @endif
                                   @endforeach
                                 </tbody>
                               </table>

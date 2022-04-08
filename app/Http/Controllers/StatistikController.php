@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Jobdesk;
 use App\Models\Manajemenjobdesk;
 use App\Models\Monitoringjobdesk;
+use App\Models\Pembayaranproyek;
 use App\Models\Proyek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StatistikController extends Controller
 {
@@ -28,22 +30,40 @@ class StatistikController extends Controller
                 $akuncair   = 0;
                 $akunbanned = 0;
                 $totalakun  = 0;
+                $pkl        = DB::table('monitoring_jobdesk')
+                                ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
+                                ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
+                                ->select('monitoring_jobdesk.manajemenjobdesk_id','monitoring_jobdesk.jumlah')
+                                ->where('jobdesk.kode','s-shutterstock')
+                                ->where('monitoring_jobdesk.jumlah','<=',$batas)
+                                ->orderby('jumlah','DESC')
+                                ->get();
+                $akunbawah = [];
+                foreach ($pkl as $key) {
+                    if (!isset($akunbawah[$key->manajemenjobdesk_id])) {
+                        $akunbawah[$key->manajemenjobdesk_id] = $key;
+                    }
+                }
                 foreach ($manajemenjobdesk as $item) {
                     $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',$item->id)->where('jumlah','<>',NULL)->orderBy('id','DESC')->first();
                     if ($monitoring) {
                         $totalakun  = $totalakun + 1;
                         $jumlah     = $monitoring->jumlah;
-                        if ($jumlah >= $batas) {
-                            $akuncair       = $akuncair + 1;
-                            $perhitungan = $perhitungan + $jumlah; 
-                            $akunatas[]     = $monitoring;
-                        }else {
-                            $akunbawah[]     = $monitoring;
+                        $nama           = strtolower(substr($item->catatan,5,strlen($item->catatan)));
+                        $pembayaran     = Pembayaranproyek::where('nama_pembayaran',$nama)->first();
+                        if ($pembayaran) {
+                            $ket            = explode('||',$pembayaran->keterangan_pembayaran);
+                            if (in_array('banned',$ket)) {
+                                $akunbanned = $akunbanned + 1;
+                            } else {
+                                if ($jumlah >= $batas) {
+                                    $akuncair       = $akuncair + 1;
+                                    $perhitungan = $perhitungan + $jumlah; 
+                                    $akunatas[]     = $monitoring;
+                                }
+                                $total  = $total + $jumlah;
+                            }
                         }
-                        if ($jumlah == 0 AND $item->status_monitoring == 'selesai') {
-                            $akunbanned = $akunbanned + 1;
-                        }
-                        $total  = $total + $jumlah;
                     }
                 }     
                 $totalrp            = $total * $dr;
@@ -52,6 +72,7 @@ class StatistikController extends Controller
                 $sisarp             = $sisa * $dr;
                 $totalakun          = count($manajemenjobdesk);
                 $akunsisa           = $totalakun - $akuncair;
+                
                 $data       = [
                     'total' => [
                         'nilai' => $total,
