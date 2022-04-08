@@ -23,7 +23,9 @@ class HomeController extends Controller
                 } else {
                     echo 'Maaf, belum masuk ke daftar anggota. Hubungi Admin';
                 }
-                
+                break;
+            case 'pkl':
+                return redirect('statistik/shutterstock');
                 break;
         }
     }

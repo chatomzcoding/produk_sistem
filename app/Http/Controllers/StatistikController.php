@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Jobdesk;
 use App\Models\Manajemenjobdesk;
 use App\Models\Monitoringjobdesk;
+use App\Models\Proyek;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StatistikController extends Controller
 {
@@ -13,8 +15,10 @@ class StatistikController extends Controller
     {
         switch ($page) {
             case 'shutterstock':
+                $proyek     = Proyek::where('nama_proyek','shutter')->first();
+                $user       = Auth::user();
                 $dr = (isset($_GET['dr'])) ? $_GET['dr'] : 15000 ;
-                $batas = (isset($_GET['batas'])) ? $_GET['batas'] : 35 ;
+                $batas = (isset($_GET['batas'])) ? $_GET['batas'] : $proyek->biaya ;
                 $jobdesk    = Jobdesk::where('kode','s-shutterstock')->first();
                 $manajemenjobdesk   = Manajemenjobdesk::where('jobdesk_id',$jobdesk->id)->get();
                 $total      = 0;
@@ -25,7 +29,7 @@ class StatistikController extends Controller
                 $akunbanned = 0;
                 $totalakun  = 0;
                 foreach ($manajemenjobdesk as $item) {
-                    $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',$item->id)->orderBy('id','DESC')->first();
+                    $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',$item->id)->where('jumlah','<>',NULL)->orderBy('id','DESC')->first();
                     if ($monitoring) {
                         $totalakun  = $totalakun + 1;
                         $jumlah     = $monitoring->jumlah;
@@ -73,7 +77,7 @@ class StatistikController extends Controller
                         'bawah' => $akunbawah,
                     ]
                 ];
-                return view('sistem.statistik.shutterstock', compact('data'));
+                return view('sistem.statistik.shutterstock', compact('data','user'));
                 break;
             
             default:

@@ -16,7 +16,7 @@ if (! function_exists('orang_photo')) {
 if (! function_exists('list_leveluser')) {
     function list_leveluser()
     {
-        $level  = ['admin','anggota'];
+        $level  = ['admin','anggota','pkl'];
 
         return $level;
     }
