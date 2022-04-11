@@ -40,7 +40,7 @@
                                         <a href="{{ asset('img/paket/'.$item->gambar) }}" target="_blank"><img src="{{ asset('img/paket/'.$item->gambar) }}" class="card-img-top" alt="gambar"></a>
                                         <div class="card-body">
                                             <strong class="text-capitalize">{{ $item->nama }}</strong>
-                                          <p class="small">{{ $item->kategori }}</p>
+                                          <p class="small">{{ $item->kategori .' | '.rupiah($item->harga)}}</p>
                                           <div class="d-flex">
                                               <form action="{{ url('paket/'.$item->id) }}" method="post">
                                                 @csrf
