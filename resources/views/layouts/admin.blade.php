@@ -222,6 +222,12 @@
                   <p>Data Shutterstock</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ url('/paket')}}" class="nav-link">
+                  &nbsp;&nbsp;<i class="fas fa-box nav-icon"></i>
+                  <p>Data Paket Lebaran</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-header">SISTEM</li>

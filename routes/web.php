@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaketController;
 use App\Http\Controllers\StatistikController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -36,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     // Umum
     Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('dashboard');
 
+    Route::resource('paket', PaketController::class);
     // Route Admin & Chatomz
     Route::middleware(['admin'])->group(function () {
         // simpan route admin dibawah ini
