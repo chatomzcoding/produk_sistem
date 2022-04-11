@@ -12,7 +12,7 @@
   </head>
   <body>
     <main class="container-fluid">
-        <header>
+        <header class="p-3">
             <h3>DAFTAR PAKET LEBARAN</h3>
         </header>
         <section>
@@ -24,6 +24,7 @@
                         </div>
                         <div class="card-body">
                             <header class="mb-2">
+                                <a href="{{ url('dashboard') }}" class="btn btn-secondary btn-sm">Beranda</a>
                                 <a href="" data-toggle="modal" data-target="#tambah" class="btn btn-primary btn-sm">tambah barang</a>
                             </header>
                             <section class="row">
@@ -34,20 +35,27 @@
                                 @php
                                     $total = $total + $item->harga
                                 @endphp
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-lg-3">
                                     <div class="card">
                                         <img src="{{ asset('img/paket/'.$item->gambar) }}" class="card-img-top" alt="gambar">
                                         <div class="card-body">
                                           <h5 class="card-title">{{ $item->nama }}</h5>
                                           <p>{{ $item->kategori }}</p>
-                                          <a href="{{ url('paket?s=nonpaket&id='.$item->id) }}" class="btn btn-primary">Pindahkan</a>
+                                          <div class="d-flex">
+                                              <form action="{{ url('paket/'.$item->id) }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                  <button type="submit" class="btn btn-danger">HAPUS</button>
+                                              </form>
+                                              <a href="{{ url('paket?s=nonpaket&id='.$item->id) }}" class="btn btn-primary">Pindahkan</a>
+                                          </div>
                                         </div>
                                       </div>
                                 </div>
                                 @endforeach
                                 <div class="col-md-12 p-2">
                                     <div class="bg-info text-right text-white p-2">
-                                       <p>{{ rupiah($total) }}</p>
+                                       <strong>{{ rupiah($total) }}</strong>
                                     </div>
                                 </div>
                             </section>
@@ -63,16 +71,36 @@
                         </div>
                         <div class="card-body">
                             <section class="row">
-                                @foreach ($nonpaket as $item)
-                                <div class="card" style="width: 18rem;">
-                                    <img src="{{ asset('img/paket/'.$item->gambar) }}" class="card-img-top" alt="gambar">
-                                    <div class="card-body">
-                                      <h5 class="card-title">{{ $item->nama }}</h5>
-                                      <p>{{ $item->kategori }}</p>
-                                      <a href="{{ url('paket?s=paket&id='.$item->id) }}" class="btn btn-primary">Pindahkan</a>
-                                    </div>
-                                  </div>
+                                @php
+                                    $total = 0;
+                                @endphp
+                                @foreach ($paket as $item)
+                                @php
+                                    $total = $total + $item->harga
+                                @endphp
+                                <div class="col-md-3 col-lg-3">
+                                    <div class="card">
+                                        <img src="{{ asset('img/paket/'.$item->gambar) }}" class="card-img-top" alt="gambar">
+                                        <div class="card-body">
+                                          <h5 class="card-title">{{ $item->nama }}</h5>
+                                          <p>{{ $item->kategori }}</p>
+                                          <div class="d-flex">
+                                              <form action="{{ url('paket/'.$item->id) }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                  <button type="submit" class="btn btn-danger">HAPUS</button>
+                                              </form>
+                                              <a href="{{ url('paket?s=paket&id='.$item->id) }}" class="btn btn-primary">Pindahkan</a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                </div>
                                 @endforeach
+                                <div class="col-md-12 p-2">
+                                    <div class="bg-info text-right text-white p-2">
+                                       <strong>{{ rupiah($total) }}</strong>
+                                    </div>
+                                </div>
                             </section>
                         </div>
                       </div>

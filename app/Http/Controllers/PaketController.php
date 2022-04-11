@@ -114,6 +114,8 @@ class PaketController extends Controller
      */
     public function destroy(Paket $paket)
     {
-        //
+        deletefile('public/img/paket/'.$paket->gambar);
+        $paket->delete();
+        return back()->with('dd','Paket');
     }
 }
