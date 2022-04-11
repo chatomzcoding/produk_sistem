@@ -135,6 +135,7 @@
                                     <th width="15%">Gambar</th>
                                     <th>Keterangan</th>
                                     @if ($user->level <> 'pkl')
+                                    <th>Riwayat</th>
                                       <th width="5%">Jumlah</th>
                                     @endif
                                   </tr>
@@ -143,6 +144,7 @@
                                   @foreach ($data['akun']['bawah'] as $item)
                                       @php
                                           $manajemen  = DbSistem::showtablefirst('manajemen_jobdesk',['id',$item->manajemenjobdesk_id]);
+                                          $riwayat    = DbSistem::showtable('monitoring_jobdesk',['manajemenjobdesk_id',$item->manajemenjobdesk_id]);
                                           $nama       = strtolower(substr($manajemen->catatan,5,strlen($manajemen->catatan)));
                                           $pembayaran  = DbSistem::showtablefirst('pembayaran_proyek',['nama_pembayaran',$nama]);
                                           $banned = TRUE;
@@ -156,7 +158,7 @@
                                       @if ($banned)
                                         <tr>
                                           <td>{{ $loop->iteration }}</td>
-                                          <td>{{ $nama }}</td>
+                                          <td>{{ $nama}}</td>
                                           <td> 
                                             @if ($pembayaran)
                                               @if (is_null($pembayaran->bukti_pembayaran))
@@ -178,6 +180,15 @@
                                             @endif
                                           </td>
                                           @if ($user->level <> 'pkl')
+                                          <td>
+                                            @foreach ($riwayat as $j)
+                                              @if (is_null($j->jumlah))
+                                                  (belum diisi) ||
+                                              @else
+                                                {{ $j->jumlah }} ||
+                                              @endif
+                                            @endforeach
+                                          </td>
                                           <td>
                                             ${{ $item->jumlah }}
                                           </td>
