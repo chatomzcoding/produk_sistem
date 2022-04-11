@@ -25,25 +25,25 @@ class StatistikController extends Controller
                 $manajemenjobdesk   = Manajemenjobdesk::where('jobdesk_id',$jobdesk->id)->get();
                 $total      = 0;
                 $perhitungan= 0;
-                $akunatas       = [];
-                $akunbawah       = [];
+                $akunatas   = [];
+                $akunbawah  = [];
                 $akuncair   = 0;
                 $akunbanned = 0;
                 $totalakun  = 0;
-                $pkl        = DB::table('monitoring_jobdesk')
-                                ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
-                                ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
-                                ->select('monitoring_jobdesk.manajemenjobdesk_id','monitoring_jobdesk.jumlah')
-                                ->where('jobdesk.kode','s-shutterstock')
-                                ->where('monitoring_jobdesk.jumlah','<=',$batas)
-                                ->orderby('jumlah','DESC')
-                                ->get();
-                $akunbawah = [];
-                foreach ($pkl as $key) {
-                    if (!isset($akunbawah[$key->manajemenjobdesk_id])) {
-                        $akunbawah[$key->manajemenjobdesk_id] = $key;
-                    }
-                }
+                // $pkl        = DB::table('monitoring_jobdesk')
+                //                 ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
+                //                 ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
+                //                 ->select('monitoring_jobdesk.manajemenjobdesk_id','monitoring_jobdesk.jumlah')
+                //                 ->where('jobdesk.kode','s-shutterstock')
+                //                 ->where('monitoring_jobdesk.jumlah','<=',$batas)
+                //                 ->orderby('jumlah','DESC')
+                //                 ->get();
+                // $akunbawah = [];
+                // foreach ($pkl as $key) {
+                //     if (!isset($akunbawah[$key->manajemenjobdesk_id])) {
+                //         $akunbawah[$key->manajemenjobdesk_id] = $key;
+                //     }
+                // }
                 foreach ($manajemenjobdesk as $item) {
                     $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',$item->id)->where('jumlah','<>',NULL)->orderBy('id','DESC')->first();
                     if ($monitoring) {
@@ -60,6 +60,8 @@ class StatistikController extends Controller
                                     $akuncair       = $akuncair + 1;
                                     $perhitungan = $perhitungan + $jumlah; 
                                     $akunatas[]     = $monitoring;
+                                } else {
+                                    $akunbawah[]    = $monitoring;
                                 }
                                 $total  = $total + $jumlah;
                             }
