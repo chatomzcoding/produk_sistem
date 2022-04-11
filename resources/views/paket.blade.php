@@ -35,12 +35,12 @@
                                 @php
                                     $total = $total + $item->harga
                                 @endphp
-                                <div class="col-md-3 col-lg-3">
+                                <div class="col-md-2 col-lg-2">
                                     <div class="card">
-                                        <img src="{{ asset('img/paket/'.$item->gambar) }}" class="card-img-top" alt="gambar">
+                                        <a href="{{ asset('img/paket/'.$item->gambar) }}" target="_blank"><img src="{{ asset('img/paket/'.$item->gambar) }}" class="card-img-top" alt="gambar"></a>
                                         <div class="card-body">
-                                          <h5 class="card-title">{{ $item->nama }}</h5>
-                                          <p>{{ $item->kategori }}</p>
+                                            <strong class="text-capitalize">{{ $item->nama }}</strong>
+                                          <p class="small">{{ $item->kategori }}</p>
                                           <div class="d-flex">
                                               <form action="{{ url('paket/'.$item->id) }}" method="post">
                                                 @csrf
@@ -74,15 +74,15 @@
                                 @php
                                     $total = 0;
                                 @endphp
-                                @foreach ($paket as $item)
+                                @foreach ($nonpaket as $item)
                                 @php
                                     $total = $total + $item->harga
                                 @endphp
-                                <div class="col-md-3 col-lg-3">
+                                <div class="col-md-2 col-lg-2">
                                     <div class="card">
-                                        <img src="{{ asset('img/paket/'.$item->gambar) }}" class="card-img-top" alt="gambar">
+                                        <a href="{{ asset('img/paket/'.$item->gambar) }}" target="_blank"><img src="{{ asset('img/paket/'.$item->gambar) }}" class="card-img-top" alt="gambar"></a>
                                         <div class="card-body">
-                                          <h5 class="card-title">{{ $item->nama }}</h5>
+                                          <p class="text-capitalize small">{{ $item->nama }}<p>
                                           <p>{{ $item->kategori }}</p>
                                           <div class="d-flex">
                                               <form action="{{ url('paket/'.$item->id) }}" method="post">
