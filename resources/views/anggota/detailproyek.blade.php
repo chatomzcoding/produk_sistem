@@ -28,7 +28,7 @@
               <div class="card-header">
                   {{-- <h3 class="card-title">Proyek {{ $proyek->nama_proyek}}</h3> --}}
                   <a href="{{ url('/proyek')}}" class="btn btn-outline-dark btn-flat btn-sm"><i class="fas fa-angle-left"></i> Kembali</a>
-                {{-- <a href="#" class="btn btn-outline-success btn-flat btn-sm" data-toggle="modal" data-target="#editproyek"><i class="fas fa-pen"></i> Edit Proyek </a> --}}
+                <a href="#" class="btn btn-outline-success btn-flat btn-sm" data-toggle="modal" data-target="#editproyek"><i class="fas fa-pen"></i> Edit Proyek </a>
               </div>
               <div class="card-body">
                   @include('sistem.notifikasi')
