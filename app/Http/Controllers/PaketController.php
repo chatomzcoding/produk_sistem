@@ -28,8 +28,14 @@ class PaketController extends Controller
             
         }
         $paket  = Paket::where('status','aktif')->get();
+        $totalpaket     = Paket::where('status','aktif')->sum('harga');
         $nonpaket  = Paket::where('status','tidak aktif')->get();
-        return view('paket', compact('paket','nonpaket'));
+        $totalnonpaket     = Paket::where('status','tidak aktif')->sum('harga');
+        $total = [
+            'paket' => $totalpaket,
+            'nonpaket' => $totalnonpaket,
+        ];
+        return view('paket', compact('paket','nonpaket','total'));
     }
 
     /**

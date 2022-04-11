@@ -20,7 +20,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-success text-white">
-                          Daftar Barang yang akan dibeli
+                          Daftar Barang yang akan dibeli <strong class="float-right">{{ rupiah($total['paket']) }}</strong>
                         </div>
                         <div class="card-body">
                             <header class="mb-2">
@@ -53,11 +53,6 @@
                                       </div>
                                 </div>
                                 @endforeach
-                                <div class="col-md-12 p-2">
-                                    <div class="bg-info text-right text-white p-2">
-                                       <strong>{{ rupiah($total) }}</strong>
-                                    </div>
-                                </div>
                             </section>
                         </div>
                       </div>
