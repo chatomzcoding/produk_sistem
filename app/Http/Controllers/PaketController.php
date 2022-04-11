@@ -14,7 +14,8 @@ class PaketController extends Controller
      */
     public function index()
     {
-        $s = (isset($_GET['s'])) ? $_GET['s'] : 'index' ;
+        $s      = (isset($_GET['s'])) ? $_GET['s'] : 'index' ;
+        $jumlah = (isset($_GET['jumlah'])) ? $_GET['jumlah'] : 10 ;
         if ($s <> 'index') {
             if ($s == 'paket') {
                 Paket::where('id',$_GET['id'])->update([
@@ -31,11 +32,13 @@ class PaketController extends Controller
         $totalpaket     = Paket::where('status','aktif')->sum('harga');
         $nonpaket  = Paket::where('status','tidak aktif')->get();
         $totalnonpaket     = Paket::where('status','tidak aktif')->sum('harga');
+        $total      = $jumlah * $totalpaket;
         $total = [
             'paket' => $totalpaket,
             'nonpaket' => $totalnonpaket,
+            'total' => $total,
         ];
-        return view('paket', compact('paket','nonpaket','total'));
+        return view('paket', compact('paket','nonpaket','total','jumlah'));
     }
 
     /**
