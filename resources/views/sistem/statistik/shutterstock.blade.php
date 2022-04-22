@@ -152,7 +152,7 @@
                                             if (in_array('banned',$ket)) {
                                               $banned = FALSE;
                                             }
-                                            if (in_array('ditunda',$ket)) {
+                                            if (in_array('ditunda',$ket) AND Auth::user()->level == 'magang') {
                                               $banned = FALSE;
                                             }
                                           }
