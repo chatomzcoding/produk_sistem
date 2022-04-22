@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::resource('paket', PaketController::class);
     // Route Admin & Chatomz
+    Route::resource('proyek', 'App\Http\Controllers\Admin\ProyekController');
     Route::middleware(['admin'])->group(function () {
         // simpan route admin dibawah ini
         Route::resource('anggota', 'App\Http\Controllers\Admin\AnggotaController');
@@ -54,7 +55,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         
         Route::get('admin/monitoringjobdesk', 'App\Http\Controllers\Admin\ManajemenjobdeskController@monitoring');
         Route::get('admin/cekjobdesk/{id}', 'App\Http\Controllers\Admin\ManajemenjobdeskController@cekjobdesk');
-        Route::resource('proyek', 'App\Http\Controllers\Admin\ProyekController');
         
         
         // SISTEM
