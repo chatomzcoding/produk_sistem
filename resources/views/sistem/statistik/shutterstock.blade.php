@@ -119,10 +119,9 @@
                         <div class="card">
                           <div class="card-header bg-secondary">
                             @if ($user->level <> 'pkl')
-                            <strong>Akun Dibawah Pencairan</strong>
-                            
+                              <strong>Akun Dibawah Pencairan</strong>
                             @else
-                            <strong>Daftar Akun</strong>
+                              <strong>Daftar Akun</strong>
                             @endif
                           </div>
                           <div class="card-body">
@@ -151,6 +150,9 @@
                                           if ($pembayaran) {
                                             $ket = explode('||',$pembayaran->keterangan_pembayaran);
                                             if (in_array('banned',$ket)) {
+                                              $banned = FALSE;
+                                            }
+                                            if (in_array('ditunda',$ket)) {
                                               $banned = FALSE;
                                             }
                                           }
