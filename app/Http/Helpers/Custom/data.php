@@ -30,6 +30,14 @@ if (! function_exists('list_matauang')) {
         return $level;
     }
 }
+// daftar agama yang di akui di indonesia
+if (! function_exists('kingdom_goldar')) {
+    function kingdom_goldar()
+    {
+        $result = ['none','a','b','ab','o'];
+        return $result;
+    }
+}
 // daftar status anggota cikara
 if (! function_exists('list_statusanggota')) {
     function list_statusanggota()
@@ -38,6 +46,15 @@ if (! function_exists('list_statusanggota')) {
         return $level;
     }
 }
+// daftar agama yang di akui di indonesia
+if (! function_exists('kingdom_agama')) {
+    function kingdom_agama()
+    {
+        $result = ['islam','protestan','katolik','hindu','buddha','khonghucu'];
+        return $result;
+    }
+}
+
 // daftar status anggota
 if (! function_exists('list_levelproyek')) {
     function list_levelproyek()

@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     // statistik
     Route::get('statistik/{page}', [StatistikController::class, 'halaman']);
+    Route::post('simpanmagang', [StatistikController::class, 'simpanmagang']);
 });
 
 // --------------------------------------------------------------------------------------------

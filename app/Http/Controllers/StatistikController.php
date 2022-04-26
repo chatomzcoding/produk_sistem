@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class StatistikController extends Controller
 {
-    public function halaman($page)
+    public function halaman($page, Request $request)
     {
         switch ($page) {
             case 'shutterstock':
@@ -30,20 +30,6 @@ class StatistikController extends Controller
                 $akuncair   = 0;
                 $akunbanned = 0;
                 $totalakun  = 0;
-                // $pkl        = DB::table('monitoring_jobdesk')
-                //                 ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
-                //                 ->join('jobdesk','manajemen_jobdesk.jobdesk_id','=','jobdesk.id')
-                //                 ->select('monitoring_jobdesk.manajemenjobdesk_id','monitoring_jobdesk.jumlah')
-                //                 ->where('jobdesk.kode','s-shutterstock')
-                //                 ->where('monitoring_jobdesk.jumlah','<=',$batas)
-                //                 ->orderby('jumlah','DESC')
-                //                 ->get();
-                // $akunbawah = [];
-                // foreach ($pkl as $key) {
-                //     if (!isset($akunbawah[$key->manajemenjobdesk_id])) {
-                //         $akunbawah[$key->manajemenjobdesk_id] = $key;
-                //     }
-                // }
                 foreach ($manajemenjobdesk as $item) {
                     $monitoring     = Monitoringjobdesk::where('manajemenjobdesk_id',$item->id)->where('jumlah','<>',NULL)->orderBy('id','DESC')->first();
                     if ($monitoring) {
@@ -103,9 +89,51 @@ class StatistikController extends Controller
                 return view('sistem.statistik.shutterstock', compact('data','user'));
                 break;
             
+            case 'magang':
+                if ($request->session()->has('listmagang')) {
+                    $data = $request->session()->get('listmagang');
+                } else {
+                    $data = datajson('https://sistem.zelnara.com/api/cikarastudio?s=magang');
+                    $data = json_decode($data);
+                    $request->session()->put('listmagang',$data);
+                }
+                
+                return view('sistem.statistik.magang', compact('data'));
+                break;
+            case 'tambahmagang':
+                return view('sistem.statistik.tambahmagang');
+                break;
             default:
                 # code...
                 break;
         }
+    }
+
+    public function simpanmagang(Request $request)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://sistem.zelnara.com/api/simpanmagang',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => "photo=".$request->photo."&first_name=".$request->first_name."&last_name=".$request->last_name."&place_birth=".$request->place_birth."&date_birth=".$request->date_birth."&gender=".$request->gender."&home_address=".$request->home_address."&religion=".$request->religion."&blood_type=".$request->blood_type."&job_status=".$request->job_status."&note=".$request->note,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/x-www-form-urlencoded'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        // echo $response;
+
+        return redirect('statistik/magang')->with('ds','Orang');
+        
     }
 }

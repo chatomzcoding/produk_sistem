@@ -223,6 +223,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{ url('/statistik/magang')}}" class="nav-link">
+                  &nbsp;&nbsp;<i class="far fa-user nav-icon"></i>
+                  <p>Data Magang</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ url('/paket')}}" class="nav-link">
                   &nbsp;&nbsp;<i class="fas fa-box nav-icon"></i>
                   <p>Data Paket Lebaran</p>
