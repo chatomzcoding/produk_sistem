@@ -132,6 +132,7 @@ class StatistikController extends Controller
 
         curl_close($curl);
         // echo $response;
+        $request->session()->forget('listmagang');
 
         return redirect('statistik/magang')->with('ds','Orang');
         
