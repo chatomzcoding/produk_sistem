@@ -111,6 +111,26 @@ class StatistikController extends Controller
 
     public function simpanmagang(Request $request)
     {
+        $file = base64_encode($request->photo);
+        $file = base64_decode($file);
+        dd([$file,$request->photo]);
+        if (isset($request->photo)) {
+            // validation form photo
+            $request->validate([
+                'photo' => 'required|file|image|mimes:jpeg,png,jpg|max:1000',
+            ]);
+            // menyimpan data file yang diupload ke variabel $file
+            $file = $request->file('photo');
+            
+            $nama_file = time()."_".$file->getClientOriginalName();
+            $tujuan_upload = 'public/img/magang';
+            // isi dengan nama folder tempat kemana file diupload
+            $file->move($tujuan_upload,$nama_file);
+            $nama_file = 'https://sistem.cikarastudio.com/public/img/magang/'.$nama_file;
+        } else {
+            $nama_file = NULL;
+        }
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -122,7 +142,7 @@ class StatistikController extends Controller
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => "photo=".$request->photo."&first_name=".$request->first_name."&last_name=".$request->last_name."&place_birth=".$request->place_birth."&date_birth=".$request->date_birth."&gender=".$request->gender."&home_address=".$request->home_address."&religion=".$request->religion."&blood_type=".$request->blood_type."&job_status=".$request->job_status."&note=".$request->note,
+        CURLOPT_POSTFIELDS => "photo=".$nama_file."&first_name=".$request->first_name."&last_name=".$request->last_name."&place_birth=".$request->place_birth."&date_birth=".$request->date_birth."&gender=".$request->gender."&home_address=".$request->home_address."&religion=".$request->religion."&blood_type=".$request->blood_type."&job_status=".$request->job_status."&note=".$request->note,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/x-www-form-urlencoded'
         ),
