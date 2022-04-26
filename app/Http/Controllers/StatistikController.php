@@ -111,9 +111,6 @@ class StatistikController extends Controller
 
     public function simpanmagang(Request $request)
     {
-        $file = base64_encode($request->photo);
-        $file = base64_decode($file);
-        dd([$file,$request->photo]);
         if (isset($request->photo)) {
             // validation form photo
             $request->validate([
