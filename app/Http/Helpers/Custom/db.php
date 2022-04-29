@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Helpers\Custom;
 
+use App\Models\Manajemenjobdesk;
 use App\Models\Monitoringjobdesk;
 use App\Models\Rekening;
 use Illuminate\Support\Facades\DB;
@@ -143,5 +144,15 @@ class DbSistem {
             $jumlah     .= $data.',';
         }
         return $jumlah;
+    }
+    // nilai monitoring sebelumnya
+    public static function nilai_sebelumnya($manajemenjobdesk_id,$id)
+    {
+        $nilai  = 0;
+        $manajemenjobdesk = Monitoringjobdesk::where('id','<>',$id)->where('manajemenjobdesk_id',$manajemenjobdesk_id)->latest()->first();
+        if ($manajemenjobdesk) {
+            $nilai = $manajemenjobdesk->jumlah;
+        }
+        return $nilai;
     }
 }

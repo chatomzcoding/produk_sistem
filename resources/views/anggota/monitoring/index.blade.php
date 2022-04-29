@@ -21,14 +21,10 @@
     <div class="container-fluid">
         @include('sistem.notifikasi')
         <div class="row">
-          <!-- left column -->
           <div class="col-md-12">
-            <!-- general form elements -->
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Daftar Jobdesk Hari ini</h3>
-                {{-- <a href="#" class="btn btn-outline-primary btn-flat btn-sm" data-toggle="modal" data-target="#tambah"><i class="fas fa-plus"></i> Tambah Jobdesk </a> --}}
-                {{-- <a href="{{ url('/artikel')}}" class="btn btn-outline-dark btn-flat btn-sm"><i class="fas fa-print"></i> Kembali ke artikel</a> --}}
               </div>
               <div class="card-body">
                   @if (count($listjobdesk) > 0)
@@ -36,12 +32,16 @@
                             <table class="table table-bordered table-striped">
                                 <thead class="text-center">
                                     <tr>
-                                        <th width="5%">No</th>
-                                        <th width="20%">Nama Jobdesk</th>
-                                        <th>Keterangan Jobdesk</th>
-                                        <th>Rincian Pekerjaan</th>
-                                        <th width="10%">Status</th>
-                                        <th>Aksi</th>
+                                        <th width="5%" rowspan="2">No</th>
+                                        <th width="20%" rowspan="2">Nama Jobdesk</th>
+                                        <th rowspan="2">Keterangan Jobdesk</th>
+                                        <th colspan="2">Rincian Pekerjaan</th>
+                                        <th width="10%" rowspan="2">Status</th>
+                                        <th rowspan="2">Aksi</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Sebelum</th>
+                                        <th>Sekarang</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-capitalize">
@@ -50,6 +50,9 @@
                                             <td class="text-center">{{ $loop->iteration}}</td>
                                             <td>{{ $item->nama_jobdesk}}</td>
                                             <td>{{ $item->keterangan_jobdesk}} <br><small>{{ $item->catatan}}</small></td>
+                                            <td>
+                                                Jumlah : {{ DbSistem::nilai_sebelumnya($item->manajemenjobdesk_id,$item->id) }}
+                                            </td>
                                             <td>
                                                 @if (!is_null($item->jumlah))
                                                     Jumlah : {{ $item->jumlah }}
