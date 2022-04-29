@@ -149,7 +149,7 @@ class DbSistem {
     public static function nilai_sebelumnya($manajemenjobdesk_id,$id)
     {
         $nilai  = 0;
-        $manajemenjobdesk = Monitoringjobdesk::where('id','<>',$id)->where('manajemenjobdesk_id',$manajemenjobdesk_id)->latest()->first();
+        $manajemenjobdesk = Monitoringjobdesk::where('id','<>',$id)->where('jumlah','<>',NULL)->where('manajemenjobdesk_id',$manajemenjobdesk_id)->latest()->first();
         if ($manajemenjobdesk) {
             $nilai = $manajemenjobdesk->jumlah;
         }
