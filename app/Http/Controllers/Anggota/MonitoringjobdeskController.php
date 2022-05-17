@@ -30,6 +30,7 @@ class MonitoringjobdeskController extends Controller
                         ->where('manajemen_jobdesk.skala_prioritas','<>','sembunyikan')
                         ->whereDate('monitoring_jobdesk.created_at',tgl_sekarang())
                         ->select('monitoring_jobdesk.*','jobdesk.nama_jobdesk','jobdesk.keterangan_jobdesk','manajemen_jobdesk.catatan')
+                        ->orderBy('monitoring_jobdesk.jumlah','ASC')
                         ->get();
         $jobdeskbulanan    = DB::table('monitoring_jobdesk')
                         ->join('manajemen_jobdesk','monitoring_jobdesk.manajemenjobdesk_id','=','manajemen_jobdesk.id')
