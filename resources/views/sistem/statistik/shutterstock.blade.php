@@ -25,7 +25,8 @@
             <!-- general form elements -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Statistik ShutterStock</h3>
+                {{-- <h3 class="card-title">Statistik ShutterStock</h3> --}}
+                <a href="#" data-toggle="modal" data-target="#tambah" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Akun</a>
               </div>
               <div class="card-body">
                   @include('sistem.notifikasi')
@@ -275,6 +276,37 @@
           </div>
         </div>
     </div>
+    <div class="modal fade" id="tambah">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form action="{{ url('/manajemenjobdesk')}}" method="post">
+              @csrf
+              <input type="hidden" name="anggota_id" value="{{ $user->anggota->id }}">
+              <input type="hidden" name="jobdesk_id" value="{{ $jobdesk->id }}">
+              <input type="hidden" name="tingkatan" value="harian">
+              <input type="hidden" name="skala_prioritas" value="normal">
+          <div class="modal-header">
+          <h4 class="modal-title">Tambah AKun Shutter</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-body p-3">
+              <section class="p-3">
+                  <div class="form-group row">
+                      <label for="" class="col-md-4 p-2">Nama Akun</label>
+                      <input type="text" name="catatan" class="form-control col-md-8" value="akun " required>
+                  </div>
+              </section>
+          </div>
+          <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">TUTUP</button>
+              <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> SIMPAN</button>
+          </div>
+      </form>
+      </div>
+      </div>
+  </div>
 @endsection
 @section('script')
     

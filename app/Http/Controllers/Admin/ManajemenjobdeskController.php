@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Anggota;
 use App\Models\Jobdesk;
 use App\Models\Manajemenjobdesk;
-use App\Models\Manajemenproyek;
 use App\Models\Monitoringjobdesk;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -83,7 +82,7 @@ class ManajemenjobdeskController extends Controller
         } else {
             Manajemenjobdesk::create($request->all());
     
-            return redirect()->back()->with('ds','Manajemen Jobdesk');
+            return back()->with('ds','Manajemen Jobdesk');
         }
         
     }

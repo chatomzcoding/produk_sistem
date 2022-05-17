@@ -86,7 +86,7 @@ class StatistikController extends Controller
                         'bawah' => $akunbawah,
                     ]
                 ];
-                return view('sistem.statistik.shutterstock', compact('data','user'));
+                return view('sistem.statistik.shutterstock', compact('data','user','jobdesk'));
                 break;
             
             case 'magang':
