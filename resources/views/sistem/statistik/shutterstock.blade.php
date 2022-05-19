@@ -20,9 +20,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
           <div class="col-md-12">
-            <!-- general form elements -->
             <div class="card">
               <div class="card-header">
                 @if ($user->level == 'pkl')
@@ -147,12 +145,18 @@
                                 </thead>
                                 <tbody>
                                   @foreach ($data['akun']['bawah'] as $item)
-                                      @php
-                                          $manajemen  = DbSistem::showtablefirst('manajemen_jobdesk',['id',$item->manajemenjobdesk_id]);
-                                          $riwayat    = DbSistem::showtable('monitoring_jobdesk',['manajemenjobdesk_id',$item->manajemenjobdesk_id]);
-                                          $nama       = strtolower(substr($manajemen->catatan,5,strlen($manajemen->catatan)));
-                                          $pembayaran  = DbSistem::showtablefirst('pembayaran_proyek',['nama_pembayaran',$nama]);
+                                    @php
                                           $banned = TRUE;
+                                          $manajemen    = DbSistem::showtablefirst('manajemen_jobdesk',['id',$item->manajemenjobdesk_id]);
+                                          if ($manajemen) {
+                                            $catatan = $manajemen->catatan;
+                                            $riwayat      = DbSistem::showtable('monitoring_jobdesk',['manajemenjobdesk_id',$item->manajemenjobdesk_id]);
+                                          } else {
+                                            $riwayat      = NULL;
+                                            $catatan      = $item->catatan;
+                                          }
+                                          $nama         = strtolower(substr($catatan,5,strlen($catatan)));
+                                          $pembayaran   = DbSistem::showtablefirst('pembayaran_proyek',['nama_pembayaran',$nama]);
                                           if ($pembayaran) {
                                             $ket = explode('||',$pembayaran->keterangan_pembayaran);
                                             if (in_array('banned',$ket)) {
@@ -189,16 +193,21 @@
                                           </td>
                                           @if ($user->level <> 'pkl')
                                           <td>
-                                            @foreach ($riwayat as $j)
-                                              @if (is_null($j->jumlah))
-                                                  (belum diisi) ||
-                                              @else
-                                                {{ $j->jumlah }} ||
-                                              @endif
-                                            @endforeach
+                                            @if (!is_null($riwayat))
+                                              @forelse ($riwayat as $j)
+                                                @if (is_null($j->jumlah))
+                                                    (belum diisi) ||
+                                                @else
+                                                  {{ $j->jumlah }} ||
+                                                @endif
+                                              @empty
+                                              @endforelse
+                                            @endif
                                           </td>
                                           <td>
-                                            ${{ $item->jumlah }}
+                                            @isset($item->jumlah)
+                                              ${{ $item->jumlah }}
+                                            @endisset
                                           </td>
                                           @endif
                                         </tr>

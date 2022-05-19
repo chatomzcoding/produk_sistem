@@ -52,8 +52,11 @@ class StatistikController extends Controller
                                 $total  = $total + $jumlah;
                             }
                         }
+                    } else {
+                        $akunbawah[] = $item;
                     }
                 }     
+
                 $totalrp            = $total * $dr;
                 $perhitunganrp      = $perhitungan * $dr;
                 $sisa               = $total - $perhitungan;
